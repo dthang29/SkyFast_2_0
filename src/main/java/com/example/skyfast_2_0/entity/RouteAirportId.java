@@ -15,11 +15,11 @@ import java.util.Objects;
 public class RouteAirportId implements java.io.Serializable {
     private static final long serialVersionUID = 3319630297142337971L;
     @NotNull
-    @Column(name = "AirportId", nullable = false)
+    @Column(name = "airport_id", nullable = false)
     private Integer airportId;
 
     @NotNull
-    @Column(name = "RouteId", nullable = false)
+    @Column(name = "route_id", nullable = false)
     private Integer routeId;
 
     @Override

@@ -12,53 +12,53 @@ import lombok.Setter;
 @Table(name = "airplane")
 public class Airplane {
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "airplane_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "AirplaneName", nullable = false)
+    @Column(name = "airplane_name", nullable = false)
     private String airplaneName;
 
     @NotNull
-    @Column(name = "SeatingCapacity", nullable = false)
+    @Column(name = "seating_capacity", nullable = false)
     private Integer seatingCapacity;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "Manufacturer", nullable = false)
+    @Column(name = "manufacturer", nullable = false)
     private String manufacturer;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "Diagram", nullable = false)
+    @Column(name = "diagram", nullable = false)
     private String diagram;
 
     @NotNull
-    @Column(name = "Speed", nullable = false)
+    @Column(name = "speed", nullable = false)
     private Integer speed;
 
     @NotNull
-    @Column(name = "TotalLength", nullable = false)
+    @Column(name = "total_length", nullable = false)
     private Float totalLength;
 
     @NotNull
-    @Column(name = "Wingspan", nullable = false)
+    @Column(name = "wingspan", nullable = false)
     private Float wingspan;
 
     @NotNull
-    @Column(name = "Height", nullable = false)
+    @Column(name = "height", nullable = false)
     private Float height;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "Status", nullable = false)
+    @Column(name = "status", nullable = false)
     private String status;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "AirlineId", nullable = false)
+    @JoinColumn(name = "airline_id", nullable = false)
     private Airline airline;
 
 }

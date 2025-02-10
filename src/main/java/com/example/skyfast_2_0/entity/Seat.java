@@ -12,27 +12,27 @@ import lombok.Setter;
 @Table(name = "seat")
 public class Seat {
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "seat_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
-    @Column(name = "SeatNumber", nullable = false)
+    @Column(name = "seat_number", nullable = false)
     private Integer seatNumber;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "Class", nullable = false)
+    @Column(name = "class", nullable = false)
     private String classField;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "Status", nullable = false)
-    private String status;
+    @Column(name = "seat_status", nullable = false)
+    private String seatStatus;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "AirplaneId", nullable = false)
+    @JoinColumn(name = "airplane_id", nullable = false)
     private Airplane airplane;
 
 }

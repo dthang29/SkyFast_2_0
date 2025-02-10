@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkyFast</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/Flight.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">SKYFAST</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" th:href="@{/homepage}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/flight}">Flight</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/airplane}">Plane</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/homepage}">Contact</a></li>
+      </ul>
+    </div>
+    <div class="d-flex">
+      <a class="btn btn-outline-primary me-2" href="#">Sign Up</a>
+      <a class="btn btn-primary" href="#">Login</a>
+    </div>
+  </div>
+</nav>
+
+<!-- <header class="hero-section text-center text-white">
+    <div class="container">
+        <h1>Last Minute Deal</h1>
+        <p>Top Discount Paris Hotels</p>
+        <a href="#" class="btn btn-primary">Book Now</a>
+    </div>
+</header> -->
+
+<section class="search-flight bg-light py-5">
+  <div class="container">
+    <h2>Search Flight</h2>
+    <form class="row g-3">
+      <div class="col-md-4">
+        <label class="form-label">From</label>
+        <input type="text" class="form-control" placeholder="Ho Chi Minh, Vietnam">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">To</label>
+        <input type="text" class="form-control" placeholder="Ankara, Turkey">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Depart on</label>
+        <input type="date" class="form-control">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Return on</label>
+        <input type="date" class="form-control">
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Find My Flight</button>
+      </div>
+    </form>
+  </div>
+</section>
+<div class="container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="flight-header">
+      <h2>Flight</h2>
+      <button class="clear-all">Clear all ×</button>
+    </div>
+
+
+    <!-- Location Inputs -->
+    <div class="filter-section">
+      <div class="input-group">
+        <label>From</label>
+        <input type="text" class="location-input" placeholder="Enter location">
+      </div>
+      <div class="input-group">
+        <label>To</label>
+        <input type="text" class="location-input" placeholder="Enter location">
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <h3>STAR RATING</h3>
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" name="rating" value="5">
+          ★★★★★
+        </label>
+      </div>
+    </div>
+
+
+    <!-- Price Range -->
+    <div class="filter-section">
+      <h3>PRICE LEVEL</h3>
+      <input type="range" min="0" max="10000" value="5000" class="price-slider">
+      <div class="price-range">$0 - $10000</div>
+    </div>
+
+    <!-- Star Rating -->
+    <div class="filter-section">
+      <h3>STAR RATING</h3>
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" name="rating" value="5">
+          ★★★★★
+        </label>
+        <label>
+          <input type="checkbox" name="rating" value="4">
+          ★★★★
+        </label>
+        <label>
+          <input type="checkbox" name="rating" value="3">
+          ★★★
+        </label>
+        <label>
+          <input type="checkbox" name="rating" value="2">
+          ★★
+        </label>
+        <label>
+          <input type="checkbox" name="rating" value="1">
+          ★
+        </label>
+        <label>
+          <input type="checkbox" name="rating" value="0">
+          Unrated
+        </label>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Flight Card -->
+    <div class="flight-card">
+      <div class="flight-header">
+        <div class="airline-info">
+          <div class="airline-logo"></div>
+          <h3>Lufthansa : Hanoi - NYC</h3>
+        </div>
+        <div class="price-book-container">
+          <span class="amount">$5,923</span>
+          <button class="book-now">BOOK NOW</button>
+        </div>
+      </div>
+
+      <div class="flight-details">
+        <div class="detail-item">
+          <span class="label">Route</span>
+          <span class="value">HAN → SVO → JFK</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Depart</span>
+          <span class="value">10:25</span>
+          <span class="date">14 Feb</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Arrive</span>
+          <span class="value">12:30</span>
+          <span class="date">15 Mar</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Duration</span>
+          <span class="value">38h5m</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <button disabled>←</button>
+      <button class="active">1</button>
+      <button>2</button>
+      <button>3</button>
+      <button>4</button>
+      <button>→</button>
+    </div>
+  </main>
+</div>
+
+<footer class="bg-dark text-white text-center py-3">
+  <p>&copy; 2025 GOFAR Travel. All rights reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../static/js/Flight.js"></script>
+
+</body>
+</html>

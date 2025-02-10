@@ -14,12 +14,12 @@ public class RouteAirport {
 
     @MapsId("airportId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "AirportId", nullable = false)
+    @JoinColumn(name = "airport_id", nullable = false)
     private Airport airport;
 
     @MapsId("routeId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "RouteId", nullable = false)
+    @JoinColumn(name = "route_id", nullable = false)
     private Route route;
 
 }

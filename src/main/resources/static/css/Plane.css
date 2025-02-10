@@ -1,0 +1,150 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+    padding: 2rem;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.breadcrumb a {
+    color: #00558c;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb .separator {
+    color: #666;
+}
+
+/* Aircraft Title */
+.aircraft-title {
+    text-align: center;
+    font-size: 3rem;
+    color: #00558c;
+    margin: 3rem 0;
+}
+
+/* Aircraft Image */
+.aircraft-image {
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+    margin: 2rem auto;
+    display: block;
+}
+
+/* Specifications Grid */
+.specs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.spec-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.spec-label {
+    color: #666;
+}
+
+.spec-value {
+    font-weight: 500;
+}
+
+.spec-link {
+    color: #00558c;
+    text-decoration: none;
+}
+
+.spec-link:hover {
+    text-decoration: underline;
+}
+
+/* Seating Section */
+.seating-section {
+    max-width: 1200px;
+    margin: 3rem auto;
+    text-align: center;
+}
+
+.seating-title {
+    font-size: 2rem;
+    color: #00558c;
+    margin-bottom: 1rem;
+    position: relative;
+    padding-bottom: 2rem;
+}
+
+.seating-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 20px;
+    background: linear-gradient(45deg, transparent 0%, transparent 45%, #00558c 45%, #00558c 55%, transparent 55%, transparent 100%);
+}
+
+.seating-note {
+    color: #666;
+    font-style: italic;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+}
+
+.cabin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.cabin-item {
+    text-align: center;
+}
+
+.cabin-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.cabin-name {
+    font-weight: 500;
+    color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .specs-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .aircraft-title {
+        font-size: 2rem;
+    }
+}
