@@ -14,26 +14,26 @@ import java.time.LocalDate;
 @Table(name = "airline")
 public class Airline {
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "airline_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "AirlineName", nullable = false)
+    @Column(name = "airline_name", nullable = false)
     private String airlineName;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "Country", nullable = false)
+    @Column(name = "country", nullable = false)
     private String country;
 
     @NotNull
-    @Column(name = "FoundedDate", nullable = false)
+    @Column(name = "founded_date", nullable = false)
     private LocalDate foundedDate;
 
     @NotNull
-    @Column(name = "FleetSize", nullable = false)
+    @Column(name = "fleet_size", nullable = false)
     private Integer fleetSize;
 
 }

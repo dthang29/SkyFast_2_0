@@ -14,40 +14,40 @@ import java.time.LocalDate;
 @Table(name = "promotion")
 public class Promotion {
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "promotion_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "Code", nullable = false)
-    private String code;
+    @Column(name = "promotion_code", nullable = false)
+    private String promotionCode;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "Descreption", nullable = false)
-    private String descreption;
+    @Column(name = "description", nullable = false)
+    private String description;
 
     @NotNull
-    @Column(name = "DiscountPercentage", nullable = false)
+    @Column(name = "discount_percentage", nullable = false)
     private Integer discountPercentage;
 
     @NotNull
-    @Column(name = "StartDate", nullable = false)
+    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
     @NotNull
-    @Column(name = "EndDate", nullable = false)
+    @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "Status", nullable = false)
-    private String status;
+    @Column(name = "promotion_status", nullable = false)
+    private String promotionStatus;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "AirlineId", nullable = false)
+    @JoinColumn(name = "airline_id", nullable = false)
     private Airline airline;
 
 }

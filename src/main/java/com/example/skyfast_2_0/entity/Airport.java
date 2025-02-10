@@ -12,37 +12,37 @@ import lombok.Setter;
 @Table(name = "airport")
 public class Airport {
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "airport_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 10)
     @NotNull
-    @Column(name = "AirportCode", nullable = false, length = 10)
+    @Column(name = "airport_code", nullable = false, length = 10)
     private String airportCode;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "AirportName", nullable = false)
+    @Column(name = "airport_name", nullable = false)
     private String airportName;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "Country", nullable = false)
+    @Column(name = "country", nullable = false)
     private String country;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "Location", nullable = false)
+    @Column(name = "location", nullable = false)
     private String location;
 
     @NotNull
-    @Column(name = "RunwaysCount", nullable = false)
+    @Column(name = "runways_count", nullable = false)
     private Integer runwaysCount;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "AirportType", nullable = false)
+    @Column(name = "airport_type", nullable = false)
     private String airportType;
 
 }

@@ -15,45 +15,45 @@ import java.time.LocalDateTime;
 @Table(name = "flight")
 public class Flight {
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "flight_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "FlightNumber", nullable = false)
+    @Column(name = "flight_number", nullable = false)
     private String flightNumber;
 
     @NotNull
-    @Column(name = "DepartureTime", nullable = false)
+    @Column(name = "departure_time", nullable = false)
     private LocalDateTime departureTime;
 
     @NotNull
-    @Column(name = "ArrivalTime", nullable = false)
+    @Column(name = "arrival_time", nullable = false)
     private LocalDateTime arrivalTime;
 
     @NotNull
-    @Column(name = "Duration", nullable = false)
+    @Column(name = "duration", nullable = false)
     private Float duration;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "Status", nullable = false)
-    private String status;
+    @Column(name = "flight_status", nullable = false)
+    private String flightStatus;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "AirlineId", nullable = false)
+    @JoinColumn(name = "airline_id", nullable = false)
     private Airline airline;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "AirplaneId", nullable = false)
+    @JoinColumn(name = "airplane_id", nullable = false)
     private Airplane airplane;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "RouteId", nullable = false)
+    @JoinColumn(name = "route_id", nullable = false)
     private com.example.skyfast_2_0.entity.Route route;
 
 }

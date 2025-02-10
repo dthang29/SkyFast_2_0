@@ -14,25 +14,25 @@ import java.time.LocalDate;
 @Table(name = "payment")
 public class Payment {
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "payment_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
-    @Column(name = "PaymentDate", nullable = false)
+    @Column(name = "payment_date", nullable = false)
     private LocalDate paymentDate;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "PaymentMethod", nullable = false)
+    @Column(name = "payment_method", nullable = false)
     private PaymentMethod paymentMethod;
 
     @NotNull
-    @Column(name = "Amount", nullable = false)
+    @Column(name = "amount", nullable = false)
     private Integer amount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PromotionId")
+    @JoinColumn(name = "promotion_id")
     private com.example.skyfast_2_0.entity.Promotion promotion;
 
 }

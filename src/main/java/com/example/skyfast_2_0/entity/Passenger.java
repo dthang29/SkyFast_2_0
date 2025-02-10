@@ -12,36 +12,36 @@ import lombok.Setter;
 @Table(name = "passenger")
 public class Passenger {
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "passenger_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "Title", nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "FullName", nullable = false)
+    @Column(name = "full_name", nullable = false)
     private String fullName;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "Nationality", nullable = false)
+    @Column(name = "nationality", nullable = false)
     private String nationality;
 
     @NotNull
-    @Column(name = "IdentificationNumber", nullable = false)
+    @Column(name = "identification_number", nullable = false)
     private Integer identificationNumber;
 
     @NotNull
-    @Column(name = "PhoneNumber", nullable = false)
+    @Column(name = "phone_number", nullable = false)
     private Integer phoneNumber;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "Email", nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
 }

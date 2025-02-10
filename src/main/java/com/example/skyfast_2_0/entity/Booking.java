@@ -14,31 +14,31 @@ import java.time.LocalDate;
 @Table(name = "booking")
 public class Booking {
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "booking_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
-    @Column(name = "TotalPrice", nullable = false)
+    @Column(name = "total_price", nullable = false)
     private Integer totalPrice;
 
     @NotNull
-    @Column(name = "BookingDate", nullable = false)
+    @Column(name = "booking_date", nullable = false)
     private LocalDate bookingDate;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "PaymentStatus", nullable = false)
+    @Column(name = "payment_status", nullable = false)
     private String paymentStatus;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "UserId", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private com.example.skyfast_2_0.entity.User user;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "PaymentId", nullable = false)
+    @JoinColumn(name = "payment_id", nullable = false)
     private com.example.skyfast_2_0.entity.Payment payment;
 
 }

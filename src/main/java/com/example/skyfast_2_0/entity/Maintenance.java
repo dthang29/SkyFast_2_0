@@ -14,22 +14,22 @@ import java.time.LocalDate;
 @Table(name = "maintenance")
 public class Maintenance {
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "maintenance_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
-    @Column(name = "MaintenanceDate", nullable = false)
+    @Column(name = "maintenance_date", nullable = false)
     private LocalDate maintenanceDate;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "Description", nullable = false)
+    @Column(name = "description", nullable = false)
     private String description;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "AirplaneId", nullable = false)
+    @JoinColumn(name = "airplane_id", nullable = false)
     private Airplane airplane;
 
 }

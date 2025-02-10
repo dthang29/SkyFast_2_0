@@ -16,46 +16,46 @@ import java.time.LocalDateTime;
 @Table(name = "user")
 public class User {
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "user_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "UserName", nullable = false)
+    @Column(name = "user_name", nullable = false)
     private String userName;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "Password", nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "Email", nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "FullName", nullable = false)
+    @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    @Column(name = "PhoneNumber")
+    @Column(name = "phone_number")
     private Integer phoneNumber;
 
     @Size(max = 255)
-    @Column(name = "Address")
+    @Column(name = "address")
     private String address;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "Role", nullable = false)
+    @Column(name = "role", nullable = false)
     private Role role;
 
-    @Column(name = "CreatedAt")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "UpdateAt")
+    @Column(name = "update_at")
     private LocalDateTime updateAt;
 
 }

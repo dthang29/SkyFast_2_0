@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -15,30 +14,30 @@ import java.time.LocalDateTime;
 @Table(name = "feedback")
 public class Feedback {
     @Id
-    @Column(name = "Id", nullable = false)
+    @Column(name = "feedback_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
-    @Column(name = "Rating", nullable = false)
+    @Column(name = "rating", nullable = false)
     private Integer rating;
 
     @Size(max = 255)
-    @Column(name = "Comments")
+    @Column(name = "comments")
     private String comments;
 
     @NotNull
-    @Column(name = "FeedbackDate", nullable = false)
-    private LocalDateTime feedbackDate;
+    @Column(name = "feedback_date", nullable = false)
+    private Instant feedbackDate;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "UserId", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private com.example.skyfast_2_0.entity.User user;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "FlightId", nullable = false)
+    @JoinColumn(name = "flight_id", nullable = false)
     private com.example.skyfast_2_0.entity.Flight flight;
 
 }
