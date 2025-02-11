@@ -21,6 +21,11 @@ public class Airplane {
     @Column(name = "airplane_name", nullable = false)
     private String airplaneName;
 
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "airplane_image", nullable = false)
+    private String airplaneImage;
+
     @NotNull
     @Column(name = "seating_capacity", nullable = false)
     private Integer seatingCapacity;
