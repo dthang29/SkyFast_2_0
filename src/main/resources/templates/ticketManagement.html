@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flight Ticket Dashboard - Ticket List</title>
+    <!-- Bootstrap CSS -->
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+    />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .content-container {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .table thead th {
+            background-color: #e9ecef;
+        }
+    </style>
+    <script>
+        let allTickets = [];
+
+        // Lấy danh sách Ticket từ API
+        async function fetchTickets() {
+            try {
+                const response = await fetch("http://localhost:8080/tickets");
+                if (!response.ok) {
+                    throw new Error("Failed to fetch tickets");
+                }
+                allTickets = await response.json();
+                renderTickets(allTickets);
+            } catch (error) {
+                console.error("Error fetching tickets:", error);
+            }
+        }
+
+        // Hiển thị danh sách Ticket
+        function renderTickets(tickets) {
+            const tableBody = document.querySelector("tbody");
+            tableBody.innerHTML = "";
+
+            tickets.forEach(ticket => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+          <td>${ticket.id}</td>
+          <td>${ticket.bookingId !== undefined ? ticket.bookingId : ""}</td>
+          <td>${ticket.flightNumber !== undefined ? ticket.flightNumber : ""}</td>
+          <td>${ticket.seatNumber !== undefined ? ticket.seatNumber : ""}</td>
+          <td>${ticket.passengerFullName !== undefined ? ticket.passengerFullName : ""}</td>
+          <td>${ticket.ticketPrice}</td>
+          <td>${ticket.status}</td>
+          <td>
+            <a href="ticketDetail.html?id=${ticket.id}" class="btn btn-primary">
+              Update
+            </a>
+          </td>
+        `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Hàm filter (tùy chọn) nếu muốn lọc theo BookingID hoặc FlightNumber
+        function filterTickets() {
+            const bookingFilter = document.getElementById("bookingFilter").value.toLowerCase();
+            const flightFilter = document.getElementById("flightFilter").value.toLowerCase();
+
+            const filtered = allTickets.filter(ticket =>
+                (bookingFilter === "" || (ticket.bookingId + "").toLowerCase().includes(bookingFilter)) &&
+                (flightFilter === "" || (ticket.flightNumber + "").toLowerCase().includes(flightFilter))
+            );
+            renderTickets(filtered);
+        }
+
+        function initPage() {
+            fetchTickets();
+        }
+
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", initPage);
+        } else {
+            initPage();
+        }
+    </script>
+</head>
+<body>
+<div class="container mt-4">
+    <div class="content-container">
+        <h2 class="text-dark fw-bold">Ticket List</h2>
+
+        <!-- Bộ lọc (nếu cần) -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <input
+                        type="text"
+                        id="bookingFilter"
+                        class="form-control"
+                        placeholder="Search by Booking ID"
+                        oninput="filterTickets()"
+                />
+            </div>
+            <div class="col-md-6">
+                <input
+                        type="text"
+                        id="flightFilter"
+                        class="form-control"
+                        placeholder="Search by Flight Number"
+                        oninput="filterTickets()"
+                />
+            </div>
+        </div>
+
+        <!-- Bảng Ticket -->
+        <table class="table table-borderless align-middle mt-3">
+            <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Booking ID</th>
+                <th>Flight Number</th>
+                <th>Seat Number</th>
+                <th>Passenger Full Name</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Nội dung sẽ được render bằng JS -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

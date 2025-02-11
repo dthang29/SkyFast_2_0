@@ -46,4 +46,7 @@ public class Ticket {
     @JoinColumn(name = "passenger_id", nullable = false)
     private Passenger passenger;
 
+    @NotNull
+    @Column(name = "ticket_price", nullable = false)
+    private Float ticketPrice;
 }
