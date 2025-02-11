@@ -3,10 +3,9 @@ package com.example.skyfast_2_0.service;
 import com.example.skyfast_2_0.dto.UserDTO;
 import com.example.skyfast_2_0.entity.User;
 import com.example.skyfast_2_0.repository.UserRepository;
-import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -34,8 +33,8 @@ public class UserService {
 
     public UserDTO createUser(UserDTO userDTO) {
         User user = modelMapper.map(userDTO, User.class);
-        user.setCreatedAt(LocalDate.now());
-        user.setUpdateAt(LocalDate.now());
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdateAt(LocalDateTime.now());
         userRepository.save(user);
         return modelMapper.map(user, UserDTO.class);
     }
@@ -50,9 +49,7 @@ public class UserService {
             user.setPhoneNumber(userDTO.getPhoneNumber());
             user.setAddress(userDTO.getAddress());
             user.setRole(userDTO.getRole());
-            user.setDateOfBirth(userDTO.getDateOfBirth());
-            user.setStatus(userDTO.getStatus());
-            user.setUpdateAt(LocalDate.now());
+            user.setUpdateAt(LocalDateTime.now());
             userRepository.save(user);
             return modelMapper.map(user, UserDTO.class);
         }
@@ -60,10 +57,8 @@ public class UserService {
     }
 
     public boolean deleteUser(Integer id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            userRepository.delete(user);
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
             return true;
         }
         return false;
