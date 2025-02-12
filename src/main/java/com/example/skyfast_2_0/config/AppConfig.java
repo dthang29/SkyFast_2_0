@@ -1,4 +1,4 @@
-package com.example.skyfast_2_0.configuration;
+package com.example.skyfast_2_0.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
