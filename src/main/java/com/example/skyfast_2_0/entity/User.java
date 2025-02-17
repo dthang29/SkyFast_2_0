@@ -7,41 +7,44 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "user")
+@Table(name = "User")
 public class User {
     @Id
-    @Column(name = "user_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Size(max = 255)
     @NotNull
-    @Column(name = "user_name", nullable = false)
+    @Size(max = 255)
+    @Column(name = "user_name", nullable = false, unique = true)
     private String userName;
 
-    @Size(max = 255)
+    @Column(name = "is_deleted")
+    private Boolean deleted = false;
+
     @NotNull
+    @Size(max = 255)
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Size(max = 255)
     @NotNull
-    @Column(name = "email", nullable = false)
+    @Size(max = 255)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Size(max = 255)
     @NotNull
+    @Size(max = 255)
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    @Column(name = "phone_number")
-    private Integer phoneNumber;
+    @Column(name = "phone_number", unique = true)
+    private String phoneNumber;
 
     @Size(max = 255)
     @Column(name = "address")
@@ -52,10 +55,20 @@ public class User {
     @Column(name = "role", nullable = false)
     private Role role;
 
-    @Column(name = "created_at")
+    @NotNull
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "update_at")
+    @NotNull
+    @Column(name = "update_at", nullable = false)
     private LocalDateTime updateAt;
 
+    @NotNull
+    @Column(name = "date_of_birth", nullable = false)
+    private LocalDate dateOfBirth;
+
+    @NotNull
+    @Size(max = 255)
+    @Column(name = "status", nullable = false)
+    private String status;
 }
