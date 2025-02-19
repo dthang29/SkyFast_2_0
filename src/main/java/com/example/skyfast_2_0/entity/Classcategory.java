@@ -6,21 +6,20 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @Entity
-@Table(name = "maintenance")
-public class Maintenance {
+@Table(name = "classcategory")
+public class Classcategory {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Size(max = 255)
     @NotNull
-    @Column(name = "maintenance_date", nullable = false)
-    private LocalDate maintenanceDate;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @NotNull
     @Lob
@@ -29,16 +28,11 @@ public class Maintenance {
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "maintenance_status", nullable = false)
-    private String maintenanceStatus;
+    @Column(name = "image", nullable = false)
+    private String image;
 
     @NotNull
-    @Column(name = "duration", nullable = false)
-    private Integer duration;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "airplane_id", nullable = false)
-    private Airplane airplane;
+    @Column(name = "surcharge", nullable = false)
+    private Float surcharge;
 
 }

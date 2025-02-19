@@ -9,8 +9,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "seat")
-public class Seat {
+@Table(name = "news")
+public class News {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,26 +18,27 @@ public class Seat {
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "seat_number", nullable = false)
-    private String seatNumber;
+    @Column(name = "title", nullable = false)
+    private String title;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "status", nullable = false)
-    private String status;
+    @Column(name = "image", nullable = false)
+    private String image;
 
+    @Size(max = 255)
     @NotNull
-    @Column(name = "seat_each_row", nullable = false)
-    private Integer seatEachRow;
+    @Column(name = "content", nullable = false)
+    private String content;
+
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "category", nullable = false)
+    private String category;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "airplane_id", nullable = false)
-    private Airplane airplane;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "class_category_id", nullable = false)
-    private Classcategory classCategory;
+    @JoinColumn(name = "arline_id", nullable = false)
+    private Airline arline;
 
 }

@@ -12,7 +12,7 @@ import lombok.Setter;
 @Table(name = "airplane")
 public class Airplane {
     @Id
-    @Column(name = "airplane_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -20,10 +20,6 @@ public class Airplane {
     @NotNull
     @Column(name = "airplane_name", nullable = false)
     private String airplaneName;
-
-    @NotNull
-    @Column(name = "seating_capacity", nullable = false)
-    private Integer seatingCapacity;
 
     @Size(max = 255)
     @NotNull
@@ -41,20 +37,29 @@ public class Airplane {
 
     @NotNull
     @Column(name = "total_length", nullable = false)
-    private Float totalLength;
+    private Integer totalLength;
 
     @NotNull
     @Column(name = "wingspan", nullable = false)
-    private Float wingspan;
+    private Integer wingspan;
 
     @NotNull
     @Column(name = "height", nullable = false)
-    private Float height;
+    private Integer height;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "status", nullable = false)
-    private String status;
+    @Column(name = "airplane_status", nullable = false)
+    private String airplaneStatus;
+
+    @NotNull
+    @Column(name = "seat_capacity", nullable = false)
+    private Integer seatCapacity;
+
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "airplane_image", nullable = false)
+    private String airplaneImage;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

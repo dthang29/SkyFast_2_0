@@ -12,7 +12,7 @@ import lombok.Setter;
 @Table(name = "baggage")
 public class Baggage {
     @Id
-    @Column(name = "baggage_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -22,17 +22,25 @@ public class Baggage {
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "baggage_type", nullable = false)
-    private String baggageType;
+    @Column(name = "baggage_status", nullable = false)
+    private String baggageStatus;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ticket_id", nullable = false)
-    private com.example.skyfast_2_0.entity.Ticket ticket;
+    @Column(name = "baggage_price", nullable = false)
+    private Integer baggagePrice;
+
+    @NotNull
+    @Column(name = "ticket_id", nullable = false)
+    private Integer ticketId;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "passenger_id", nullable = false)
     private com.example.skyfast_2_0.entity.Passenger passenger;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "airline_id", nullable = false)
+    private Airline airline;
 
 }

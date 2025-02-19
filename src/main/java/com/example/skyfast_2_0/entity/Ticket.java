@@ -12,19 +12,14 @@ import lombok.Setter;
 @Table(name = "ticket")
 public class Ticket {
     @Id
-    @Column(name = "ticket_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "ticket_type", nullable = false)
-    private String ticketType;
-
-    @Size(max = 255)
-    @NotNull
-    @Column(name = "ticket_status", nullable = false)
-    private String ticketStatus;
+    @Column(name = "status", nullable = false)
+    private String status;
 
     @NotNull
     @Column(name = "ticket_price", nullable = false)

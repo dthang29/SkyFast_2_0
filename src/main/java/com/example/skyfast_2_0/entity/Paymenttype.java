@@ -6,13 +6,11 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @Entity
-@Table(name = "airline")
-public class Airline {
+@Table(name = "paymenttype")
+public class Paymenttype {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,16 +18,8 @@ public class Airline {
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "airline_name", nullable = false)
-    private String airlineName;
-
-    @NotNull
-    @Column(name = "country_of_operation", nullable = false)
-    private Integer countryOfOperation;
-
-    @NotNull
-    @Column(name = "founded_date", nullable = false)
-    private LocalDate foundedDate;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Size(max = 255)
     @NotNull
