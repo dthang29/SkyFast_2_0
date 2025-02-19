@@ -6,6 +6,7 @@ import com.example.skyfast_2_0.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -33,8 +34,8 @@ public class UserService {
 
     public UserDTO createUser(UserDTO userDTO) {
         User user = modelMapper.map(userDTO, User.class);
-        user.setCreatedAt(LocalDateTime.now());
-        user.setUpdateAt(LocalDateTime.now());
+        user.setCreatedAt(LocalDate.now());
+        user.setUpdateAt(LocalDate.now());
         userRepository.save(user);
         return modelMapper.map(user, UserDTO.class);
     }
@@ -51,7 +52,7 @@ public class UserService {
             user.setRole(userDTO.getRole());
             user.setDateOfBirth(userDTO.getDateOfBirth());
             user.setStatus(userDTO.getStatus());
-            user.setUpdateAt(LocalDateTime.now());
+            user.setUpdateAt(LocalDate.now());
             userRepository.save(user);
             return modelMapper.map(user, UserDTO.class);
         }
