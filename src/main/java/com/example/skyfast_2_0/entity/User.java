@@ -13,37 +13,31 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "User")
+@Table(name = "user")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
     @Size(max = 255)
-    @Column(name = "user_name", nullable = false, unique = true)
+    @Column(name = "user_name")
     private String userName;
 
-    @Column(name = "is_deleted")
-    private Boolean deleted = false;
-
-    @NotNull
     @Size(max = 255)
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
-    @NotNull
     @Size(max = 255)
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email")
     private String email;
 
-    @NotNull
     @Size(max = 255)
-    @Column(name = "full_name", nullable = false)
+    @Column(name = "full_name")
     private String fullName;
 
-    @Column(name = "phone_number", unique = true)
+    @Size(max = 255)
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @Size(max = 255)
@@ -55,20 +49,18 @@ public class User {
     @Column(name = "role", nullable = false)
     private Role role;
 
-    @NotNull
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @NotNull
-    @Column(name = "update_at", nullable = false)
+    @Column(name = "update_at")
     private LocalDateTime updateAt;
 
-    @NotNull
-    @Column(name = "date_of_birth", nullable = false)
+    @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
-    @NotNull
     @Size(max = 255)
+    @NotNull
     @Column(name = "status", nullable = false)
     private String status;
+
 }
