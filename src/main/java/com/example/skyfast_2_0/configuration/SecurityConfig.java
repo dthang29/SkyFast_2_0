@@ -21,11 +21,14 @@ public class SecurityConfig {
                         authorize.requestMatchers(STATIC_RESOURCE).permitAll()
                                 .requestMatchers("/home/**").permitAll()
                                 .requestMatchers("/register").permitAll()
+                                .requestMatchers("/verify-code",
+                                        "/change-password",
+                                        "/forgot-password").permitAll()
                                 .anyRequest().permitAll()
                 ).formLogin(
                         form -> form
                                 .loginPage("/auth/Login")
-                                .loginProcessingUrl("/auth/Login")
+                                .loginProcessingUrl("auth/Login")
                                 .permitAll()
                 ).logout(
                         logout -> logout

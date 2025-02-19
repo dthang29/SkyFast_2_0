@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -14,7 +14,7 @@ import java.time.Instant;
 @Table(name = "feedback")
 public class Feedback {
     @Id
-    @Column(name = "feedback_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -28,7 +28,7 @@ public class Feedback {
 
     @NotNull
     @Column(name = "feedback_date", nullable = false)
-    private Instant feedbackDate;
+    private LocalDate feedbackDate;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

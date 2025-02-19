@@ -7,8 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -16,32 +15,29 @@ import java.time.LocalDateTime;
 @Table(name = "user")
 public class User {
     @Id
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 255)
-    @NotNull
-    @Column(name = "user_name", nullable = false)
+    @Column(name = "user_name")
     private String userName;
 
     @Size(max = 255)
-    @NotNull
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
     @Size(max = 255)
-    @NotNull
-    @Column(name = "email", nullable = false)
+    @Column(name = "email")
     private String email;
 
     @Size(max = 255)
-    @NotNull
-    @Column(name = "full_name", nullable = false)
+    @Column(name = "full_name")
     private String fullName;
 
+    @Size(max = 255)
     @Column(name = "phone_number")
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     @Size(max = 255)
     @Column(name = "address")
@@ -53,9 +49,17 @@ public class User {
     private Role role;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "update_at")
-    private LocalDateTime updateAt;
+    private LocalDate updateAt;
+
+    @Column(name = "date_of_birth")
+    private LocalDate dateOfBirth;
+
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "status", nullable = false)
+    private String status;
 
 }
