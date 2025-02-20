@@ -22,9 +22,8 @@ public class Maintenance {
     @Column(name = "maintenance_date", nullable = false)
     private LocalDate maintenanceDate;
 
-    @NotNull
     @Lob
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
     @Size(max = 255)

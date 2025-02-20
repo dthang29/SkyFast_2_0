@@ -33,19 +33,19 @@ public class Airplane {
 
     @NotNull
     @Column(name = "speed", nullable = false)
-    private Integer speed;
+    private Float speed;
 
     @NotNull
     @Column(name = "total_length", nullable = false)
-    private Integer totalLength;
+    private Float totalLength;
 
     @NotNull
     @Column(name = "wingspan", nullable = false)
-    private Integer wingspan;
+    private Float wingspan;
 
     @NotNull
     @Column(name = "height", nullable = false)
-    private Integer height;
+    private Float height;
 
     @Size(max = 255)
     @NotNull

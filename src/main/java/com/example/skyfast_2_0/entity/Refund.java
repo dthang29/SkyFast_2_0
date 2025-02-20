@@ -23,9 +23,10 @@ public class Refund {
     @Column(name = "bank", nullable = false)
     private String bank;
 
+    @Size(max = 255)
     @NotNull
     @Column(name = "bank_number", nullable = false)
-    private Integer bankNumber;
+    private String bankNumber;
 
     @NotNull
     @Column(name = "request_date", nullable = false)

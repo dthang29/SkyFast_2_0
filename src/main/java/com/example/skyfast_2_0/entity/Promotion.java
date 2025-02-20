@@ -23,9 +23,8 @@ public class Promotion {
     @Column(name = "code", nullable = false)
     private String code;
 
-    @NotNull
     @Lob
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
     @NotNull

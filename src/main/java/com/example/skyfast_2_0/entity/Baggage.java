@@ -18,7 +18,7 @@ public class Baggage {
 
     @NotNull
     @Column(name = "weight", nullable = false)
-    private Integer weight;
+    private Float weight;
 
     @Size(max = 255)
     @NotNull
@@ -27,7 +27,7 @@ public class Baggage {
 
     @NotNull
     @Column(name = "baggage_price", nullable = false)
-    private Integer baggagePrice;
+    private Float baggagePrice;
 
     @NotNull
     @Column(name = "ticket_id", nullable = false)

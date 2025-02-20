@@ -21,10 +21,13 @@ public class Classcategory {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotNull
     @Lob
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
+
+    @NotNull
+    @Column(name = "seat_each_row", nullable = false)
+    private Integer seatEachRow;
 
     @Size(max = 255)
     @NotNull

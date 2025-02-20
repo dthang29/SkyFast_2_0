@@ -25,7 +25,13 @@ public class SecurityConfig {
                                         "/change-password",
                                         "/forgot-password").permitAll()
                                 .anyRequest().permitAll()
-                ).formLogin(
+                ).oauth2Login(
+                        oauth2 -> oauth2
+                                .defaultSuccessUrl("/home", true)
+                                .loginPage("/auth/Login")
+                                .permitAll()
+                ).
+                formLogin(
                         form -> form
                                 .loginPage("/auth/Login")
                                 .loginProcessingUrl("auth/Login")

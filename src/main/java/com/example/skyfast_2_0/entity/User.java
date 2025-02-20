@@ -20,6 +20,10 @@ public class User {
     private Integer id;
 
     @Size(max = 255)
+    @Column(name = "google_id")
+    private String googleId;
+
+    @Size(max = 255)
     @Column(name = "user_name")
     private String userName;
 

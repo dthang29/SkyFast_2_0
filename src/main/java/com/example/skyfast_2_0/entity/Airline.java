@@ -23,9 +23,10 @@ public class Airline {
     @Column(name = "airline_name", nullable = false)
     private String airlineName;
 
+    @Size(max = 255)
     @NotNull
     @Column(name = "country_of_operation", nullable = false)
-    private Integer countryOfOperation;
+    private String countryOfOperation;
 
     @NotNull
     @Column(name = "founded_date", nullable = false)
