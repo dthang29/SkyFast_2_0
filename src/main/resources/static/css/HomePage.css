@@ -1,0 +1,32 @@
+.date-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.date-selector button {
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    background-color: #eee;
+}
+.date-selector button.active {
+    background-color: #b22222;
+    color: white;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+th {
+    background-color: #f4f4f4;
+}
+.view-details {
+    color: red;
+    text-decoration: none;
+    font-weight: bold;
+}

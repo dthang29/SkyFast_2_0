@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOFAR Travel</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/Plane.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">SKYFAST</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" th:href="@{/homepage}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/flight}">Flight</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/airplane}">Plane</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/homepage}">Contact</a></li>
+            </ul>
+        </div>
+        <div class="d-flex">
+            <a class="btn btn-outline-primary me-2" href="#">Sign Up</a>
+            <a class="btn btn-primary" href="#">Login</a>
+        </div>
+    </div>
+</nav>
+
+<nav class="breadcrumb">
+    <a th:href="@{/homepage}">Home</a>
+    <span class="separator">></span>
+    <a th:href="@{/airplane}">Đội Bay</a>
+    <span class="separator">></span>
+    <span th:text="${airplane.getAirplaneName()}"></span>
+</nav>
+
+<!-- Aircraft Title -->
+<h1 class="aircraft-title" th:text="${airplane.getAirplaneName()}"></h1>
+
+<!-- Aircraft Image -->
+<img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-12%20093935-2xlC65ZF9A740KnCCvUzHspJABevoj.png" alt="Boeing 787 Vietnam Airlines" class="aircraft-image">
+
+<!-- Specifications Grid -->
+<div class="specs-grid">
+    <div class="spec-item">
+        <span class="spec-label">Nhà sản xuất:</span>
+        <span class="spec-value" th:text="${airplane.getManufacturer()}"></span>
+    </div>
+    <div class="spec-item">
+        <span class="spec-label">Số ghế (*):</span>
+        <span class="spec-value" th:text="${airplane.getSeatCapacity()}"></span>
+    </div>
+    <div class="spec-item">
+        <span class="spec-label">Tổng chiều dài:</span>
+        <span class="spec-value" th:text="${airplane.getTotalLength()}"> m</span>
+    </div>
+    <div class="spec-item">
+        <span class="spec-label">Khoảng cách tối đa (km):</span>
+        <span class="spec-value" th:text="${airplane.getAirplaneName()}"> km</span>
+    </div>
+    <div class="spec-item">
+        <span class="spec-label" >Sơ đồ ghế ngồi (*):</span>
+        <div>
+            <a href="#" class="spec-link" th:text="${airplane.getDiagram()}"></a>
+        </div>
+    </div>
+    <div class="spec-item">
+        <span class="spec-label">Sải cánh:</span>
+        <span class="spec-value" th:text="${airplane.getWingspan()}"> m</span>
+    </div>
+    <div class="spec-item">
+        <span class="spec-label">Vận tốc (km/h):</span>
+        <span class="spec-value" th:text="${airplane.getSpeed()}"> km/h</span>
+    </div>
+    <div class="spec-item"></div>
+    <div class="spec-item">
+        <span class="spec-label">Chiều cao:</span>
+        <span class="spec-value" th:text="${airplane.getHeight()}"> m</span>
+    </div>
+</div>
+
+<!-- Seating Section -->
+<section class="seating-section">
+    <h2 class="seating-title">CHỖ NGỒI</h2>
+    <p class="seating-note">Cấu hình và số lượng ghế có thể thay đổi theo tình hình khai thác thực tế.<br>
+        Hình ảnh mang tính chất minh họa.</p>
+
+    <div class="cabin-grid">
+        <div class="cabin-item">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-12%20093948-ZTHbqTHN52PahJIbdOSI0LzRFqSn7T.png" alt="Hạng thương gia" class="cabin-image">
+            <h3 class="cabin-name">Hạng thương gia</h3>
+        </div>
+        <div class="cabin-item">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-12%20093948-ZTHbqTHN52PahJIbdOSI0LzRFqSn7T.png" alt="Hạng phổ thông đặc biệt" class="cabin-image">
+            <h3 class="cabin-name">Hạng phổ thông đặc biệt</h3>
+        </div>
+        <div class="cabin-item">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-02-12%20093948-ZTHbqTHN52PahJIbdOSI0LzRFqSn7T.png" alt="Hạng phổ thông" class="cabin-image">
+            <h3 class="cabin-name">Hạng phổ thông</h3>
+        </div>
+    </div>
+</section>
+
+<footer class="bg-dark text-white text-center py-3">
+    <p>&copy; 2025 GOFAR Travel. All rights reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../static/js/HomePage.js"></script>
+
+</body>
+</html>
