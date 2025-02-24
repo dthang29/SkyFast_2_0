@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDate;
 
 @Getter
@@ -13,19 +12,19 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "promotion")
 public class Promotion {
+
     @Id
-    @Column(name = "promotion_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "promotion_code", nullable = false)
-    private String promotionCode;
+    @Column(name = "code", nullable = false)
+    private String code;
 
-    @Size(max = 255)
-    @NotNull
-    @Column(name = "description", nullable = false)
+    @Lob
+    @Column(name = "description")
     private String description;
 
     @NotNull
@@ -42,12 +41,16 @@ public class Promotion {
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "promotion_status", nullable = false)
-    private String promotionStatus;
+    @Column(name = "status", nullable = false)
+    private String status;
+
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "image", nullable = false)
+    private String image;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "airline_id", nullable = false)
     private Airline airline;
-
 }

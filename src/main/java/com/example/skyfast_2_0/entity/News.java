@@ -9,8 +9,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "passenger")
-public class Passenger {
+@Table(name = "news")
+public class News {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -24,24 +24,21 @@ public class Passenger {
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "full_name", nullable = false)
-    private String fullName;
+    @Column(name = "image", nullable = false)
+    private String image;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "nationality", nullable = false)
-    private String nationality;
+    @Column(name = "content", nullable = false)
+    private String content;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "identification_number", nullable = false)
-    private String identificationNumber;
+    @Column(name = "category", nullable = false)
+    private String category;
 
-    @Size(max = 255)
-    @Column(name = "phone_number")
-    private Integer phoneNumber;
-
-    @Size(max = 255)
-    @Column(name = "email")
-    private String email;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "arline_id", nullable = false)
+    private Airline airline;
 }

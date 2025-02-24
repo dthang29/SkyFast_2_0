@@ -5,16 +5,17 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import java.time.LocalDate;
 
-import java.time.Instant;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "feedback")
 public class Feedback {
+
     @Id
-    @Column(name = "feedback_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -28,7 +29,7 @@ public class Feedback {
 
     @NotNull
     @Column(name = "feedback_date", nullable = false)
-    private Instant feedbackDate;
+    private LocalDate feedbackDate;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -39,5 +40,4 @@ public class Feedback {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "flight_id", nullable = false)
     private com.example.skyfast_2_0.entity.Flight flight;
-
 }

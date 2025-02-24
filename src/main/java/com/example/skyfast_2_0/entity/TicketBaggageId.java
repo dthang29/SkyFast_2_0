@@ -13,30 +13,29 @@ import java.util.Objects;
 @Getter
 @Setter
 @Embeddable
-public class RouteAirportId implements java.io.Serializable {
+public class TicketBaggageId implements java.io.Serializable {
     @Serial
-    private static final long serialVersionUID = 3319630297142337971L;
+    private static final long serialVersionUID = -1461823924069246789L;
+    @NotNull
+    @Column(name = "ticket_id", nullable = false)
+    private Integer ticketId;
 
     @NotNull
-    @Column(name = "airport_id", nullable = false)
-    private Integer airportId;
-
-    @NotNull
-    @Column(name = "route_id", nullable = false)
-    private Integer routeId;
+    @Column(name = "baggage_id", nullable = false)
+    private Integer baggageId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        RouteAirportId entity = (RouteAirportId) o;
-        return Objects.equals(this.routeId, entity.routeId) &&
-                Objects.equals(this.airportId, entity.airportId);
+        TicketBaggageId entity = (TicketBaggageId) o;
+        return Objects.equals(this.baggageId, entity.baggageId) &&
+                Objects.equals(this.ticketId, entity.ticketId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(routeId, airportId);
+        return Objects.hash(baggageId, ticketId);
     }
 
 }

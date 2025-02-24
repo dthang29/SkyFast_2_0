@@ -11,14 +11,15 @@ import lombok.Setter;
 @Entity
 @Table(name = "airport")
 public class Airport {
+
     @Id
     @Column(name = "airport_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Size(max = 10)
+    @Size(max = 255)
     @NotNull
-    @Column(name = "airport_code", nullable = false, length = 10)
+    @Column(name = "airport_code", nullable = false)
     private String airportCode;
 
     @Size(max = 255)
@@ -45,4 +46,12 @@ public class Airport {
     @Column(name = "airport_type", nullable = false)
     private String airportType;
 
+    @NotNull
+    @Column(name = "capacity", nullable = false)
+    private Integer capacity;
+
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "image", nullable = false)
+    private String image;
 }

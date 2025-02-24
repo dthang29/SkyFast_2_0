@@ -9,22 +9,22 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "ticket")
+@Table(name = "Ticket")
 public class Ticket {
+
     @Id
-    @Column(name = "ticket_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "ticket_type", nullable = false)
-    private String ticketType;
+    @Column(name = "status", nullable = false)
+    private String status;
 
-    @Size(max = 255)
     @NotNull
-    @Column(name = "ticket_status", nullable = false)
-    private String ticketStatus;
+    @Column(name = "ticket_price", nullable = false)
+    private Float ticketPrice;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -45,8 +45,4 @@ public class Ticket {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "passenger_id", nullable = false)
     private Passenger passenger;
-
-    @NotNull
-    @Column(name = "ticket_price", nullable = false)
-    private Float ticketPrice;
 }

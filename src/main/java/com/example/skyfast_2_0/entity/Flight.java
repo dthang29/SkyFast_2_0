@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Getter
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "flight")
 public class Flight {
     @Id
-    @Column(name = "flight_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -34,12 +33,12 @@ public class Flight {
 
     @NotNull
     @Column(name = "duration", nullable = false)
-    private Float duration;
+    private Integer duration;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "flight_status", nullable = false)
-    private String flightStatus;
+    @Column(name = "status", nullable = false)
+    private String status;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

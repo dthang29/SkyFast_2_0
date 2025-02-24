@@ -1,8 +1,8 @@
 package com.example.skyfast_2_0.entity;
 
-import com.example.skyfast_2_0.constant.PaymentMethod;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,8 +13,9 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "payment")
 public class Payment {
+
     @Id
-    @Column(name = "payment_id", nullable = false)
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -22,17 +23,22 @@ public class Payment {
     @Column(name = "payment_date", nullable = false)
     private LocalDate paymentDate;
 
+    @Size(max = 255)
     @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "payment_method", nullable = false)
-    private PaymentMethod paymentMethod;
-
-    @NotNull
-    @Column(name = "amount", nullable = false)
-    private Integer amount;
+    @Column(name = "payment_status", nullable = false)
+    private String paymentStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "promotion_id")
     private com.example.skyfast_2_0.entity.Promotion promotion;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "payment_type_id", nullable = false)
+    private com.example.skyfast_2_0.entity.Paymenttype paymentType;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "booking_id", nullable = false)
+    private Booking booking;
 }
