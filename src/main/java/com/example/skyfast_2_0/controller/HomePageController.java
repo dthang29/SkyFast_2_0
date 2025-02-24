@@ -32,7 +32,7 @@ public class HomePageController {
         List<Ticket> tickets = ticketService.getTop10CheapestTickets();
         model.addAttribute("tickets", tickets);
 
-        LocalDate date = LocalDate.of(2024, 6, 10);
+        LocalDate date = LocalDate.of(2025, 3, 1);
         List<Flight> flights = flightService.getFlightsbyDepaTime(date);
         model.addAttribute("flights", flights);
 

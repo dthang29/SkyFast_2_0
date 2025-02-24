@@ -19,12 +19,12 @@ public class Route {
     @Size(max = 255)
     @NotNull
     @Column(name = "departure_airport_id", nullable = false)
-    private String departureAirportId;
+    private int departureAirportId;
 
     @Size(max = 255)
     @NotNull
     @Column(name = "arrival_airport_id", nullable = false)
-    private String arrivalAirportId;
+    private int arrivalAirportId;
 
     @NotNull
     @Column(name = "distance", nullable = false)
