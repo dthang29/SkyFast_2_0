@@ -53,17 +53,22 @@ public class RegisterController {
         } else if (registerService.checkPhoneExist(user.getPhoneNumber())) {
             model.addAttribute("phoneError", "Phone Number already exists");
             return "/auth/Register";
+        } else if(registerService.isOnlySpaces(user.getFullName())) {
+            model.addAttribute("fullNameError", "Full Name are blank");
+            return "/auth/Register";
         }
 
         if (!registerService.checkPasswordSameWithConfirmPassword(user.getPassword(), confirmPassword)) {
             model.addAttribute("passError", "Password are not the same");
             return "/auth/Register";
+        } else {
+            model.addAttribute("confirmPass", confirmPassword);
         }
 
-            verifyEmailService.sendUserEmail(user.getEmail());
-            session.setAttribute("user", user);
-            return "/auth/VerifyEmail";
-        }
+        verifyEmailService.sendUserEmail(user.getEmail());
+        session.setAttribute("user", user);
+        return "/auth/VerifyEmail";
+    }
 
     @GetMapping("/resend-code")
     public String resendCode(HttpSession session,
@@ -74,13 +79,4 @@ public class RegisterController {
         return "/auth/VerifyEmail";
     }
 
-//    @PostMapping("/resend-code")
-//    public String resendCode(HttpSession session,
-//                             Model model)
-//            throws MessagingException {
-//        User user = (User) session.getAttribute("user");
-//        verifyEmailService.sendUserEmail(user.getEmail());
-//        model.addAttribute("mess", "Code has been sent !");
-//        return "/auth/VerifyEmail";
-//    }
 }

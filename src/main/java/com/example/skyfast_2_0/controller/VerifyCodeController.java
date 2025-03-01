@@ -68,6 +68,7 @@ public class VerifyCodeController {
         user.setDateOfBirth(LocalDate.now());
         user.setStatus("Active");
         registerService.saveUser(user);
+        session.removeAttribute("user");
         return "/auth/Login";
         }
         else{

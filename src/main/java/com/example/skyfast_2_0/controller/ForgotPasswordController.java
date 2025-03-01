@@ -1,5 +1,6 @@
 package com.example.skyfast_2_0.controller;
 
+import com.example.skyfast_2_0.entity.User;
 import com.example.skyfast_2_0.service.ForgotPasswordService;
 import com.example.skyfast_2_0.service.LoginService;
 import jakarta.mail.MessagingException;
@@ -40,6 +41,15 @@ public class ForgotPasswordController {
             model.addAttribute("errorMess", "Email is incorrect !");
             return "/auth/ForgotPassword";
         }
+    }
+
+    @GetMapping("/resend")
+    public String resendCode(HttpSession session,
+                             Model model) throws MessagingException {
+        String email = (String) session.getAttribute("email");
+        forgotPasswordService.sendUserEmail(email);
+        model.addAttribute("mess", "Code has been sent !");
+        return "/auth/VerifyCode";
     }
 }
 

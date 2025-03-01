@@ -20,9 +20,6 @@ public class ForgotPasswordService {
         private EmailSenderService emailSenderService;
 
         @Autowired
-        private T_UserRepository userRepository;
-
-        @Autowired
         private VerifyCodeService verifyCodeService;
 
         public void sendUserEmail(String email)

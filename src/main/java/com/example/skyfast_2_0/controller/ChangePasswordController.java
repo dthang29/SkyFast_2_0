@@ -39,6 +39,7 @@ public class ChangePasswordController {
             if (user != null) {
                 user.setPassword(passwordEncoder.encode(password));
                 t_UserRepository.save(user);
+                session.removeAttribute(email);
                 return "/auth/Login";
             } else {
                 model.addAttribute("changePassError", "User not found");
