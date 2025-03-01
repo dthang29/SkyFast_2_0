@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - codingnepalweb.com -->
+<html lang = "en" dir = "ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Login </title>
+    <link rel="stylesheet" href="/css/LoginForm.css">
+</head>
+<body>
+<div class="wrapper">
+    <h2>Login</h2>
+    <form action="/login" method="post">
+        <div class="input-box">
+            <input name="username" type="text" placeholder="Email or Username" required>
+        </div>
+        <div class="input-box">
+            <input name="password" type="password" placeholder="Password" required>
+        </div>
+        <span th:if="${error}" th:text="${error}" style="color: red"></span>
+        <div class="input-box button">
+            <input type="Submit" value="Login">
+        </div>
+        <div class="content">
+            <div class="pass-link">
+                <h3><a href="/forgot-password">Forgot password?</a></h3>
+            </div>
+        </div>
+        <div class="text">
+            <h3>Don't have account ? - <a href="/register">Register now</a></h3>
+        </div>
+        <h3 class = "text-between" >Or</h3>
+        <div class = "google-link">
+                <a class = "link" href="/oauth2/authorization/google">Login with Google</a>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>
