@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - codingnepalweb.com -->
+<html lang = "en" dir = "ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Register </title>
+    <link rel="stylesheet" href="/css/RegisterForm.css">
+</head>
+<body>
+<div class="wrapper">
+    <h2>Register Account</h2>
+    <form action="/register" method="post">
+        <div class="input-box">
+            <input name="userName" id="username"  type="text" placeholder="Username" required>
+        </div>
+        <span th:text="${userError}" style="color: red"></span>
+        <span th:text="${userSpaceError}" style="color: red"></span>
+        <div class="input-box">
+            <input name="fullName" id="name" type="text"
+                   pattern="[A-Za-z ]+" placeholder="Full Name" required
+                   title="Full Name must contain Letters and Space">
+        </div>
+        <div class="input-box">
+            <input name="email" id="email" type="email" placeholder="Email" required>
+        </div>
+        <span th:text="${emailError}" style="color: red"></span>
+        <div class="input-box">
+            <input name="phoneNumber" pattern="[0-9]{10}"
+                   type="text" placeholder="Phone Number" required
+                   title="Phone Number must be at 10 numbers">
+        </div>
+        <span th:text="${phoneError}" style="color: red"></span>
+        <div class="input-box">
+            <input type="password" name="password" placeholder="Password" required
+                   pattern="[a-z0-9@#$&]{8,}" title="Password must be at least 8 characters long">
+        </div>
+        <div>
+            <h3>* Password contain at least 8 characters</h3>
+            <h3>* Password contain a-z, 0-9, @, #, $, & digits and not contain space</h3>
+        </div>
+        <div class="input-box">
+            <input name="confirmPass" id="confirmPassword" type="password"  placeholder="Confirm Password" required>
+        </div>
+        <span th:text="${passError} " style="color: red"></span>
+
+        <div class="input-box button">
+            <input id="submit" type="Submit" value="Register Now">
+        </div>
+        <div class="text">
+            <h3>Already have an account ? - <a href="/login">Login now</a></h3>
+        </div>
+    </form>
+</div>
+</body>
+</html>
