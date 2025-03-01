@@ -21,29 +21,11 @@ public class LoginController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(auth != null && auth.isAuthenticated()
                 && !(auth instanceof AnonymousAuthenticationToken)) {
-            return "redirect:/home";
+            return "redirect:/homepage";
         }
         if(error != null){
             model.addAttribute("error", "Invalid username or password");
         }
         return "/auth/Login";
     }
-
-//    @PostMapping("/login")
-//    public String loginUser(Model model,
-//                            @RequestParam("input_text") String text,
-//                            @RequestParam("password") String password) {
-//        if (loginService.getUserByEmail(text) && BCrypt.checkpw(password,
-//                loginService.getUserPasswordByEmail(text))) {
-//            return "/SkyFast_2_0";
-//        }
-//        else if (loginService.getUserByUsername(text) && BCrypt.checkpw(password,
-//                loginService.getUserPasswordByUsername(text))) {
-//            return "/SkyFast_2_0";
-//        }
-//        else {
-//                model.addAttribute("Error", "Password or Username or Email is incorrect");
-//                return "/auth/Login";
-//        }
-//    }
 }

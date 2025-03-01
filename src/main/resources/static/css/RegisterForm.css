@@ -41,6 +41,7 @@ body{
     margin-top: 30px;
 }
 .wrapper form .input-box{
+    position: relative;
     height: 52px;
     margin: 18px 0;
 }
@@ -48,7 +49,7 @@ form .input-box input{
     height: 100%;
     width: 100%;
     outline: none;
-    padding: 0 15px;
+    padding: 0 50px 0 15px;
     font-size: 17px;
     font-weight: 400;
     color: #333;
@@ -57,28 +58,28 @@ form .input-box input{
     border-radius: 6px;
     transition: all 0.3s ease;
 }
+
 .input-box input:focus,
 .input-box input:valid{
     border-color: #4070f4;
 }
-form .policy{
-    display: flex;
-    align-items: center;
-}
+
 form h3{
     color: #707070;
     font-size: 14px;
     font-weight: 500;
     margin-left: 10px;
 }
+
 .input-box.button input{
+    padding: 0 15px;
     color: #fff;
-    letter-spacing: 1px;
-    border: none;
     background: #4070f4;
+    letter-spacing: 1px;
     cursor: pointer;
 }
-.input-box.button input:hover{
+
+.input-button input:hover{
     background: #0e4bf1;
 }
 form .text h3{
@@ -92,4 +93,23 @@ form .text h3 a{
 }
 form .text h3 a:hover{
     text-decoration: underline;
+}
+
+.input-box i {
+    position: absolute;
+    right: 5%;
+    top: 11px;
+    font-size: 25px;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.input-box i:hover {
+    color: #333; /* Khi hover, icon tối hơn */
+}
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-webkit-textfield-decoration-container {
+    display: none !important;
 }

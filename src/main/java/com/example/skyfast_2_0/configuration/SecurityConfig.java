@@ -39,9 +39,11 @@ public class SecurityConfig {
                                 .requestMatchers("/register").permitAll()
                                 .requestMatchers("/verify-code",
                                         "/change-password",
-                                        "/forgot-password", "/verify-email").permitAll()
+                                        "/forgot-password",
+                                        "/verify-email",
+                                        "/resend").permitAll()
                                 .requestMatchers("/resend-code").permitAll()
-                                .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 ).oauth2Login(
                         oauth2 -> oauth2
                                 .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint

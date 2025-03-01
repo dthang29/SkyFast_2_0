@@ -74,3 +74,14 @@ form .input-box input{
 .input-box.button input:hover{
     background: #0e4bf1;
 }
+
+form h3 a{
+    font-size: 17px;
+    font-weight: 400;
+    color: #4070f4;
+    text-decoration: none;
+}
+
+form h3 a:hover{
+    text-decoration: underline;
+}
