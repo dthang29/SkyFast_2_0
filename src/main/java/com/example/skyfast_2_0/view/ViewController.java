@@ -9,11 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ViewController {
 
-
     @GetMapping("/users/management")
     public String userManagement(Model model) {
         model.addAttribute("currentPage", "userlist");
         return "userlist";
     }
 
+    @GetMapping("/airline/management")
+    public String airlineManagement(Model model) {
+        model.addAttribute("currentPage", "airlineManagement");
+        return "airlineManagement";
+    }
 }
