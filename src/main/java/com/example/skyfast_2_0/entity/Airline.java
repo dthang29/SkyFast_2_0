@@ -1,5 +1,6 @@
 package com.example.skyfast_2_0.entity;
 
+import com.example.skyfast_2_0.constant.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -37,4 +38,7 @@ public class Airline {
     @Column(name = "image", nullable = false)
     private String image;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private Status status = Status.ACTIVE;
 }
