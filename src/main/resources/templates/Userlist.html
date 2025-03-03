@@ -2,14 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title th:text="${pageTitle}">Flight Ticket Dashboard - User List</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <script src="../assets/js/plugin/webfont/webfont.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script th:src="@{/assets/js/plugin/webfont/webfont.min.js}"></script>
     <script>
         WebFont.load({
-            google: {families: ["Public Sans:300,400,500,600,700"]},
+            google: { families: ["Public Sans:300,400,500,600,700"] },
             custom: {
                 families: [
                     "Font Awesome 5 Solid",
@@ -17,199 +17,70 @@
                     "Font Awesome 5 Brands",
                     "simple-line-icons",
                 ],
-                urls: ["../assets/css/fonts.min.css"],
+                urls: [/* Thêm Thymeleaf cho đúng đường dẫn */
+                    /* "../assets/css/fonts.min.css" */
+                    "/assets/css/fonts.min.css"
+                ],
             },
             active: function () {
                 sessionStorage.fonts = true;
             },
         });
-
-
     </script>
 
     <!-- CSS Files -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="../assets/css/plugins.min.css"/>
-    <link rel="stylesheet" href="../assets/css/kaiadmin.min.css"/>
-
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="../assets/css/demo.css"/>
-    <script>
-        let allUsers = [];
-
-        // Lấy danh sách User từ API
-        async function fetchUsers() {
-            try {
-                const response = await fetch("http://localhost:8080/users");
-                if (!response.ok) {
-                    throw new Error("Failed to fetch users");
-                }
-                allUsers = await response.json();
-                renderUsers(allUsers);
-            } catch (error) {
-                console.error("Error fetching users:", error);
-            }
-        }
-
-        // Hiển thị danh sách User vào container có ID userTable
-        function renderUsers(users) {
-            const tableBody = document.querySelector("#userTable tbody");
-            if (!tableBody) {
-                console.error("Không tìm thấy bảng user với ID userTable");
-                return;
-            }
-            tableBody.innerHTML = "";
-            users.forEach(user => {
-                const row = document.createElement("tr");
-                if (user.status === "INACTIVE") {
-                    row.style.backgroundColor = "#f8d7da"; // Màu nền cho user INACTIVE
-                }
-                row.innerHTML = `
-          <td>${user.id}</td>
-          <td>${user.userName}</td>
-          <td>${user.email}</td>
-          <td>${user.role}</td>
-          <td>${user.status}</td> <!-- Hiển thị trạng thái -->
-          <td>${new Date(user.createdAt).toISOString().split('T')[0]}</td>
-          <td>
-            <a href="UserDetail.html?id=${user.id}" class="btn btn-primary ">Edit</a>
-            <button class="btn btn-danger" onclick="deleteUser(${user.id}, this)" ${user.status === "INACTIVE" ? 'disabled' : ''}>Delete</button>
-          </td>
-        `;
-                tableBody.appendChild(row);
-            });
-        }
-
-        // Thay đổi trạng thái hoạt động của User
-        function toggleStatus(button, userId) {
-            const newStatus = button.innerText === "Active" ? "Inactive" : "Active";
-            fetch(`http://localhost:8080/users/${userId}/toggle-status`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({active: newStatus === "Active"})
-            })
-                .then(response => response.json())
-                .then(updatedUser => {
-                    button.innerText = newStatus;
-                    button.classList.toggle("btn-success");
-                    button.classList.toggle("btn-secondary");
-                })
-                .catch(error => console.error("Error toggling status:", error));
-        }
-
-        // Xóa user
-        async function deleteUser(userId, button) {
-            if (confirm("Are you sure you want to delete this user?")) {
-                try {
-                    await fetch(`http://localhost:8080/users/${userId}`, {method: "DELETE"});
-                    allUsers = allUsers.filter(user => user.id !== userId);
-                    filterUsers();
-                } catch (error) {
-                    console.error("Error deleting user:", error);
-                }
-            }
-        }
-
-        // Lọc user theo tên và role
-        function filterUsers() {
-            const nameFilter = document.getElementById("nameFilter").value.toLowerCase();
-            const roleFilter = document.getElementById("roleFilter").value;
-            const filteredUsers = allUsers.filter(user =>
-                (roleFilter === "ALL" || user.role === roleFilter) &&
-                user.userName.toLowerCase().includes(nameFilter)
-            );
-            renderUsers(filteredUsers);
-        }
-
-        // Hàm khởi tạo trang User
-        function initUserPage() {
-            const userTable = document.getElementById("userTable");
-            if (userTable) {
-                fetchUsers();
-            }
-        }
-
-        if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", initUserPage);
-        } else {
-            initUserPage();
-        }
-
-        // Hàm tạo user mới (nếu cần)
-        async function createUser() {
-            const newUser = {
-                userName: document.getElementById("newUsername").value,
-                fullName: document.getElementById("newFullName").value,
-                email: document.getElementById("newEmail").value,
-                password: document.getElementById("newPassword").value,
-                phoneNumber: document.getElementById("newPhone").value,
-                address: document.getElementById("newAddress").value,
-                role: document.getElementById("newRole").value,
-                status: document.getElementById("newStatus").value
-            };
-
-            try {
-                const response = await fetch("http://localhost:8080/users", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(newUser)
-                });
-
-                if (!response.ok) {
-                    throw new Error("Failed to create user");
-                }
-
-                alert("User created successfully!");
-                document.getElementById("createUserForm").reset();
-                fetchUsers(); // Cập nhật danh sách sau khi tạo
-                document.getElementById("createUserModal").querySelector(".btn-close").click(); // Đóng modal
-            } catch (error) {
-                console.error("Error creating user:", error);
-                alert("Failed to create user. Please try again.");
-            }
-        }
-    </script>
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/plugins.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/kaiadmin.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/demo.css}" />
 </head>
 
 <body>
 <div class="d-flex flex-row">
-    <!-- Import sidebar từ file sideBar.html -->
+    <!-- Sidebar -->
     <nav class="sidebar p-3">
         <h4 class="text-center dashboard-title" style="color: #575962">SkyFast</h4>
         <ul class="nav flex-column" id="sidebar-links">
             <li class="nav-item">
-                <a href="Dashboard.html" class="nav-link active" data-page="Dashboard.html">
+                <a href="/dashboard" class="nav-link active" data-page="Dashboard.html">
                     <i class="fas fa-home"></i>Dashboard
                 </a>
             </li>
             <li class="nav-item">
-                <a href="flightManagement.html" class="nav-link" data-page="flightManagement.html">
+                <a href="/flights" class="nav-link" data-page="flightManagement.html">
                     <i class="fas fa-plane"></i>Flight Management
                 </a>
             </li>
             <li class="nav-item">
-                <a href="airlineManagement.html" class="nav-link" data-page="airlineManagement.html">
+                <a href="/airlines/list" class="nav-link" data-page="airlineManagement.html">
                     <i class="fas fa-plane"></i>Airline Management
                 </a>
             </li>
             <li class="nav-item">
-                <a href="userlist.html" class="nav-link" data-page="userlist.html">
+                <a href="/users/list" class="nav-link" data-page="userlist.html">
                     <i class="fas fa-users"></i>User Management
                 </a>
             </li>
         </ul>
     </nav>
-    <!-- Phần nội dung chính -->
-    <div class="container mt-4 main-content">
+
+    <!-- Main Content -->
+    <div class="container mt-4 main-content" style="margin-right: 290px;">
         <div class="content-container" style="width: 1545px;">
+            <!-- Alert Messages -->
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span th:text="${errorMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
             <h2 class="text-dark fw-bold">User List</h2>
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <select id="roleFilter" class="form-select" onchange="filterUsers()">
+                    <select id="roleFilter" class="form-select" onchange="filterTable()">
                         <option value="ALL">ALL</option>
                         <option value="ADMIN">ADMIN</option>
                         <option value="MANAGER">MANAGER</option>
@@ -219,16 +90,18 @@
                 </div>
                 <div class="col-md-6">
                     <input type="text" id="nameFilter" class="form-control" placeholder="Search by Name"
-                           oninput="filterUsers()"/>
+                           oninput="filterTable()" />
                 </div>
             </div>
+
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="text-dark fw-bold">User List</h2>
                 <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createUserModal">
                     Create User
                 </button>
             </div>
-            <table id="userTable" class="table table-borderless align-middle mt-3">
+
+            <table class="table table-borderless align-middle mt-3">
                 <thead class="table-light">
                 <tr>
                     <th>ID</th>
@@ -237,52 +110,73 @@
                     <th>Role</th>
                     <th>Status</th>
                     <th>Create Date</th>
-                    <th></th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <!-- Nội dung sẽ được render bởi JS -->
+                <tr th:each="user : ${users}"
+                    th:style="${user.status == 'INACTIVE'} ? 'background-color: #f8d7da;' : ''">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.userName}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.role}"></td>
+                    <td th:text="${user.status}"></td>
+                    <td th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd')}"></td>
+                    <td>
+                        <a th:href="@{/users/detail/{id}(id=${user.id})}" class="btn btn-primary">Edit</a>
+                        <form th:action="@{/users/delete/{id}(id=${user.id})}" method="post"
+                              style="display: inline;">
+                            <button type="submit" class="btn btn-danger"
+                                    th:disabled="${user.status == 'INACTIVE'}"
+                                    onclick="return confirm('Are you sure you want to delete this user?')">
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>
-        <!-- Modal for Creating User -->
-        <div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel"
-             aria-hidden="true">
+
+        <!-- Create User Modal -->
+        <div class="modal fade" id="createUserModal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="createUserModalLabel">Create New User</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title">Create New User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="createUserForm">
+                        <form th:action="@{/users/create}" method="post">
                             <div class="mb-3">
-                                <label for="newUsername" class="form-label">User Name</label>
-                                <input type="text" class="form-control" id="newUsername" required/>
+                                <label for="userName" class="form-label">User Name</label>
+                                <input type="text" class="form-control" id="userName" name="userName" required />
                             </div>
                             <div class="mb-3">
-                                <label for="newFullName" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" id="newFullName" required/>
+                                <label for="fullName" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="fullName" name="fullName" required />
                             </div>
                             <div class="mb-3">
-                                <label for="newEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="newEmail" required/>
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required />
                             </div>
                             <div class="mb-3">
-                                <label for="newPassword" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="newPassword" required/>
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password"
+                                       required />
                             </div>
                             <div class="mb-3">
-                                <label for="newPhone" class="form-label">Phone Number</label>
-                                <input type="tel" class="form-control" id="newPhone" required/>
+                                <label for="phoneNumber" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber"
+                                       required />
                             </div>
                             <div class="mb-3">
-                                <label for="newAddress" class="form-label">Address</label>
-                                <input type="text" class="form-control" id="newAddress"/>
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address" name="address" />
                             </div>
                             <div class="mb-3">
-                                <label for="newRole" class="form-label">Role</label>
-                                <select class="form-select" id="newRole">
+                                <label for="role" class="form-label">Role</label>
+                                <select class="form-select" id="role" name="role">
                                     <option value="CUSTOMER">Customer</option>
                                     <option value="STAFF">Staff</option>
                                     <option value="MANAGER">Manager</option>
@@ -290,13 +184,13 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="newStatus" class="form-label">status</label>
-                                <select class="form-select" id="newStatus">
+                                <label for="status" class="form-label">Status</label>
+                                <select class="form-select" id="status" name="status">
                                     <option value="ACTIVE">ACTIVE</option>
                                     <option value="INACTIVE">INACTIVE</option>
                                 </select>
                             </div>
-                            <button type="button" class="btn btn-primary" onclick="createUser()">Create</button>
+                            <button type="submit" class="btn btn-primary">Create</button>
                         </form>
                     </div>
                 </div>
@@ -304,6 +198,24 @@
         </div>
     </div>
 </div>
+
+<!-- JavaScript for client-side filtering -->
+<script>
+    function filterTable() {
+        const nameFilter = document.getElementById('nameFilter').value.toLowerCase();
+        const roleFilter = document.getElementById('roleFilter').value;
+        const rows = document.querySelectorAll('tbody tr');
+
+        rows.forEach(row => {
+            const userName = row.cells[1].textContent.toLowerCase();
+            const role = row.cells[3].textContent;
+            const matchesName = userName.includes(nameFilter);
+            const matchesRole = roleFilter === 'ALL' || role === roleFilter;
+            row.style.display = matchesName && matchesRole ? '' : 'none';
+        });
+    }
+</script>
+
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>

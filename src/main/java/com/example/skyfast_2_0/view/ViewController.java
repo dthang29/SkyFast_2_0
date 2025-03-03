@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ViewController {
 
+
     @GetMapping("/users/management")
     public String userManagement(Model model) {
         model.addAttribute("currentPage", "userlist");

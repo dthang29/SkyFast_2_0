@@ -1,50 +1,71 @@
- package com.example.skyfast_2_0.controller;
+package com.example.skyfast_2_0.controller;
 
- import com.example.skyfast_2_0.entity.Airline;
- import com.example.skyfast_2_0.service.AirlineService;
- import org.springframework.beans.factory.annotation.Autowired;
- import org.springframework.http.ResponseEntity;
- import org.springframework.web.bind.annotation.*;
+import com.example.skyfast_2_0.entity.Airline;
+import com.example.skyfast_2_0.service.AirlineService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
- import java.util.List;
+import java.util.List;
 
- @RestController
- @RequestMapping("/api/airlines")
- public class AirlineController {
+@Controller
+@RequestMapping("/airlines")
+public class AirlineController {
 
-     @Autowired
-     private AirlineService airlineService;
+    @Autowired
+    private AirlineService airlineService;
 
-     // GET - Read airline(s)
-     @GetMapping
-     public ResponseEntity<?> getAirlines(@RequestParam(required = false) Integer id) {
-         if (id != null) {
-             Airline airline = airlineService.getAirlineById(id);
-             return ResponseEntity.ok(airline);
-         }
-         List<Airline> airlines = airlineService.getAllAirlines();
-         return ResponseEntity.ok(airlines);
-     }
+    @GetMapping("/list")
+    public String getAllAirlines(Model model) {
+        List<Airline> airlines = airlineService.getAllAirlines();
+        model.addAttribute("airlines", airlines);
+        return "airlineManagement";
+    }
 
-     // POST - Create new airline
-     @PostMapping
-     public ResponseEntity<Airline> createAirline(@RequestBody Airline airline) {
-         Airline createdAirline = airlineService.createAirline(airline);
-         return ResponseEntity.ok(createdAirline);
-     }
+    @GetMapping("/detail/{id}")
+    public String getAirlineDetail(@PathVariable Integer id, Model model) {
+        try {
+            Airline airline = airlineService.getAirlineById(id);
+            model.addAttribute("airline", airline);
+            return "airlineDetail";
+        } catch (RuntimeException e) {
+            return "redirect:/airlines/list";
+        }
+    }
 
-     // PUT - Update airline
-     @PutMapping
-     public ResponseEntity<Airline> updateAirline(@RequestParam Integer id, @RequestBody Airline airline) {
-         airline.setId(id); // Đảm bảo ID được set đúng
-         Airline updatedAirline = airlineService.updateAirline(airline);
-         return ResponseEntity.ok(updatedAirline);
-     }
+    @PostMapping("/create")
+    public String createAirline(@ModelAttribute Airline airline, RedirectAttributes redirectAttributes) {
+        try {
+            airlineService.createAirline(airline);
+            redirectAttributes.addFlashAttribute("successMessage", "Airline created successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to create airline: " + e.getMessage());
+        }
+        return "redirect:/airlines/list";
+    }
 
-     // DELETE - Delete airline
-     @DeleteMapping
-     public ResponseEntity<String> deleteAirline(@RequestParam Integer id) {
-         airlineService.deleteAirline(id);
-         return ResponseEntity.ok("Airline deleted successfully");
-     }
- }
+    @PostMapping("/update/{id}")
+    public String updateAirline(@PathVariable Integer id, @ModelAttribute Airline airline, RedirectAttributes redirectAttributes) {
+        try {
+            airline.setId(id);
+            airlineService.updateAirline(airline);
+            redirectAttributes.addFlashAttribute("successMessage", "Airline updated successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to update airline: " + e.getMessage());
+        }
+        return "redirect:/airlines/list";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteAirline(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        try {
+            airlineService.deleteAirline(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Airline deleted successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to delete airline: " + e.getMessage());
+        }
+        return "redirect:/airlines/list";
+    }
+}

@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Airline Detail</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="../assets/js/plugin/webfont/webfont.min.js"></script>
+    <script th:src="@{/assets/js/plugin/webfont/webfont.min.js}"></script>
     <script>
         WebFont.load({
-            google: {families: ["Public Sans:300,400,500,600,700"]},
+            google: { families: ["Public Sans:300,400,500,600,700"] },
             custom: {
                 families: [
                     "Font Awesome 5 Solid",
@@ -16,113 +17,116 @@
                     "Font Awesome 5 Brands",
                     "simple-line-icons",
                 ],
-                urls: ["../assets/css/fonts.min.css"],
+                urls: [/* Thêm Thymeleaf cho đúng đường dẫn */
+                    /* "../assets/css/fonts.min.css" */
+                    "/assets/css/fonts.min.css"
+                ],
             },
             active: function () {
                 sessionStorage.fonts = true;
             },
         });
-
-
     </script>
 
     <!-- CSS Files -->
-    <link rel="stylesheet" href="../assets/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="../assets/css/plugins.min.css"/>
-    <link rel="stylesheet" href="../assets/css/kaiadmin.min.css"/>
-
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="../assets/css/demo.css"/>
-    <style>
-        /* Bạn có thể thêm style cho layout chung ở đây */
-        #layout {
-            display: flex;
-        }
-
-        #sidebar-container {
-            /* Điều chỉnh chiều rộng sidebar theo nhu cầu */
-        }
-
-        #main-content {
-            flex: 1;
-            padding: 20px;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/plugins.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/kaiadmin.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/demo.css}" />
 </head>
+
 <body>
-<div id="layout">
-    <!-- Sidebar sẽ được load vào đây -->
+<div class="d-flex flex-row">
+    <!-- Sidebar -->
     <nav class="sidebar p-3">
         <h4 class="text-center dashboard-title" style="color: #575962">SkyFast</h4>
         <ul class="nav flex-column" id="sidebar-links">
             <li class="nav-item">
-                <a href="Dashboard.html" class="nav-link active" data-page="Dashboard.html">
+                <a href="/dashboard" class="nav-link active" data-page="Dashboard.html">
                     <i class="fas fa-home"></i>Dashboard
                 </a>
             </li>
             <li class="nav-item">
-                <a href="flightManagement.html" class="nav-link" data-page="flightManagement.html">
+                <a href="/flights" class="nav-link" data-page="flightManagement.html">
                     <i class="fas fa-plane"></i>Flight Management
                 </a>
             </li>
             <li class="nav-item">
-                <a href="airlineManagement.html" class="nav-link" data-page="airlineManagement.html">
+                <a href="/airlines/list" class="nav-link" data-page="airlineManagement.html">
                     <i class="fas fa-plane"></i>Airline Management
                 </a>
             </li>
             <li class="nav-item">
-                <a href="userlist.html" class="nav-link" data-page="userlist.html">
+                <a href="/users/list" class="nav-link" data-page="userlist.html">
                     <i class="fas fa-users"></i>User Management
                 </a>
             </li>
         </ul>
     </nav>
 
+    <!-- Main Content -->
+    <div class="container mt-4" style="margin-right: 300px;">
+        <div class="content-container" style="width: 1545px;">
+            <!-- Alert Messages -->
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span th:text="${errorMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
 
-    <!-- Nội dung chính -->
-    <div id="main-content">
-        <div class="container mt-4">
-            <div class="content-container" style="width: 1545px;">
-                <div class="card shadow-lg p-4">
-                    <h2 class="text-dark fw-bold">Airline Detail</h2>
-                    <form id="airlineDetailForm">
-                        <div class="mb-3">
-                            <label for="airlineId" class="form-label">Airline ID</label>
-                            <input type="text" class="form-control" id="airlineId" readonly>
+            <div class="card shadow-lg p-4">
+                <h2 class="text-dark fw-bold">Airline Detail</h2>
+                <form th:action="@{/airlines/update/{id}(id=${airline.id})}" method="post" th:object="${airline}"
+                      enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="airlineId" class="form-label">Airline ID</label>
+                        <input type="text" class="form-control" id="airlineId" th:field="*{id}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="airlineName" class="form-label">Airline Name</label>
+                        <input type="text" class="form-control" id="airlineName" th:field="*{airlineName}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="countryOfOperation" class="form-label">Country of Operation</label>
+                        <input type="text" class="form-control" id="countryOfOperation"
+                               th:field="*{countryOfOperation}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="foundedDate" class="form-label">Founded Date</label>
+                        <input type="date" class="form-control" id="foundedDate" th:field="*{foundedDate}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="currentImage" class="form-label">Current Image</label>
+                        <div th:if="${airline.image != null and airline.image != ''}">
+                            <img th:src="${airline.image}" class="img-thumbnail" style="max-width: 200px;">
                         </div>
-                        <div class="mb-3">
-                            <label for="airlineName" class="form-label">Airline Name</label>
-                            <input type="text" class="form-control" id="airlineName">
+                        <div th:unless="${airline.image != null and airline.image != ''}">
+                            <p>No image available</p>
                         </div>
-                        <div class="mb-3">
-                            <label for="countryOfOperation" class="form-label">Country of Operation</label>
-                            <input type="text" class="form-control" id="countryOfOperation">
-                        </div>
-                        <div class="mb-3">
-                            <label for="foundedDate" class="form-label">Founded Date</label>
-                            <input type="date" class="form-control" id="foundedDate">
-                        </div>
-                        <div class="mb-3">
-                            <label for="image" class="form-label">Image URL</label>
-                            <input type="text" class="form-control" id="image">
-                        </div>
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Status</label>
-                            <select class="form-select" id="status">
-                                <option value="ACTIVE">ACTIVE</option>
-                                <option value="INACTIVE">INACTIVE</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <a href="airlineManagement.html" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Back
-                            </a>
-                            <button type="button" class="btn btn-primary" onclick="saveChanges()">
-                                <i class="fas fa-save"></i> Save Changes
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="imageFile" class="form-label">Update Image</label>
+                        <input type="file" class="form-control" id="imageFile" name="imageFile">
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" id="status" th:field="*{status}">
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="INACTIVE">INACTIVE</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <a th:href="@{/airlines/list}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -131,77 +135,6 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-
-<script>
-    let airlineId;
-
-    function getUrlParameter(name) {
-        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-        const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-        const results = regex.exec(location.search);
-        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-    }
-
-    document.addEventListener('DOMContentLoaded', async () => {
-        airlineId = getUrlParameter('id');
-        if (airlineId) {
-            try {
-                const response = await fetch(`http://localhost:8080/api/airlines?id=${airlineId}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch airline data');
-                }
-                const airlineData = await response.json();
-                populateForm(airlineData);
-            } catch (error) {
-                console.error('Error fetching airline data:', error);
-                alert('Failed to load airline data. Please try again.');
-            }
-        } else {
-            alert('Airline ID not provided. Redirecting to airline list.');
-            window.location.href = 'airlineManagement.html';
-        }
-    });
-
-    function populateForm(airlineData) {
-        document.getElementById('airlineId').value = airlineData.id;
-        document.getElementById('airlineName').value = airlineData.airlineName;
-        document.getElementById('countryOfOperation').value = airlineData.countryOfOperation;
-        document.getElementById('foundedDate').value = airlineData.foundedDate.split('T')[0];
-        document.getElementById('image').value = airlineData.image;
-        document.getElementById('status').value = airlineData.status;
-    }
-
-    async function saveChanges() {
-        const updatedAirlineData = {
-            id: document.getElementById('airlineId').value,
-            airlineName: document.getElementById('airlineName').value,
-            countryOfOperation: parseInt(document.getElementById('countryOfOperation').value),
-            foundedDate: document.getElementById('foundedDate').value,
-            image: document.getElementById('image').value,
-            status: document.getElementById('status').value
-        };
-
-        try {
-            const response = await fetch(`http://localhost:8080/api/airlines?id=${airlineId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(updatedAirlineData)
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to update airline data');
-            }
-
-            alert('Changes saved successfully!');
-            window.location.href = 'airlineManagement.html';
-
-        } catch (error) {
-            console.error('Error updating airline data:', error);
-            alert('Failed to save changes. Please try again.');
-        }
-    }
-</script>
 </body>
+
 </html>
