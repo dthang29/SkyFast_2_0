@@ -1,5 +1,8 @@
 package com.example.skyfast_2_0.dto;
 
+
+import com.example.skyfast_2_0.entity.Ticket;
+
 public class TicketInfoDTO {
     private Integer id;
     private String status;
@@ -9,6 +12,17 @@ public class TicketInfoDTO {
     private String seatNumber;
     private String passengerFullName;
 
+    public TicketInfoDTO() {
+    }
+    public TicketInfoDTO(Ticket ticket) {
+        this.id = ticket.getId();
+        this.status = ticket.getStatus();
+        this.ticketPrice = ticket.getTicketPrice();
+        this.bookingId = ticket.getBooking().getId();
+        this.flightNumber = ticket.getFlight().getFlightNumber();
+        this.seatNumber = ticket.getSeat().getSeatNumber();
+        this.passengerFullName = ticket.getPassenger().getFullName();
+    }
     // Getters & Setters
 
     public Integer getId() {

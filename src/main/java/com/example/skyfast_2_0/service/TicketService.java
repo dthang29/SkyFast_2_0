@@ -17,17 +17,17 @@ import java.util.stream.Collectors;
 public class TicketService {
 
     private final TicketRepository ticketRepository;
-    private final ModelMapper modelMapper;
 
-    public TicketService(TicketRepository ticketRepository, ModelMapper modelMapper) {
+
+    public TicketService(TicketRepository ticketRepository) {
         this.ticketRepository = ticketRepository;
-        this.modelMapper = modelMapper;
+
     }
 
     public List<TicketInfoDTO> getAllTickets() {
         List<Ticket> tickets = ticketRepository.findAll();
         return tickets.stream().map(ticket -> {
-            TicketInfoDTO dto = new TicketInfoDTO();
+            TicketInfoDTO dto = new TicketInfoDTO(ticket);
             dto.setId(ticket.getId());
             dto.setStatus(ticket.getStatus());
             dto.setTicketPrice(ticket.getTicketPrice());
@@ -48,7 +48,7 @@ public class TicketService {
         Optional<Ticket> ticketOptional = ticketRepository.findById(id);
         if (ticketOptional.isPresent()) {
             Ticket ticket = ticketOptional.get();
-            TicketInfoDTO dto = new TicketInfoDTO();
+            TicketInfoDTO dto = new TicketInfoDTO(ticket);
             dto.setId(ticket.getId());
             dto.setStatus(ticket.getStatus());
             dto.setTicketPrice(ticket.getTicketPrice());
@@ -72,7 +72,7 @@ public class TicketService {
             // Cập nhật các field khác nếu cần...
             ticketRepository.save(ticket);
 
-            TicketInfoDTO dto = new TicketInfoDTO();
+            TicketInfoDTO dto = new TicketInfoDTO(ticket);
             dto.setId(ticket.getId());
             dto.setStatus(ticket.getStatus());
             dto.setTicketPrice(ticket.getTicketPrice());
@@ -85,5 +85,24 @@ public class TicketService {
             return dto;
         }
         return null;
+    }
+    public TicketInfoDTO createTicket(TicketDTO ticketDTO) {
+        Ticket ticket = new Ticket();
+        ticket.setStatus(ticketDTO.getStatus());
+        ticket.setTicketPrice(ticketDTO.getTicketPrice());
+        // Cập nhật các field khác nếu cần...
+        ticket = ticketRepository.save(ticket);
+
+        TicketInfoDTO dto = new TicketInfoDTO(ticket);
+        dto.setId(ticket.getId());
+        dto.setStatus(ticket.getStatus());
+        dto.setTicketPrice(ticket.getTicketPrice());
+        if (ticket.getBooking() != null) {
+            dto.setBookingId(ticket.getBooking().getId());
+        }
+        dto.setFlightNumber(ticket.getFlight().getFlightNumber());
+        dto.setSeatNumber(ticket.getSeat().getSeatNumber());
+        dto.setPassengerFullName(ticket.getPassenger().getFullName());
+        return dto;
     }
 }

@@ -3,12 +3,13 @@ package com.example.skyfast_2_0.controller;
 import com.example.skyfast_2_0.dto.TicketDTO;
 import com.example.skyfast_2_0.dto.TicketInfoDTO;
 import com.example.skyfast_2_0.service.TicketService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/tickets")
 public class TicketController {
 
@@ -19,20 +20,41 @@ public class TicketController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TicketInfoDTO>> getAllTickets() {
+    public String getAllTickets(Model model) {
         List<TicketInfoDTO> tickets = ticketService.getAllTickets();
-        return ResponseEntity.ok(tickets);
+        model.addAttribute("tickets", tickets);
+        return "ticketManagement"; // Trả về trang Thymeleaf hiển thị danh sách vé
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TicketInfoDTO> getTicketById(@PathVariable Integer id) {
+    public String getTicketById(@PathVariable Integer id, Model model) {
         TicketInfoDTO ticket = ticketService.getTicketById(id);
-        return ticket != null ? ResponseEntity.ok(ticket) : ResponseEntity.notFound().build();
+        if (ticket == null) {
+            return "error/404"; // Trả về trang lỗi nếu không tìm thấy
+        }
+        model.addAttribute("ticket", ticket);
+        return "ticketDetail"; // Trả về trang chi tiết vé
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<TicketInfoDTO> updateTicket(@PathVariable Integer id, @RequestBody TicketDTO ticketDTO) {
+    @PostMapping("/update/{id}")
+    public String updateTicket(@PathVariable Integer id, @ModelAttribute TicketDTO ticketDTO) {
         TicketInfoDTO updatedTicket = ticketService.updateTicket(id, ticketDTO);
-        return updatedTicket != null ? ResponseEntity.ok(updatedTicket) : ResponseEntity.notFound().build();
+        if (updatedTicket == null) {
+            return "error/404";
+        }
+        return "redirect:/tickets"; // Chuyển hướng về danh sách sau khi cập nhật
+    }
+
+    @GetMapping("/new")
+    public String newTicket(Model model) {
+        model.addAttribute("ticket", new TicketInfoDTO());
+        return "ticketCreate"; // Trả về view ticketCreate.html
+    }
+
+    @PostMapping("/create")
+    public String createTicket(@ModelAttribute TicketDTO ticketDTO) {
+        ticketService.createTicket(ticketDTO);
+        return "redirect:/tickets"; // Chuyển hướng về danh sách sau khi tạo mới
     }
 }
+

@@ -36,5 +36,4 @@ public class Booking {
     @JoinColumn(name = "user_id", nullable = false)
     private com.example.skyfast_2_0.entity.User user;
 
-
 }
