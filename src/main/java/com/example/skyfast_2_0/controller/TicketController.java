@@ -3,6 +3,7 @@ package com.example.skyfast_2_0.controller;
 import com.example.skyfast_2_0.dto.TicketDTO;
 import com.example.skyfast_2_0.dto.TicketInfoDTO;
 import com.example.skyfast_2_0.service.TicketService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -52,9 +53,13 @@ public class TicketController {
     }
 
     @PostMapping("/create")
-    public String createTicket(@ModelAttribute TicketDTO ticketDTO) {
-        ticketService.createTicket(ticketDTO);
-        return "redirect:/tickets"; // Chuyển hướng về danh sách sau khi tạo mới
+    public ResponseEntity<?> createTicket(@ModelAttribute TicketInfoDTO ticketInfoDTO) {
+        try{
+            TicketInfoDTO createdTicket = ticketService.createTicket(ticketInfoDTO);
+            return ResponseEntity.ok(createdTicket);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to create ticket" + e.getMessage());
+        }
     }
 }
 

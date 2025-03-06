@@ -58,7 +58,7 @@ public class BookingController {
              BookingDTO createdBooking = bookingService.createBooking(bookingDTO);
              return ResponseEntity.ok(createdBooking);
             } catch (Exception e) {
-                return ResponseEntity.badRequest().body("Failed to create promotion" + e.getMessage());
+                return ResponseEntity.badRequest().body("Failed to create booking" + e.getMessage());
          }
     }
 
