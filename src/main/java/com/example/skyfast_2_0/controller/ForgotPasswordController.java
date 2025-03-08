@@ -47,9 +47,14 @@ public class ForgotPasswordController {
     public String resendCode(HttpSession session,
                              Model model) throws MessagingException {
         String email = (String) session.getAttribute("email");
-        forgotPasswordService.sendUserEmail(email);
-        model.addAttribute("mess", "Code has been sent !");
-        return "/auth/VerifyCode";
+        if(email == null){
+            return "/auth/Login";
+        }
+        else {
+            forgotPasswordService.sendUserEmail(email);
+            model.addAttribute("mess", "Code has been sent !");
+            return "/auth/VerifyCode";
+        }
     }
 }
 

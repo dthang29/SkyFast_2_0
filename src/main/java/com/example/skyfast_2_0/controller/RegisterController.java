@@ -74,9 +74,14 @@ public class RegisterController {
     public String resendCode(HttpSession session,
                              Model model) throws MessagingException {
         User user = (User) session.getAttribute("user");
-        verifyEmailService.sendUserEmail(user.getEmail());
-        model.addAttribute("mess", "Code has been sent !");
-        return "/auth/VerifyEmail";
+        if(user==null){
+            return "/auth/Register";
+        }
+        else {
+            verifyEmailService.sendUserEmail(user.getEmail());
+            model.addAttribute("mess", "Code has been sent !");
+            return "/auth/VerifyEmail";
+        }
     }
 
 }

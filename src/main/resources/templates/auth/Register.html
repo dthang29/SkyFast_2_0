@@ -6,7 +6,7 @@
     <title> Register </title>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/static/css/RegisterForm.css">
+    <link rel="stylesheet" href="/css/RegisterForm.css">
 </head>
 <body>
 <div class="wrapper">
@@ -42,7 +42,8 @@
             <input type="password" name="password" id="password"
                    placeholder="Password" th:field="*{password}" required
                    pattern="[a-z0-9@#$&]{8,}" title="Password must be at least 8 characters long">
-            <i class="fa fa-eye-slash" aria-hidden="true" id="eye-pass" onclick="togglePassword()"></i>
+            <i class="fa fa-eye-slash" aria-hidden="true" id="eye-pass"
+               onclick="togglePassword('password', 'eye-pass')"></i>
         </div>
         <div>
             <h3>* Password contain at least 8 characters</h3>
@@ -53,7 +54,8 @@
             <input type="password" name="confirmPass" id="confirmPassword"
                    placeholder="Confirm Password" th:value="${confirmPass}" required
                    pattern="[a-z0-9@#$&]{8,}" title="Password must be at least 8 characters long">
-            <i class="fa fa-eye-slash" aria-hidden="true" id="eye-confirm-pass" onclick="toggleConfirmPassword()"></i>
+            <i class="fa fa-eye-slash" aria-hidden="true" id="eye-confirm-pass"
+               onclick="togglePassword('confirmPassword', 'eye-confirm-pass')"></i>
         </div>
         <span th:text="${passError}" style="color: red"></span>
 
@@ -65,35 +67,6 @@
         </div>
     </form>
 </div>
-<script>
-    function togglePassword() {
-        let passwordField = document.getElementById("password");
-        let eyeIcon = document.getElementById("eye-pass");
-        if (passwordField.type === "password") {
-            passwordField.type = "text";
-            eyeIcon.classList.remove("fa-eye-slash");
-            eyeIcon.classList.add("fa-eye");
-        } else {
-            passwordField.type = "password";
-            eyeIcon.classList.remove("fa-eye");
-            eyeIcon.classList.add("fa-eye-slash");
-        }
-    }
-
-    function toggleConfirmPassword() {
-        let passwordField = document.getElementById("confirmPassword");
-        let eyeIcon = document.getElementById("eye-confirm-pass");
-
-        if (passwordField.type === "password") {
-            passwordField.type = "text";
-            eyeIcon.classList.remove("fa-eye-slash");
-            eyeIcon.classList.add("fa-eye");
-        } else {
-            passwordField.type = "password";
-            eyeIcon.classList.remove("fa-eye");
-            eyeIcon.classList.add("fa-eye-slash");
-        }
-    }
-</script>
+<script src="/js/ToggleEyePassword.js"></script>
 </body>
 </html>
