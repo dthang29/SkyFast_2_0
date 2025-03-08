@@ -88,7 +88,9 @@
             </div>
             <div class="mb-3">
                 <label for="dob" class="form-label">Date of Birth</label>
-                <input type="date" class="form-control" id="dob" th:field="*{dateOfBirth}">
+                <input type="date" class="form-control" id="dob"
+                       th:value="${user.dateOfBirth != null ? #temporals.format(user.dateOfBirth, 'yyyy-MM-dd') : ''}">
+
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
