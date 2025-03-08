@@ -96,8 +96,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="foundedDate" class="form-label">Founded Date</label>
-                        <input type="date" class="form-control" id="foundedDate"
-                               th:value="${#temporals.format(airline.foundedDate, 'yyyy-MM-dd')}" required>
+                        <input type="date" class="form-control" id="foundedDate" th:field="*{foundedDate}" required>
                     </div>
                     <div class="mb-3">
                         <label for="currentImage" class="form-label">Current Image</label>

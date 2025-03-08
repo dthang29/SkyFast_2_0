@@ -26,7 +26,6 @@ public class UserDTO {
     private Role role;
     private LocalDate dateOfBirth;
     private String status;
-    private LocalDate createdAt;
-    private LocalDate updateAt;
-
+    private LocalDateTime createdAt;
+    private LocalDateTime updateAt;
 }
