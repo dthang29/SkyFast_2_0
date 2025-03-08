@@ -8,14 +8,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-public class UserDTO {
+public class L_UserDTO {
     private Integer id;
     private String userName;
     private String email;

@@ -2,25 +2,25 @@ package com.example.skyfast_2_0.service;
 
 import com.example.skyfast_2_0.entity.Airline;
 import com.example.skyfast_2_0.constant.Status;
-import com.example.skyfast_2_0.repository.AirlineRepository;
+import com.example.skyfast_2_0.repository.L_AirlineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class AirlineService {
+public class L_AirlineService {
 
     @Autowired
-    private AirlineRepository airlineRepository;
+    private L_AirlineRepository LAirlineRepository;
 
     // Read operations
     public List<Airline> getAllAirlines() {
-        return airlineRepository.findAll();
+        return LAirlineRepository.findAll();
     }
 
     public Airline getAirlineById(Integer id) {
-        return airlineRepository.findById(id)
+        return LAirlineRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Airline not found with id: " + id));
     }
 
@@ -30,7 +30,7 @@ public class AirlineService {
             throw new RuntimeException("Airline name cannot be empty");
         }
         airline.setStatus(Status.ACTIVE);
-        return airlineRepository.save(airline);
+        return LAirlineRepository.save(airline);
     }
 
     // Update operation
@@ -46,13 +46,13 @@ public class AirlineService {
             existingAirline.setStatus(airline.getStatus());
         }
 
-        return airlineRepository.save(existingAirline);
+        return LAirlineRepository.save(existingAirline);
     }
 
     // Soft delete operation
     public void deleteAirline(Integer id) {
         Airline airline = getAirlineById(id);
         airline.setStatus(Status.INACTIVE);
-        airlineRepository.save(airline);
+        LAirlineRepository.save(airline);
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AirlineRepository extends JpaRepository<Airline, Integer> {
+public interface L_AirlineRepository extends JpaRepository<Airline, Integer> {
  List<Airline> findByStatus(Status status);
  Optional<Airline> findById(Integer id);
 }

@@ -5,12 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AirlineDTO {
+public class L_AirlineDTO {
     private Integer id;
     private String airlineName;
     private String countryName;
