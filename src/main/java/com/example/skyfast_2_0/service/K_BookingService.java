@@ -6,7 +6,7 @@ import com.example.skyfast_2_0.entity.Ticket;
 import com.example.skyfast_2_0.entity.User;
 import com.example.skyfast_2_0.repository.K_BookingRepository;
 import com.example.skyfast_2_0.repository.K_TicketRepository;
-import com.example.skyfast_2_0.repository.U_UserRepository;
+import com.example.skyfast_2_0.repository.T_UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.skyfast_2_0.entity.Booking;
@@ -20,7 +20,7 @@ public class K_BookingService {
     @Autowired
     private K_TicketRepository KTicketRepository;
     @Autowired
-    private U_UserRepository UUserRepository;
+    private T_UserRepository UUserRepository;
 
     private final K_BookingRepository KBookingRepository;
 
@@ -66,8 +66,7 @@ public class K_BookingService {
             throw new IllegalArgumentException("Booking data or userId must not be null or emty");
         }
         // Lấy user từ database
-        User user = UUserRepository.findByUserName(KBookingDTO.getUserName())
-                .orElseThrow(() -> new RuntimeException("User not found with username: " + KBookingDTO.getUserName()));
+        User user = UUserRepository.findByUserName(KBookingDTO.getUserName());
         Booking booking = new Booking();
         booking.setTotalPrice(KBookingDTO.getTotalPrice());
         booking.setBookingDate(KBookingDTO.getBookingDate());
