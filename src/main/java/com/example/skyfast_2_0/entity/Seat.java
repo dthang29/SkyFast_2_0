@@ -27,10 +27,6 @@ public class Seat {
     private String status;
 
     @NotNull
-    @Column(name = "seat_each_row", nullable = false)
-    private Integer seatEachRow;
-
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "airplane_id", nullable = false)
     private Airplane airplane;

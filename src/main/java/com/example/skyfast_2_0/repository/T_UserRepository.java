@@ -9,4 +9,5 @@ public interface T_UserRepository extends JpaRepository<User, Integer> {
     User findByEmail(String email);
     User findByUserName(String userName);
     User findByPhoneNumber(String phoneNumber);
+    boolean existsByPhoneNumber(String phoneNum);
 }

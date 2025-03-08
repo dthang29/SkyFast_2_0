@@ -7,13 +7,16 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
+import java.io.Serial;
 import java.util.Objects;
 
 @Getter
 @Setter
 @Embeddable
 public class RouteAirportId implements java.io.Serializable {
+    @Serial
     private static final long serialVersionUID = 3319630297142337971L;
+
     @NotNull
     @Column(name = "airport_id", nullable = false)
     private Integer airportId;
