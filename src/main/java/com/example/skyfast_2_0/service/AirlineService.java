@@ -39,9 +39,9 @@ public class AirlineService {
 
         existingAirline.setAirlineName(airline.getAirlineName());
         existingAirline.setCountryOfOperation(airline.getCountryOfOperation());
-        existingAirline.setFoundedDate(airline.getFoundedDate());
+        existingAirline.setFoundedDate(airline.getFoundedDate()); // LocalDate
         existingAirline.setImage(airline.getImage());
-        // Status remains unchanged unless explicitly changed
+
         if (airline.getStatus() != null) {
             existingAirline.setStatus(airline.getStatus());
         }

@@ -36,12 +36,13 @@ public class UserService {
     // ... existing code ...
     public UserDTO createUser(UserDTO userDTO) {
         User user = modelMapper.map(userDTO, User.class);
-        user.setCreatedAt(LocalDate.now());
+        user.setCreatedAt(LocalDate.now()); // Đổi từ LocalDateTime.now() -> LocalDate.now()
         user.setUpdateAt(LocalDate.now());
-        user.setStatus(userDTO.getStatus()); // Đảm bảo gán đúng giá trị status
+        user.setStatus(userDTO.getStatus());
         userRepository.save(user);
         return modelMapper.map(user, UserDTO.class);
     }
+
 // ... existing code ...
 
     public UserDTO updateUser(Integer id, UserDTO userDTO) {
@@ -56,22 +57,24 @@ public class UserService {
             user.setRole(userDTO.getRole());
             user.setDateOfBirth(userDTO.getDateOfBirth());
             user.setStatus(userDTO.getStatus());
-            user.setUpdateAt(LocalDate.now());
+            user.setUpdateAt(LocalDate.now()); // Cập nhật ngày sửa đổi
             userRepository.save(user);
             return modelMapper.map(user, UserDTO.class);
         }
         return null;
     }
 
+
     public boolean deleteUser(Integer id) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            user.setStatus("INACTIVE"); // Thay đổi trạng thái thành INACTIVE
-            user.setUpdateAt(LocalDate.now()); // Cập nhật thời gian sửa đổi
-            userRepository.save(user); // Lưu lại thay đổi
+            user.setStatus("INACTIVE");
+            user.setUpdateAt(LocalDate.now()); // Cập nhật ngày sửa đổi
+            userRepository.save(user);
             return true;
         }
         return false;
     }
+
 }

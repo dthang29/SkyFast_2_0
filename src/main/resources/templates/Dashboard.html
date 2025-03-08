@@ -7,7 +7,7 @@
   <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
 
   <!-- Fonts and icons -->
-  <script src="../assets/js/plugin/webfont/webfont.min.js"></script>
+  <script th:src="@{/assets/js/plugin/webfont/webfont.min.js}"></script>
   <script>
     WebFont.load({
       google: { families: ["Public Sans:300,400,500,600,700"] },
@@ -63,12 +63,12 @@
   </script>
 
   <!-- CSS Files -->
-  <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="../assets/css/plugins.min.css" />
-  <link rel="stylesheet" href="../assets/css/kaiadmin.min.css" />
+  <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}" />
+  <link rel="stylesheet" th:href="@{/assets/css/plugins.min.css}" />
+  <link rel="stylesheet" th:href="@{/assets/css/kaiadmin.min.css}" />
+  <link rel="stylesheet" th:href="@{/assets/css/demo.css}" />
 
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link rel="stylesheet" href="../assets/css/demo.css" />
+  <base href="/">
 </head>
 
 <body>
@@ -78,22 +78,22 @@
     <h4 class="text-center dashboard-title" style="color: #575962">SkyFast</h4>
     <ul class="nav flex-column" id="sidebar-links">
       <li class="nav-item">
-        <a href="Dashboard.html" class="nav-link active" data-page="Dashboard.html">
+        <a href="/dashboard" class="nav-link active" data-page="Dashboard.html">
           <i class="fas fa-home"></i>Dashboard
         </a>
       </li>
       <li class="nav-item">
-        <a href="flightManagement.html" class="nav-link" data-page="flightManagement.html">
+        <a href="/flights" class="nav-link" data-page="flightManagement.html">
           <i class="fas fa-plane"></i>Flight Management
         </a>
       </li>
       <li class="nav-item">
-        <a href="airlineManagement.html" class="nav-link" data-page="airlineManagement.html">
+        <a href="/airlines/list" class="nav-link" data-page="airlineManagement.html">
           <i class="fas fa-plane"></i>Airline Management
         </a>
       </li>
       <li class="nav-item">
-        <a href="userlist.html" class="nav-link" data-page="userlist.html">
+        <a href="/users/list" class="nav-link" data-page="userlist.html">
           <i class="fas fa-users"></i>User Management
         </a>
       </li>
