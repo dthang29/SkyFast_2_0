@@ -24,9 +24,6 @@ public class SecurityConfig {
     private static final String[] STATIC_RESOURCE = {"/css/**", "/font/**", "/js/**", "/image/**"};
     private final LoginService customUserDetailsService;
 
-    @Autowired
-    private CustomSuccessHandler successHandler;
-
     public SecurityConfig(LoginService customUserDetailsService) {
         this.customUserDetailsService = customUserDetailsService;
     }
