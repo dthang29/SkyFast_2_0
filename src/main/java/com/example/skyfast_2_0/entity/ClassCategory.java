@@ -5,13 +5,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDate;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "airline")
-public class Airline {
+@Table(name = "classcategory")
+public class ClassCategory {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -20,21 +19,23 @@ public class Airline {
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "airline_name", nullable = false)
-    private String airlineName;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @Size(max = 255)
-    @NotNull
-    @Column(name = "country_of_operation", nullable = false)
-    private String countryOfOperation;
+    @Lob
+    @Column(name = "description")
+    private String description;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
-    @Column(name = "founded_date", nullable = false)
-    private LocalDate foundedDate;
+    @Column(name = "seat_each_row", nullable = false)
+    private Integer seatEachRow;
 
     @Size(max = 255)
     @NotNull
     @Column(name = "image", nullable = false)
     private String image;
+
+    @NotNull
+    @Column(name = "surcharge", nullable = false)
+    private Float surcharge;
 }
