@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface PassengerRepository extends JpaRepository<Passenger, Integer> {
+public interface K_PassengerRepository extends JpaRepository<Passenger, Integer> {
     Optional<Passenger> findByFullName(String fullName);
 }

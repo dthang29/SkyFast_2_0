@@ -3,7 +3,7 @@ package com.example.skyfast_2_0.dto;
 
 import com.example.skyfast_2_0.entity.Ticket;
 
-public class TicketInfoDTO {
+public class K_TicketInfoDTO {
     private Integer id;
     private String status;
     private Float ticketPrice;
@@ -12,9 +12,9 @@ public class TicketInfoDTO {
     private String seatNumber;
     private String passengerFullName;
 
-    public TicketInfoDTO() {
+    public K_TicketInfoDTO() {
     }
-    public TicketInfoDTO(Ticket ticket) {
+    public K_TicketInfoDTO(Ticket ticket) {
         this.id = ticket.getId();
         this.status = ticket.getStatus();
         this.ticketPrice = ticket.getTicketPrice();

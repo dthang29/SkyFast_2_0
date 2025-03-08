@@ -1,8 +1,8 @@
 package com.example.skyfast_2_0.controller;
 
-import com.example.skyfast_2_0.dto.TicketDTO;
-import com.example.skyfast_2_0.dto.TicketInfoDTO;
-import com.example.skyfast_2_0.service.TicketService;
+import com.example.skyfast_2_0.dto.K_TicketDTO;
+import com.example.skyfast_2_0.dto.K_TicketInfoDTO;
+import com.example.skyfast_2_0.service.K_TicketService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,24 +12,24 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/tickets")
-public class TicketController {
+public class K_TicketController {
 
-    private final TicketService ticketService;
+    private final K_TicketService KTicketService;
 
-    public TicketController(TicketService ticketService) {
-        this.ticketService = ticketService;
+    public K_TicketController(K_TicketService KTicketService) {
+        this.KTicketService = KTicketService;
     }
 
     @GetMapping
     public String getAllTickets(Model model) {
-        List<TicketInfoDTO> tickets = ticketService.getAllTickets();
+        List<K_TicketInfoDTO> tickets = KTicketService.getAllTickets();
         model.addAttribute("tickets", tickets);
         return "ticketManagement"; // Trả về trang Thymeleaf hiển thị danh sách vé
     }
 
     @GetMapping("/{id}")
     public String getTicketById(@PathVariable Integer id, Model model) {
-        TicketInfoDTO ticket = ticketService.getTicketById(id);
+        K_TicketInfoDTO ticket = KTicketService.getTicketById(id);
         if (ticket == null) {
             return "error/404"; // Trả về trang lỗi nếu không tìm thấy
         }
@@ -38,8 +38,8 @@ public class TicketController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateTicket(@PathVariable Integer id, @ModelAttribute TicketDTO ticketDTO) {
-        TicketInfoDTO updatedTicket = ticketService.updateTicket(id, ticketDTO);
+    public String updateTicket(@PathVariable Integer id, @ModelAttribute K_TicketDTO KTicketDTO) {
+        K_TicketInfoDTO updatedTicket = KTicketService.updateTicket(id, KTicketDTO);
         if (updatedTicket == null) {
             return "error/404";
         }
@@ -48,14 +48,14 @@ public class TicketController {
 
     @GetMapping("/new")
     public String newTicket(Model model) {
-        model.addAttribute("ticket", new TicketInfoDTO());
+        model.addAttribute("ticket", new K_TicketInfoDTO());
         return "ticketCreate"; // Trả về view ticketCreate.html
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createTicket(@ModelAttribute TicketInfoDTO ticketInfoDTO) {
+    public ResponseEntity<?> createTicket(@ModelAttribute K_TicketInfoDTO KTicketInfoDTO) {
         try{
-            TicketInfoDTO createdTicket = ticketService.createTicket(ticketInfoDTO);
+            K_TicketInfoDTO createdTicket = KTicketService.createTicket(KTicketInfoDTO);
             return ResponseEntity.ok(createdTicket);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to create ticket" + e.getMessage());

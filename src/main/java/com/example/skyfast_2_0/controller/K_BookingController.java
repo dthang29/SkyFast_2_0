@@ -1,8 +1,8 @@
 package com.example.skyfast_2_0.controller;
 
-import com.example.skyfast_2_0.dto.BookingDTO;
-import com.example.skyfast_2_0.dto.TicketInfoDTO;
-import com.example.skyfast_2_0.service.BookingService;
+import com.example.skyfast_2_0.dto.K_BookingDTO;
+import com.example.skyfast_2_0.dto.K_TicketInfoDTO;
+import com.example.skyfast_2_0.service.K_BookingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,23 +11,23 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/bookings")
-public class BookingController {
-    private final BookingService bookingService;
+public class K_BookingController {
+    private final K_BookingService KBookingService;
 
-    public BookingController(BookingService bookingService) {
-        this.bookingService = bookingService;
+    public K_BookingController(K_BookingService KBookingService) {
+        this.KBookingService = KBookingService;
     }
 
     @GetMapping
     public String getAllBookings(Model model) {
-        List<BookingDTO> bookings = bookingService.getAllBookings();
+        List<K_BookingDTO> bookings = KBookingService.getAllBookings();
         model.addAttribute("bookings", bookings);
         return "bookingManagement";
     }
 
     @GetMapping("/{id}")
     public String getBookingById(@PathVariable Integer id, Model model) {
-        BookingDTO booking = bookingService.getBookingById(id);
+        K_BookingDTO booking = KBookingService.getBookingById(id);
         if (booking == null) {
             return "notFound";
         }
@@ -36,8 +36,8 @@ public class BookingController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateBooking(@PathVariable Integer id, @ModelAttribute BookingDTO bookingDTO) {
-        BookingDTO updatedBooking = bookingService.updateBookingStatus(id, bookingDTO.getBookingStatus());
+    public String updateBooking(@PathVariable Integer id, @ModelAttribute K_BookingDTO KBookingDTO) {
+        K_BookingDTO updatedBooking = KBookingService.updateBookingStatus(id, KBookingDTO.getBookingStatus());
         if(updatedBooking == null) {
             return "notFound";
         }
@@ -47,15 +47,15 @@ public class BookingController {
 //    hiển thị tạo mới booking
     @GetMapping("/new")
      public String newBooking(Model model) {
-        model.addAttribute("booking", new BookingDTO());
+        model.addAttribute("booking", new K_BookingDTO());
         return "bookingCreate"; // Trả về view bookingCreate.html
     }
 
 // Tạo mới booking
     @PostMapping("/create")
-    public ResponseEntity<?> createBooking(@ModelAttribute BookingDTO bookingDTO) {
+    public ResponseEntity<?> createBooking(@ModelAttribute K_BookingDTO KBookingDTO) {
          try{
-             BookingDTO createdBooking = bookingService.createBooking(bookingDTO);
+             K_BookingDTO createdBooking = KBookingService.createBooking(KBookingDTO);
              return ResponseEntity.ok(createdBooking);
             } catch (Exception e) {
                 return ResponseEntity.badRequest().body("Failed to create booking" + e.getMessage());
@@ -64,7 +64,7 @@ public class BookingController {
 
     @GetMapping("/{id}/tickets")
     public String getTicketsByBookingId(@PathVariable Integer id, Model model) {
-        List<TicketInfoDTO> tickets = bookingService.getTicketsByBookingId(id);
+        List<K_TicketInfoDTO> tickets = KBookingService.getTicketsByBookingId(id);
         if (tickets == null || tickets.isEmpty()) {
             return "notFound"; // Trả về trang notFound nếu không tìm thấy vé
         }

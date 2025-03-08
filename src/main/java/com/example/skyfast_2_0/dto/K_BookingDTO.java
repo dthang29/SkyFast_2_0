@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Setter
 @Getter
-   public class BookingDTO {
+   public class K_BookingDTO {
      private Integer id;
      private Float totalPrice;
      private LocalDate bookingDate;
@@ -15,7 +15,7 @@ import java.time.LocalDate;
      private Integer userId;
      private String userName;
 
-   public BookingDTO(Integer id, Float totalPrice, LocalDate bookingDate, String bookingStatus, Integer userId, String userName) {
+   public K_BookingDTO(Integer id, Float totalPrice, LocalDate bookingDate, String bookingStatus, Integer userId, String userName) {
      this.id = id;
      this.totalPrice = totalPrice;
      this.bookingDate = bookingDate;
@@ -24,7 +24,7 @@ import java.time.LocalDate;
      this.userName = userName;
     }
 
-   public BookingDTO() {
+   public K_BookingDTO() {
    }
 
 }

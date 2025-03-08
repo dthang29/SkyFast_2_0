@@ -8,6 +8,6 @@ import java.util.List;
 
 
 @Repository
-public interface TicketRepository extends JpaRepository<Ticket, Integer> {
+public interface K_TicketRepository extends JpaRepository<Ticket, Integer> {
     List<Ticket> findByBookingId(Integer bookingId);
 }

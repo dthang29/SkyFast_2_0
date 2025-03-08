@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TicketDTO {
+public class K_TicketDTO {
     private Integer id;
     private String status;
     private Float ticketPrice;
@@ -17,7 +17,7 @@ public class TicketDTO {
     private int flightId;
     private int passengerId;
 
-    public TicketDTO(Ticket ticket) {
+    public K_TicketDTO(Ticket ticket) {
         this.id = ticket.getId();
         this.status = ticket.getStatus();
         this.ticketPrice = ticket.getTicketPrice();

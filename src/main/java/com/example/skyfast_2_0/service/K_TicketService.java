@@ -1,12 +1,12 @@
 package com.example.skyfast_2_0.service;
 
-import com.example.skyfast_2_0.dto.TicketDTO;
-import com.example.skyfast_2_0.dto.TicketInfoDTO;
+import com.example.skyfast_2_0.dto.K_TicketDTO;
+import com.example.skyfast_2_0.dto.K_TicketInfoDTO;
 
 import com.example.skyfast_2_0.entity.*;
 
 import com.example.skyfast_2_0.repository.*;
-import org.modelmapper.ModelMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,32 +15,32 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class TicketService {
+public class K_TicketService {
 
     @Autowired
-    private BookingRepository bookingRepository;
+    private K_BookingRepository KBookingRepository;
 
     @Autowired
-    private FlightRepository flightRepository;
+    private K_FlightRepository KFlightRepository;
 
     @Autowired
-    private SeatRepository seatRepository;
+    private K_SeatRepository KSeatRepository;
 
     @Autowired
-    private PassengerRepository passengerRepository;
+    private K_PassengerRepository KPassengerRepository;
 
-    private final TicketRepository ticketRepository;
+    private final K_TicketRepository KTicketRepository;
 
 
-    public TicketService(TicketRepository ticketRepository) {
-        this.ticketRepository = ticketRepository;
+    public K_TicketService(K_TicketRepository KTicketRepository) {
+        this.KTicketRepository = KTicketRepository;
 
     }
 
-    public List<TicketInfoDTO> getAllTickets() {
-        List<Ticket> tickets = ticketRepository.findAll();
+    public List<K_TicketInfoDTO> getAllTickets() {
+        List<Ticket> tickets = KTicketRepository.findAll();
         return tickets.stream().map(ticket -> {
-            TicketInfoDTO dto = new TicketInfoDTO(ticket);
+            K_TicketInfoDTO dto = new K_TicketInfoDTO(ticket);
             dto.setId(ticket.getId());
             dto.setStatus(ticket.getStatus());
             dto.setTicketPrice(ticket.getTicketPrice());
@@ -57,11 +57,11 @@ public class TicketService {
             return dto;
         }).collect(Collectors.toList());
     }
-    public TicketInfoDTO getTicketById(Integer id) {
-        Optional<Ticket> ticketOptional = ticketRepository.findById(id);
+    public K_TicketInfoDTO getTicketById(Integer id) {
+        Optional<Ticket> ticketOptional = KTicketRepository.findById(id);
         if (ticketOptional.isPresent()) {
             Ticket ticket = ticketOptional.get();
-            TicketInfoDTO dto = new TicketInfoDTO(ticket);
+            K_TicketInfoDTO dto = new K_TicketInfoDTO(ticket);
             dto.setId(ticket.getId());
             dto.setStatus(ticket.getStatus());
             dto.setTicketPrice(ticket.getTicketPrice());
@@ -76,16 +76,16 @@ public class TicketService {
         return null;
     }
 
-    public TicketInfoDTO updateTicket(Integer id, TicketDTO ticketDTO) {
-        Optional<Ticket> optionalTicket = ticketRepository.findById(id);
+    public K_TicketInfoDTO updateTicket(Integer id, K_TicketDTO KTicketDTO) {
+        Optional<Ticket> optionalTicket = KTicketRepository.findById(id);
         if (optionalTicket.isPresent()) {
             Ticket ticket = optionalTicket.get();
-            ticket.setStatus(ticketDTO.getStatus());
-            ticket.setTicketPrice(ticketDTO.getTicketPrice());
+            ticket.setStatus(KTicketDTO.getStatus());
+            ticket.setTicketPrice(KTicketDTO.getTicketPrice());
             // Cập nhật các field khác nếu cần...
-            ticketRepository.save(ticket);
+            KTicketRepository.save(ticket);
 
-            TicketInfoDTO dto = new TicketInfoDTO(ticket);
+            K_TicketInfoDTO dto = new K_TicketInfoDTO(ticket);
             dto.setId(ticket.getId());
             dto.setStatus(ticket.getStatus());
             dto.setTicketPrice(ticket.getTicketPrice());
@@ -99,32 +99,32 @@ public class TicketService {
         }
         return null;
     }
-    public TicketInfoDTO createTicket(TicketInfoDTO ticketInfoDTO) {
-        if(ticketInfoDTO == null || ticketInfoDTO.getBookingId() == null  || ticketInfoDTO.getFlightNumber() == null || ticketInfoDTO.getSeatNumber() == null || ticketInfoDTO.getPassengerFullName() == null) {
+    public K_TicketInfoDTO createTicket(K_TicketInfoDTO KTicketInfoDTO) {
+        if(KTicketInfoDTO == null || KTicketInfoDTO.getBookingId() == null  || KTicketInfoDTO.getFlightNumber() == null || KTicketInfoDTO.getSeatNumber() == null || KTicketInfoDTO.getPassengerFullName() == null) {
             throw new IllegalArgumentException("Ticket data must not be null or emty");
         }
         // Lấy booking từ database
-        Booking booking = bookingRepository.findById(ticketInfoDTO.getBookingId())
-                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + ticketInfoDTO.getBookingId()));
+        Booking booking = KBookingRepository.findById(KTicketInfoDTO.getBookingId())
+                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + KTicketInfoDTO.getBookingId()));
         // Lấy flight từ database
-        Flight flight = flightRepository.findByFlightNumber(ticketInfoDTO.getFlightNumber())
-                .orElseThrow(() -> new RuntimeException("Flight not found with flightNumber: " + ticketInfoDTO.getFlightNumber()));
+        Flight flight = KFlightRepository.findByFlightNumber(KTicketInfoDTO.getFlightNumber())
+                .orElseThrow(() -> new RuntimeException("Flight not found with flightNumber: " + KTicketInfoDTO.getFlightNumber()));
         // Lấy seat từ database
-        Seat seat = seatRepository.findBySeatNumber(ticketInfoDTO.getSeatNumber())
-                .orElseThrow(() -> new RuntimeException("Seat not found with seatNumber: " + ticketInfoDTO.getSeatNumber()));
+        Seat seat = KSeatRepository.findBySeatNumber(KTicketInfoDTO.getSeatNumber())
+                .orElseThrow(() -> new RuntimeException("Seat not found with seatNumber: " + KTicketInfoDTO.getSeatNumber()));
         // Lấy passenger từ database
-        Passenger passenger = passengerRepository.findByFullName(ticketInfoDTO.getPassengerFullName())
-                .orElseThrow(() -> new RuntimeException("Passenger not found with fullName: " + ticketInfoDTO.getPassengerFullName()));
+        Passenger passenger = KPassengerRepository.findByFullName(KTicketInfoDTO.getPassengerFullName())
+                .orElseThrow(() -> new RuntimeException("Passenger not found with fullName: " + KTicketInfoDTO.getPassengerFullName()));
 
         Ticket ticket = new Ticket();
-        ticket.setStatus(ticketInfoDTO.getStatus());
-        ticket.setTicketPrice(ticketInfoDTO.getTicketPrice());
+        ticket.setStatus(KTicketInfoDTO.getStatus());
+        ticket.setTicketPrice(KTicketInfoDTO.getTicketPrice());
         ticket.setBooking(booking);
         ticket.setFlight(flight);
         ticket.setSeat(seat);
         ticket.setPassenger(passenger);
-        ticket = ticketRepository.save(ticket);
-        return new TicketInfoDTO(ticket);
+        ticket = KTicketRepository.save(ticket);
+        return new K_TicketInfoDTO(ticket);
 
     }
 }

@@ -5,24 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ticket Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/ticketManagement.css">
 </head>
 <body>
-<div class="container mt-4">
-    <h2 class="text-dark fw-bold">Ticket List</h2>
+<div class="d-flex flex-row">
+    <!-- Sidebar -->
+    <nav class="sidebar p-3">
+        <h4 class="text-center dashboard-title">Staff Management</h4>
+        <ul class="nav flex-column" id="sidebar-links">
+            <li class="nav-item">
+                <!-- Sử dụng th:href để tạo đường dẫn động tới /bookings/bookingManagement -->
+                <a th:href="@{/bookings}" class="nav-link active" data-page="bookingManagement">
+                    <i class="fas fa-credit-card mr-2"></i>
+                    Booking Management
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <!-- End Sidebar -->
 
-    <!-- Bộ lọc tìm kiếm -->
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <input type="text" id="searchBookingId" class="form-control" placeholder="Search by Booking ID">
-        </div>
-        <div class="col-md-4">
+    <!-- Booking Table-->
+<div class="container mt-4 main-content">
+  <div class="content-container" style="width: 1456px;">
+     <h2 class="text-dark fw-bold">Ticket List</h2>
+
+     <!-- Bộ lọc tìm kiếm -->
+     <div class="filters-container">
+         <!-- Hàng 1: Flight Number, Seat Number và Booking Date -->
+        <div class="filter-row">
             <input type="text" id="searchFlightNumber" class="form-control" placeholder="Search by Flight Number">
+            <input type="text" id="searchSeatNumber" class="form-control" placeholder="Search by Seat Number">
+            <input type="text" id="searchPassenger" class="form-control" placeholder="Search by Passenger">
+        </div>
+         <!-- Hàng 2: Ticket Status và Create Ticket -->
+        <div class="filter-row">
+            <select id="searchTicketStatus" class="form-control">
+                <option value="">-- All Status --</option>
+                <option value="Available">Available</option>
+                <option value="Time-Expired">Time-Expired</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+            <a href="/tickets/new" class="btn btn-success">+ New</a>
         </div>
     </div>
-</div>
-       <div class="d-flex justify-content-end mb-3">
-           <a href="/tickets/new" class="btn btn-success">Create New Ticket</a>
-       </div>
+
     <table class="table table-bordered mt-3">
         <thead class="table-light">
         <tr>
@@ -39,37 +65,28 @@
         <tbody id="ticketTableBody">
         <tr th:each="ticket : ${tickets}">
             <td th:text="${ticket.id}"></td>
-            <td th:text="${ticket.bookingId}" class="booking-id"></td>
+            <td th:text="${ticket.bookingId}"></td>
             <td th:text="${ticket.flightNumber}" class="flight-number"></td>
-            <td th:text="${ticket.seatNumber}"></td>
-            <td th:text="${ticket.passengerFullName}"></td>
+            <td th:text="${ticket.seatNumber}" class="seat-number"></td>
+            <td th:text="${ticket.passengerFullName}" class="passenger"></td>
             <td th:text="${ticket.ticketPrice}"></td>
-            <td th:text="${ticket.status}"></td>
+            <td th:text="${ticket.status}" class="ticket-status"></td>
             <td>
                 <a th:href="@{/tickets/{id}(id=${ticket.id})}" class="btn btn-primary">Update</a>
             </td>
         </tr>
         </tbody>
     </table>
+      <!-- Phân trang -->
+      <div class="pagination-container mt-3">
+          <button id="prevPage" class="btn btn-secondary">Previous</button>
+          <span id="pageInfo">Page 1</span>
+          <button id="nextPage" class="btn btn-secondary">Next</button>
+      </div>
+  </div>
 </div>
-
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-<script>
-    document.getElementById("searchBookingId").addEventListener("input", function() {
-        let searchValue = this.value.toLowerCase();
-        document.querySelectorAll("#ticketTableBody tr").forEach(row => {
-            let bookingId = row.querySelector(".booking-id").textContent.toLowerCase();
-            row.style.display = bookingId.includes(searchValue) ? "" : "none";
-        });
-    });
-
-    document.getElementById("searchFlightNumber").addEventListener("input", function() {
-        let searchValue = this.value.toLowerCase();
-        document.querySelectorAll("#ticketTableBody tr").forEach(row => {
-            let flightNumber = row.querySelector(".flight-number").textContent.toLowerCase();
-            row.style.display = flightNumber.includes(searchValue) ? "" : "none";
-        });
-    });
-</script>
+<script src="/js/ticketManagementJs.js"></script>
 </body>
 </html>
