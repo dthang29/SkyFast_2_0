@@ -9,6 +9,6 @@ import java.util.List;
 public interface AirPlaneRepository extends JpaRepository<Airplane, Integer> {
     @Query("SELECT a FROM Airplane a")
     List<Airplane> findAllPlane();
-
+    @Query ("SELECT a FROM Airplane a WHERE a.id = :id")
     Airplane findById(int id);
 }

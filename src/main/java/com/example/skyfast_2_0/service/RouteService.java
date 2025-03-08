@@ -15,4 +15,10 @@ public class RouteService {
     public List<Object[]> getAllRoutesWithAirportNames() {
         return routeRepository.findAllRoutesWithAirportNames();
     }
+    public List<Object[]> getTopPopularArrivalAirports() {
+        return routeRepository.findTopPopularArrivalAirports();
+    }
+    public List<Object[]> getTopPopularRoutes() {
+        return routeRepository.findTopPopularRoutes();
+    }
 }
