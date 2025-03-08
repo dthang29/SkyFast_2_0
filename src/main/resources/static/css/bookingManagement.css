@@ -13,7 +13,7 @@ body {
     position: fixed;
     width: 250px;
     height: 100vh;
-    background: #f6f0f0;
+    background-color: #fafafa;
     color: #e4eae4;
     padding: 20px;
     transition: all 0.3s;
