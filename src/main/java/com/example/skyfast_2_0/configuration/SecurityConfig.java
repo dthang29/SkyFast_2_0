@@ -1,10 +1,14 @@
 package com.example.skyfast_2_0.configuration;
 
+import com.example.skyfast_2_0.constant.Role;
 import com.example.skyfast_2_0.service.LoginService;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -20,6 +24,9 @@ public class SecurityConfig {
     private static final String[] STATIC_RESOURCE = {"/css/**", "/font/**", "/js/**", "/image/**"};
     private final LoginService customUserDetailsService;
 
+    @Autowired
+    private CustomSuccessHandler successHandler;
+
     public SecurityConfig(LoginService customUserDetailsService) {
         this.customUserDetailsService = customUserDetailsService;
     }
@@ -34,51 +41,49 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers(STATIC_RESOURCE).permitAll()
-                                .requestMatchers("/home/**").permitAll()
+                                .requestMatchers("/homepage").permitAll()
+//                                .requestMatchers("/manager").hasAuthority("ROLE_MANAGER")
                                 .requestMatchers("/login").permitAll()
                                 .requestMatchers("/register").permitAll()
                                 .requestMatchers("/verify-code",
-                                        "/change-password",
+                                        "/reset-password",
                                         "/forgot-password",
                                         "/verify-email",
                                         "/resend").permitAll()
                                 .requestMatchers("/resend-code").permitAll()
-                                .anyRequest().permitAll()
+                                .anyRequest().authenticated()
                 ).oauth2Login(
                         oauth2 -> oauth2
                                 .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
                                         .userService(oauth2UserService()))
-                                .defaultSuccessUrl("/home", true)
-                                .loginPage("/auth/Login")
+//                                .successHandler(successHandler)
+                                .defaultSuccessUrl("/homepage", true)
+                                .failureUrl("/login?error=true")
+                                .loginPage("/login")
                                 .permitAll()
                 ).
                 formLogin(
                         form -> form
-                                .loginPage("/auth/Login")
+                                .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/home", true)
+//                                .successHandler(successHandler)
+                                .defaultSuccessUrl("/homepage", true)
+                                .failureUrl("/login?error=true")
                                 .permitAll()
-                ).logout(
+                ).rememberMe(rememberMe -> rememberMe
+                        .key("rememberMe")
+                        .tokenValiditySeconds(259200)
+                        .userDetailsService(customUserDetailsService))
+                .logout(
                         logout -> logout
                                 .logoutUrl("/logout")
                                 .logoutSuccessUrl("/login?logout")
                                 .invalidateHttpSession(true)
-                                .deleteCookies("JSESSIONID")
+                                .deleteCookies("JSESSIONID", "rememberMe")
                                 .permitAll()
                 );
         return http.build();
     }
-
-
-//    public OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService(){
-//        return new DefaultOAuth2UserService() {
-//            public OAuth2User loadUser(OAuth2UserRequest userRequest) {
-//                OAuth2User oAuth2User = super.loadUser(userRequest);
-//                customUserDetailsService.processOAuthPostLogin(oAuth2User);
-//                return oAuth2User;
-//            }
-//        };
-//    }
 
     @Bean
     public OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService() {
@@ -88,5 +93,4 @@ public class SecurityConfig {
             return oAuth2User;
         };
     }
-
 }

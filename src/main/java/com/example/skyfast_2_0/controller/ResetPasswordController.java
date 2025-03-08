@@ -12,26 +12,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class ChangePasswordController {
+public class ResetPasswordController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Autowired
     private T_UserRepository t_UserRepository;
 
-    @GetMapping("/change-password")
-    public String changePassword() {
-        return "/auth/ChangePassword";
+    @GetMapping("/reset-password")
+    public String resetPassword() {
+        return "/auth/ResetPassword";
     }
 
-    @PostMapping("/change-password")
-    public String changePassword(Model model,
-                                 HttpSession session,
-                                 @RequestParam("changePass") String password,
-                                 @RequestParam("changePassConfirm") String confirmPassword) {
+    @PostMapping("/reset-password")
+    public String resetPassword(Model model,
+                                HttpSession session,
+                                @RequestParam("resetPass") String password,
+                                @RequestParam("resetPassConfirm") String confirmPassword) {
         if(!password.equals(confirmPassword)) {
-            model.addAttribute("changePassError", "Password are not the same");
-            return "/auth/ChangePassword";
+            model.addAttribute("resetPassError", "Password are not the same");
+            return "/auth/ResetPassword";
         }
         else {
             String email = (String) session.getAttribute("email");
@@ -42,8 +43,8 @@ public class ChangePasswordController {
                 session.removeAttribute(email);
                 return "/auth/Login";
             } else {
-                model.addAttribute("changePassError", "User not found");
-                return "/auth/ChangePassword";
+                model.addAttribute("resetPassError", "User not found");
+                return "/auth/ResetPassword";
             }
         }
     }

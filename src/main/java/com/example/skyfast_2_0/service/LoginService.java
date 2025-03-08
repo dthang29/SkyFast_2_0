@@ -3,6 +3,7 @@ package com.example.skyfast_2_0.service;
 import com.example.skyfast_2_0.constant.Role;
 import com.example.skyfast_2_0.entity.User;
 import com.example.skyfast_2_0.repository.T_UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,16 +20,13 @@ public class LoginService implements UserDetailsService {
     @Autowired
     private T_UserRepository userRepository;
 
-    @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
         User user = findByUserNameOrEmail(usernameOrEmail);
-
         if(user == null){
             throw new UsernameNotFoundException("User not found");
         }
-
         return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUserName())
+                .username(user.getEmail())
                 .password(user.getPassword())
                 .roles(String.valueOf(user.getRole()))
                 .build();
@@ -39,13 +37,13 @@ public class LoginService implements UserDetailsService {
         String email = oAuth2User.getAttribute("email");
         String name = oAuth2User.getAttribute("name");
         User user = userRepository.findByEmail(email);
-
         if(user == null){
             user = new User();
             user.setUserName(name);
             user.setEmail(email);
             user.setGoogleId(googleId);
             user.setPassword("OAUTH_DEFAULT_PASSWORD");
+            user.setDateOfBirth(LocalDate.of(1,1,1));
             user.setRole(Role.CUSTOMER);
             user.setCreatedAt(LocalDate.now());
             user.setStatus("Active");
@@ -55,7 +53,6 @@ public class LoginService implements UserDetailsService {
             user.setGoogleId(googleId);
             userRepository.save(user);
         }
-
         UserDetails userDetails = createOAuthUserDetails(user);
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(userDetails, null,
@@ -83,21 +80,6 @@ public class LoginService implements UserDetailsService {
             return true;
         }
         return false;
-    }
-
-    public String getUserPasswordByEmail(String email) {
-        return userRepository.findByEmail(email).getPassword();
-    }
-
-    public boolean getUserByUsername(String userName) {
-        if (userRepository.findByUserName(userName) != null) {
-            return true;
-        }
-        return false;
-    }
-
-    public String getUserPasswordByUsername(String userName) {
-        return userRepository.findByUserName(userName).getPassword();
     }
 
 }

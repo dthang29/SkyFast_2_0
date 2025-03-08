@@ -22,17 +22,6 @@ public class EmailSenderService {
     @Value("${spring.mail.username}")
     private String fromEmail;
 
-//    @Async
-//    public void setEmailSender(String to, String subject, String context)
-//    throws MessagingException {
-//
-//            MimeMessage message = emailSender.createMimeMessage();
-//            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-//            helper.setTo(to);
-//            helper.setSubject(subject);
-//            helper.setText(context, true);
-//            emailSender.send(message);
-//    }
     @Async
     public void sendEmail(String recipient, String content)
     throws MessagingException {
@@ -44,7 +33,7 @@ public class EmailSenderService {
         helper.setSubject("Verification Code");
         String htmlContent = "<html>"
                 + "<body>"
-                + "<h2>Your OTP Code</h2>"
+                + "<h2>Your verification code</h2>"
                 + "<p>Your verification code is: "
                 + "<br>" + " "
                 + "<b><h3>" + content + "</b></h3></p>"
@@ -54,6 +43,5 @@ public class EmailSenderService {
                 + "</html>";
         helper.setText(htmlContent, true);
         emailSender.send(message);
-
     }
 }

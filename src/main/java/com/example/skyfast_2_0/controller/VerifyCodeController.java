@@ -42,7 +42,7 @@ public class VerifyCodeController {
                              , @RequestParam("code") String code) {
         String email = (String) session.getAttribute("email");
         if (forgotPasswordService.checkCode(email, code)) {
-            return "/auth/ChangePassword";
+            return "/auth/ResetPassword";
         }
         else{
             model.addAttribute("errorCodeMess", "Code is incorrect or expired !");
@@ -65,7 +65,7 @@ public class VerifyCodeController {
         user.setRole(Role.CUSTOMER);
         user.setCreatedAt(LocalDate.now());
         user.setUpdateAt(LocalDate.now());
-        user.setDateOfBirth(LocalDate.now());
+        user.setDateOfBirth(LocalDate.of(1,1,1));
         user.setStatus("Active");
         registerService.saveUser(user);
         session.removeAttribute("user");
