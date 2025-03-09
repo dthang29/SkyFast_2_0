@@ -16,4 +16,22 @@ public interface RouteRepository extends JpaRepository<Airport, Integer> {
             "JOIN Airport da ON r.departureAirportId = da.id " +
             "JOIN Airport aa ON r.arrivalAirportId = aa.id")
     List<Object[]> findAllRoutesWithAirportNames();
+
+    @Query("SELECT aa.location AS arrivalAirportName, COUNT(r.id) AS routeCount " +
+            "FROM Route r " +
+            "JOIN Airport aa ON r.arrivalAirportId = aa.id " +
+            "GROUP BY aa.location " +
+            "ORDER BY routeCount DESC")
+    List<Object[]> findTopPopularArrivalAirports();
+    @Query("SELECT r.id, da.location AS departureAirportName, aa.location AS arrivalAirportName, COUNT(f.id) AS flightCount " +
+            "FROM Route r " +
+            "JOIN Airport da ON r.departureAirportId = da.id " +
+            "JOIN Airport aa ON r.arrivalAirportId = aa.id " +
+            "JOIN Flight f ON f.route.id = r.id " +
+            "GROUP BY r.id, da.location, aa.location " +
+            "ORDER BY flightCount DESC")
+    List<Object[]> findTopPopularRoutes();
+    @Query("SELECT a.id " +
+            "FROM Airport a " +"WHERE a.location = :departureAirport")
+    Integer airportIdByDepartureAirport(String departureAirport);
 }

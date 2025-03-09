@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "classcategory")
-public class ClassCategory {
+public class Classcategory {
 
     @Id
     @Column(name = "id", nullable = false)
