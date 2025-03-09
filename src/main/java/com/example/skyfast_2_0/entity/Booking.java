@@ -32,8 +32,73 @@ public class Booking {
     private String bookingStatus;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private com.example.skyfast_2_0.entity.User user;
 
+    // === CONSTRUCTORS ===
+    public Booking() {
+    }
+
+    public Booking(Integer id, Float totalPrice, LocalDate bookingDate, String bookingStatus, User user) {
+        this.id = id;
+        this.totalPrice = totalPrice;
+        this.bookingDate = bookingDate;
+        this.bookingStatus = bookingStatus;
+        this.user = user;
+    }
+
+    // === GETTERS ===
+    public Integer getId() {
+        return id;
+    }
+
+    public Float getTotalPrice() {
+        return totalPrice;
+    }
+
+    public LocalDate getBookingDate() {
+        return bookingDate;
+    }
+
+    public String getBookingStatus() {
+        return bookingStatus;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    // === SETTERS ===
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setTotalPrice(Float totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public void setBookingDate(LocalDate bookingDate) {
+        this.bookingDate = bookingDate;
+    }
+
+    public void setBookingStatus(String bookingStatus) {
+        this.bookingStatus = bookingStatus;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    // === toString() ===
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "id=" + id +
+                ", totalPrice=" + totalPrice +
+                ", bookingDate=" + bookingDate +
+                ", bookingStatus='" + bookingStatus + '\'' +
+                ", user=" + (user != null ? user.getId() : "null") +
+                '}';
+    }
 }

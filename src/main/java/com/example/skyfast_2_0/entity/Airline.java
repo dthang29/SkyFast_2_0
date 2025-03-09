@@ -42,4 +42,48 @@ public class Airline {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private Status status = Status.ACTIVE;
+
+    // Constructor mặc định
+    public Airline() {}
+
+    // Getter và Setter
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getAirlineName() {
+        return airlineName;
+    }
+
+    public void setAirlineName(String airlineName) {
+        this.airlineName = airlineName;
+    }
+
+    public String getCountryOfOperation() {
+        return countryOfOperation;
+    }
+
+    public void setCountryOfOperation(String countryOfOperation) {
+        this.countryOfOperation = countryOfOperation;
+    }
+
+    public LocalDate getFoundedDate() {
+        return foundedDate;
+    }
+
+    public void setFoundedDate(LocalDate foundedDate) {
+        this.foundedDate = foundedDate;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 }
