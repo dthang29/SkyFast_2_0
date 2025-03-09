@@ -1,9 +1,9 @@
 package com.example.skyfast_2_0.controller;
 
+
 import com.example.skyfast_2_0.dto.K_TicketDTO;
 import com.example.skyfast_2_0.dto.K_TicketInfoDTO;
 import com.example.skyfast_2_0.service.K_TicketService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -53,13 +53,18 @@ public class K_TicketController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createTicket(@ModelAttribute K_TicketInfoDTO KTicketInfoDTO) {
-        try{
+    public String createTicket(@ModelAttribute K_TicketInfoDTO KTicketInfoDTO, Model model) {
+        try {
             K_TicketInfoDTO createdTicket = KTicketService.createTicket(KTicketInfoDTO);
-            return ResponseEntity.ok(createdTicket);
+            model.addAttribute("message", "Create successful!"); // Thêm thông báo vào model
+            model.addAttribute("ticket", new K_TicketInfoDTO()); // Reset form
+            return "ticketCreate"; // Giữ nguyên trang tạo booking
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Failed to create ticket" + e.getMessage());
+            model.addAttribute("error", "Failed to create ticket: " + e.getMessage());
+            model.addAttribute("ticket", new K_TicketInfoDTO());
+            return "ticketCreate";
         }
     }
+
 }
 

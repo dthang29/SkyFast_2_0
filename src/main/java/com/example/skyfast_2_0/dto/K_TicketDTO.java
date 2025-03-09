@@ -17,6 +17,7 @@ public class K_TicketDTO {
     private int flightId;
     private int passengerId;
 
+    // Constructor to map from Ticket entity to TicketDTO
     public K_TicketDTO(Ticket ticket) {
         this.id = ticket.getId();
         this.status = ticket.getStatus();

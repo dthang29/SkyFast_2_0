@@ -12,8 +12,12 @@
 
     <!-- Hiển thị thông báo sau khi tạo thành công -->
     <div th:if="${message}" class="alert alert-success text-center" role="alert">
-        <!--/*@thymesVar id="message" type=""*/-->
         <span th:text="${message}"></span>
+    </div>
+
+    <!-- Hiển thị thông báo lỗi nếu có -->
+    <div th:if="${error}" class="alert alert-danger text-center" role="alert">
+        <span th:text="${error}"></span>
     </div>
 
     <form th:action="@{/bookings/create}" th:object="${booking}" method="post" class="mt-4">
@@ -43,6 +47,7 @@
 
         <button type="submit" class="btn btn-success">Create Booking</button>
         <a href="/bookings" class="btn btn-secondary">Cancel</a>
+        <a href="/bookings" class="btn btn-primary btn-sm">Back to Booking Management</a>
     </form>
 </div>
 

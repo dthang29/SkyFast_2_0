@@ -1,68 +1,68 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ticket Detail</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        #layout {
-            display: flex;
-        }
-        #main-content {
-            flex: 1;
-            padding: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ticket Detail</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    #layout {
+      display: flex;
+    }
+    #main-content {
+      flex: 1;
+      padding: 20px;
+    }
+  </style>
 </head>
 <body>
 <div id="layout">
-    <div id="main-content">
-        <div class="container mt-4">
-            <div class="card shadow-lg p-4">
-                <h2 class="text-dark fw-bold">Ticket Detail</h2>
-                <form th:action="@{/tickets/update/{id}(id=${ticket.id})}" method="post">
-                    <div class="mb-3">
-                        <label for="ticketId" class="form-label">Ticket ID</label>
-                        <input type="text" class="form-control" id="ticketId" th:value="${ticket.id}" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="bookingId" class="form-label">Booking ID</label>
-                        <input type="text" class="form-control" id="bookingId" th:value="${ticket.bookingId}" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="flightNumber" class="form-label">Flight Number</label>
-                        <input type="text" class="form-control" id="flightNumber" th:value="${ticket.flightNumber}" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="seatNumber" class="form-label">Seat Number</label>
-                        <input type="text" class="form-control" id="seatNumber" th:value="${ticket.seatNumber}" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="passengerFullName" class="form-label">Passenger Full Name</label>
-                        <input type="text" class="form-control" id="passengerFullName" th:value="${ticket.passengerFullName}" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="ticketPrice" class="form-label">Ticket Price</label>
-                        <input type="number" step="0.01" class="form-control" id="ticketPrice" name="ticketPrice" th:value="${ticket.ticketPrice}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="ticketStatus" class="form-label">Status</label>
-                        <select class="form-select" id="ticketStatus" th:field="${ticket.status}">
-                            <option value="Available">Available</option>
-                            <option value="Time-Expired">Time-Expired</option>
-                            <option value="Cancelled">Cancelled</option>
-                        </select>
+  <div id="main-content">
+    <div class="container mt-4">
+      <div class="card shadow-lg p-4">
+        <h2 class="text-dark fw-bold">Ticket Detail</h2>
+        <form th:action="@{/tickets/update/{id}(id=${ticket.id})}" method="post">
+          <div class="mb-3">
+            <label for="ticketId" class="form-label">Ticket ID</label>
+            <input type="text" class="form-control" id="ticketId" th:value="${ticket.id}" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="bookingId" class="form-label">Booking ID</label>
+            <input type="text" class="form-control" id="bookingId" th:value="${ticket.bookingId}" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="flightNumber" class="form-label">Flight Number</label>
+            <input type="text" class="form-control" id="flightNumber" th:value="${ticket.flightNumber}" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="seatNumber" class="form-label">Seat Number</label>
+            <input type="text" class="form-control" id="seatNumber" th:value="${ticket.seatNumber}" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="passengerFullName" class="form-label">Passenger Full Name</label>
+            <input type="text" class="form-control" id="passengerFullName" th:value="${ticket.passengerFullName}" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="ticketPrice" class="form-label">Ticket Price</label>
+            <input type="number" step="0.01" class="form-control" id="ticketPrice" name="ticketPrice" th:value="${ticket.ticketPrice}">
+          </div>
+          <div class="mb-3">
+            <label for="ticketStatus" class="form-label">Status</label>
+            <select class="form-select" id="ticketStatus" th:field="${ticket.status}">
+              <option value="Available">Available</option>
+              <option value="Time-Expired">Time-Expired</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
 
-                    </div>
-                    <div class="mb-3">
-                        <a href="/tickets" class="btn btn-secondary">Back</a>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+          </div>
+          <div class="mb-3">
+            <a href="/tickets" class="btn btn-secondary">Back</a>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>

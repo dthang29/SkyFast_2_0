@@ -83,4 +83,3 @@ document.addEventListener("DOMContentLoaded", function () {
 
     showPage(currentPage); // Hiển thị trang đầu tiên khi tải trang
 });
-

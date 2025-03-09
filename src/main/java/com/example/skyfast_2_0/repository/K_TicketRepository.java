@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
 @Repository
 public interface K_TicketRepository extends JpaRepository<Ticket, Integer> {
     List<Ticket> findByBookingId(Integer bookingId);

@@ -1,6 +1,5 @@
 package com.example.skyfast_2_0.dto;
 
-
 import com.example.skyfast_2_0.entity.Ticket;
 
 public class K_TicketInfoDTO {
@@ -14,6 +13,7 @@ public class K_TicketInfoDTO {
 
     public K_TicketInfoDTO() {
     }
+
     public K_TicketInfoDTO(Ticket ticket) {
         this.id = ticket.getId();
         this.status = ticket.getStatus();
@@ -73,4 +73,6 @@ public class K_TicketInfoDTO {
     public void setPassengerFullName(String passengerFullName) {
         this.passengerFullName = passengerFullName;
     }
+
+
 }

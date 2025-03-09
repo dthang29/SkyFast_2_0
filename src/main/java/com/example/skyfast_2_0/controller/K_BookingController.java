@@ -45,33 +45,35 @@ public class K_BookingController {
     }
 
 //    hiển thị tạo mới booking
-    @GetMapping("/new")
-     public String newBooking(Model model) {
-        model.addAttribute("booking", new K_BookingDTO());
-        return "bookingCreate"; // Trả về view bookingCreate.html
-    }
+@GetMapping("/new")
+public String newBooking(Model model) {
+    model.addAttribute("booking", new K_BookingDTO());
+    return "bookingCreate"; // Trả về view bookingCreate.html
+}
 
 // Tạo mới booking
-    @PostMapping("/create")
-    public ResponseEntity<?> createBooking(@ModelAttribute K_BookingDTO KBookingDTO) {
-         try{
-             K_BookingDTO createdBooking = KBookingService.createBooking(KBookingDTO);
-             return ResponseEntity.ok(createdBooking);
-            } catch (Exception e) {
-                return ResponseEntity.badRequest().body("Failed to create booking" + e.getMessage());
-         }
+@PostMapping("/create")
+public String createBooking(@ModelAttribute K_BookingDTO KBookingDTO, Model model) {
+    try {
+        K_BookingDTO createdBooking = KBookingService.createBooking(KBookingDTO);
+        model.addAttribute("message", "Create successful!"); // Thêm thông báo vào model
+        model.addAttribute("booking", new K_BookingDTO()); // Reset form
+        return "bookingCreate"; // Giữ nguyên trang tạo booking
+    } catch (Exception e) {
+        model.addAttribute("error", "Failed to create booking: " + e.getMessage());
+        model.addAttribute("booking", new K_BookingDTO());
+        return "bookingCreate";
     }
+}
 
     @GetMapping("/{id}/tickets")
     public String getTicketsByBookingId(@PathVariable Integer id, Model model) {
         List<K_TicketInfoDTO> tickets = KBookingService.getTicketsByBookingId(id);
         if (tickets == null || tickets.isEmpty()) {
             return "notFound"; // Trả về trang notFound nếu không tìm thấy vé
-        }
+    }
         model.addAttribute("tickets", tickets);
         model.addAttribute("filterBookingId", id);  // Truyền Booking ID vào model để lọc
         return "ticketManagement"; // Trả về trang quản lý vé thay vì redirect
     }
-
-
 }
