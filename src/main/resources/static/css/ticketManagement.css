@@ -1,0 +1,83 @@
+/* Định dạng tổng thể */
+body {
+    background-color: #edf3f3;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    width: 250px;
+    height: 100vh;
+    background-color: #fafafa;
+    color: #e4eae4;
+    padding: 20px;
+    transition: all 0.3s;
+}
+
+/* Tiêu đề trong sidebar */
+.sidebar h4 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: #0e0d0d;
+}
+
+/* Link trong sidebar */
+.sidebar .nav-link {
+    color: #434651;
+    font-size: 16px;
+    padding: 10px;
+    display: block;
+}
+
+.sidebar .nav-link:hover {
+    background: #15a8a8;
+    border-radius: 5px;
+}
+
+/* Phần nội dung chính */
+.main-content {
+    margin-left: 270px; /* Để tránh bị che bởi sidebar */
+    padding: 20px;
+    width: calc(100% - 270px);
+}
+
+/* Điều chỉnh bảng Booking */
+.table {
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Header của bảng */
+.table thead {
+    background: #f8f9fa;
+}
+
+
+/* Căn chỉnh bộ lọc */
+.filters-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Căn hàng ngang cho bộ lọc trên */
+.filter-row {
+    display: flex;
+    gap: 10px;
+}
+
+/* Định dạng input và select */
+.filter-row input,
+.filter-row select,
+.btn-success {
+    width: 200px;
+    height: 38px;
+}
