@@ -29,7 +29,7 @@ public class L_AirlineService {
         if (airline.getAirlineName() == null || airline.getAirlineName().trim().isEmpty()) {
             throw new RuntimeException("Airline name cannot be empty");
         }
-        airline.setStatus(Status.ACTIVE);
+//        airline.setStatus(Status.ACTIVE);
         return LAirlineRepository.save(airline);
     }
 
