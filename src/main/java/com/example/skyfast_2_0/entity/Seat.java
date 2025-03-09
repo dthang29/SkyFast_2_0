@@ -34,6 +34,6 @@ public class Seat {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "class_category_id", nullable = false)
-    private Classcategory classCategory;
+    private Classcategory classcategory;
 
 }

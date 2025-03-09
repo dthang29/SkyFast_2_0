@@ -1,11 +1,11 @@
 package com.example.skyfast_2_0.entity;
 
+import com.example.skyfast_2_0.constant.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDate;
 
 @Getter
@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "airline")
 public class Airline {
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +30,7 @@ public class Airline {
     private String countryOfOperation;
 
     @NotNull
+    @Temporal(TemporalType.DATE)
     @Column(name = "founded_date", nullable = false)
     private LocalDate foundedDate;
 
@@ -37,4 +39,7 @@ public class Airline {
     @Column(name = "image", nullable = false)
     private String image;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private Status status = Status.ACTIVE;
 }

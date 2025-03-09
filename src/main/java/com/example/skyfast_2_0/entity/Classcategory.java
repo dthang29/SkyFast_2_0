@@ -10,7 +10,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "classcategory")
-public class Classcategory {
+public class ClassCategory {
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,5 +38,4 @@ public class Classcategory {
     @NotNull
     @Column(name = "surcharge", nullable = false)
     private Float surcharge;
-
 }

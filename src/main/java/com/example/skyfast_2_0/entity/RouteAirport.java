@@ -9,6 +9,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "route_airport")
 public class RouteAirport {
+
     @EmbeddedId
     private RouteAirportId id;
 
@@ -21,5 +22,4 @@ public class RouteAirport {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "route_id", nullable = false)
     private Route route;
-
 }
