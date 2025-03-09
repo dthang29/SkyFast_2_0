@@ -110,7 +110,6 @@
                     <th>Role</th>
                     <th>Status</th>
                     <th>Create Date</th>
-                    <th>Update Date</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -123,7 +122,6 @@
                     <td th:text="${user.role}"></td>
                     <td th:text="${user.status}"></td>
                     <td th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd')}"></td>
-                    <td th:text="${#temporals.format(user.updateAt, 'yyyy-MM-dd')}"></td>
                     <td>
                         <a th:href="@{/users/detail/{id}(id=${user.id})}" class="btn btn-primary">Edit</a>
                         <form th:action="@{/users/delete/{id}(id=${user.id})}" method="post"
