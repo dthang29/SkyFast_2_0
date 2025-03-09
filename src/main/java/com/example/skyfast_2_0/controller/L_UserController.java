@@ -65,12 +65,12 @@ public class L_UserController {
     public String deleteUser(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         try {
             if (LUserService.deleteUser(id)) {
-                redirectAttributes.addFlashAttribute("successMessage", "User deleted successfully!");
+                redirectAttributes.addFlashAttribute("successMessage", "User disable successfully!");
             } else {
                 redirectAttributes.addFlashAttribute("errorMessage", "User not found!");
             }
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Failed to delete user: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to disable user: " + e.getMessage());
         }
         return "redirect:/users/list";
     }

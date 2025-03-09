@@ -42,22 +42,22 @@
         <h4 class="text-center dashboard-title" style="color: #575962">SkyFast</h4>
         <ul class="nav flex-column" id="sidebar-links">
             <li class="nav-item">
-                <a href="/dashboard" class="nav-link active" data-page="Dashboard.html">
+                <a href="/dashboard" class="nav-link active" data-page="/dashboard">
                     <i class="fas fa-home"></i>Dashboard
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/flights" class="nav-link" data-page="flightManagement.html">
+                <a href="/flights" class="nav-link" data-page="/flights">
                     <i class="fas fa-plane"></i>Flight Management
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/airlines/list" class="nav-link" data-page="airlineManagement.html">
+                <a href="/airlines/list" class="nav-link" data-page="/airlines/list">
                     <i class="fas fa-plane"></i>Airline Management
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/users/list" class="nav-link" data-page="userlist.html">
+                <a href="/users/list" class="nav-link" data-page="/users/list">
                     <i class="fas fa-users"></i>User Management
                 </a>
             </li>
@@ -110,7 +110,6 @@
                     <th>Role</th>
                     <th>Status</th>
                     <th>Create Date</th>
-                    <th>Update Date</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -123,14 +122,13 @@
                     <td th:text="${user.role}"></td>
                     <td th:text="${user.status}"></td>
                     <td th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd')}"></td>
-                    <td th:text="${#temporals.format(user.updateAt, 'yyyy-MM-dd')}"></td>
                     <td>
                         <a th:href="@{/users/detail/{id}(id=${user.id})}" class="btn btn-primary">Edit</a>
                         <form th:action="@{/users/delete/{id}(id=${user.id})}" method="post"
                               style="display: inline;">
                             <button type="submit" class="btn btn-danger"
                                     th:disabled="${user.status == 'INACTIVE'}"
-                                    onclick="return confirm('Are you sure you want to delete this user?')">
+                                    onclick="return confirm('Are you sure you want to disable this user?')">
                                 Delete
                             </button>
                         </form>
