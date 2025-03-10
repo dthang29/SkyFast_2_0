@@ -19,7 +19,7 @@ public interface FlightRepository extends JpaRepository<Flight, Integer> {
     JOIN f.route r
     JOIN f.airplane a
     JOIN Seat s ON s.airplane.id = a.id
-    JOIN s.classCategory c
+    JOIN s.classcategory c
     WHERE (:departureAirportId IS NULL OR r.departureAirportId = :departureAirportId)
     AND (:arrivalAirportId IS NULL OR r.arrivalAirportId = :arrivalAirportId)
     AND (function('DATE', f.departureTime) BETWEEN :departureDateStart AND :departureDateEnd)
