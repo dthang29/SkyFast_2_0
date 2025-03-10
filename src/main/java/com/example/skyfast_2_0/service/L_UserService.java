@@ -29,7 +29,15 @@ public class L_UserService {
 
     public L_UserDTO getUserById(Integer id) {
         Optional<User> user = LUserRepository.findById(id);
-        return user.map(value -> modelMapper.map(value, L_UserDTO.class)).orElse(null);
+        L_UserDTO LuserDTO = user.map(value -> modelMapper.map(value, L_UserDTO.class)).orElse(null);
+
+        if (LuserDTO != null) {
+            System.out.println("UserDTO Date of Birth: " + LuserDTO.getDateOfBirth());
+        } else {
+            System.out.println("User not found!");
+        }
+
+        return LuserDTO;
     }
 
     // ... existing code ...

@@ -48,6 +48,7 @@ public class L_UserController {
 
     @PostMapping("/update/{id}")
     public String updateUser(@PathVariable Integer id, @ModelAttribute L_UserDTO LUserDTO, RedirectAttributes redirectAttributes) {
+        System.out.println("Received dateOfBirth: " + LUserDTO.getDateOfBirth());
         try {
             L_UserDTO updatedUser = LUserService.updateUser(id, LUserDTO);
             if (updatedUser != null) {
