@@ -61,24 +61,5 @@ public class K_BookingService {
         return tickets.stream().map(K_TicketInfoDTO::new).collect(Collectors.toList());
     }
 
-    public K_BookingDTO createBooking(K_BookingDTO KBookingDTO) {
-        if (KBookingDTO == null || KBookingDTO.getUserName() == null || KBookingDTO.getUserName().isEmpty()) {
-            throw new IllegalArgumentException("Booking data or userId must not be null or emty");
-        }
-        // Lấy user từ database
-        User user = KUserRepository.findByUserName(KBookingDTO.getUserName())
-                .orElseThrow(() -> new RuntimeException("User not found with username: " + KBookingDTO.getUserName()));
-        Booking booking = new Booking();
-        booking.setTotalPrice(KBookingDTO.getTotalPrice());
-        booking.setBookingDate(KBookingDTO.getBookingDate());
-        booking.setBookingStatus(KBookingDTO.getBookingStatus());
-        booking.setUser(user);
-        booking = KBookingRepository.save(booking);
-        return new K_BookingDTO(booking.getId(),
-                booking.getTotalPrice(),
-                booking.getBookingDate(),
-                booking.getBookingStatus(),
-                booking.getUser().getId(),
-                booking.getUser().getUserName());
-    }
+
 }

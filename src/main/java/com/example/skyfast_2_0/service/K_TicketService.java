@@ -99,33 +99,6 @@ public class K_TicketService {
         }
         return null;
     }
-    public K_TicketInfoDTO createTicket(K_TicketInfoDTO KTicketInfoDTO) {
-        if(KTicketInfoDTO == null || KTicketInfoDTO.getBookingId() == null  || KTicketInfoDTO.getFlightNumber() == null || KTicketInfoDTO.getSeatNumber() == null || KTicketInfoDTO.getPassengerFullName() == null) {
-            throw new IllegalArgumentException("Ticket data must not be null or emty");
-        }
-        // Lấy booking từ database
-        Booking booking = KBookingRepository.findById(KTicketInfoDTO.getBookingId())
-                .orElseThrow(() -> new RuntimeException("Booking not found with id: " + KTicketInfoDTO.getBookingId()));
-        // Lấy flight từ database
-        Flight flight = KFlightRepository.findByFlightNumber(KTicketInfoDTO.getFlightNumber())
-                .orElseThrow(() -> new RuntimeException("Flight not found with flightNumber: " + KTicketInfoDTO.getFlightNumber()));
-        // Lấy seat từ database
-        Seat seat = KSeatRepository.findBySeatNumber(KTicketInfoDTO.getSeatNumber())
-                .orElseThrow(() -> new RuntimeException("Seat not found with seatNumber: " + KTicketInfoDTO.getSeatNumber()));
-        // Lấy passenger từ database
-        Passenger passenger = KPassengerRepository.findByFullName(KTicketInfoDTO.getPassengerFullName())
-                .orElseThrow(() -> new RuntimeException("Passenger not found with fullName: " + KTicketInfoDTO.getPassengerFullName()));
 
-        Ticket ticket = new Ticket();
-        ticket.setStatus(KTicketInfoDTO.getStatus());
-        ticket.setTicketPrice(KTicketInfoDTO.getTicketPrice());
-        ticket.setBooking(booking);
-        ticket.setFlight(flight);
-        ticket.setSeat(seat);
-        ticket.setPassenger(passenger);
-        ticket = KTicketRepository.save(ticket);
-        return new K_TicketInfoDTO(ticket);
-
-    }
 }
 

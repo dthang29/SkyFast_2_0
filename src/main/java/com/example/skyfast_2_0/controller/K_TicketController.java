@@ -46,25 +46,7 @@ public class K_TicketController {
         return "redirect:/tickets"; // Chuyển hướng về danh sách sau khi cập nhật
     }
 
-    @GetMapping("/new")
-    public String newTicket(Model model) {
-        model.addAttribute("ticket", new K_TicketInfoDTO());
-        return "ticketCreate"; // Trả về view ticketCreate.html
-    }
 
-    @PostMapping("/create")
-    public String createTicket(@ModelAttribute K_TicketInfoDTO KTicketInfoDTO, Model model) {
-        try {
-            K_TicketInfoDTO createdTicket = KTicketService.createTicket(KTicketInfoDTO);
-            model.addAttribute("message", "Create successful!"); // Thêm thông báo vào model
-            model.addAttribute("ticket", new K_TicketInfoDTO()); // Reset form
-            return "ticketCreate"; // Giữ nguyên trang tạo booking
-        } catch (Exception e) {
-            model.addAttribute("error", "Failed to create ticket: " + e.getMessage());
-            model.addAttribute("ticket", new K_TicketInfoDTO());
-            return "ticketCreate";
-        }
-    }
 
 }
 
