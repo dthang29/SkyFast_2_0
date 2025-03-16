@@ -49,9 +49,8 @@ public class Refund {
     @Column(name = "status", nullable = false)
     private String status;
 
-    @NotNull
     @Lob
-    @Column(name = "response", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "response", columnDefinition = "TEXT")
     private String response;
 
     @NotNull
