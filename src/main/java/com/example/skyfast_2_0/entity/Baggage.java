@@ -12,8 +12,8 @@ import lombok.Setter;
 @Table(name = "baggage")
 public class Baggage {
     @Id
-    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
     @NotNull
@@ -28,15 +28,6 @@ public class Baggage {
     @NotNull
     @Column(name = "baggage_price", nullable = false)
     private Float baggagePrice;
-
-    @NotNull
-    @Column(name = "ticket_id", nullable = false)
-    private Integer ticketId;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "passenger_id", nullable = false)
-    private com.example.skyfast_2_0.entity.Passenger passenger;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

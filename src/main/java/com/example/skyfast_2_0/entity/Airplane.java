@@ -11,10 +11,9 @@ import lombok.Setter;
 @Entity
 @Table(name = "airplane")
 public class Airplane {
-
     @Id
-    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
     @Size(max = 255)
@@ -27,11 +26,6 @@ public class Airplane {
     @Column(name = "manufacturer", nullable = false)
     private String manufacturer;
 
-    @Size(max = 255)
-    @NotNull
-    @Column(name = "diagram", nullable = false)
-    private String diagram;
-
     @NotNull
     @Column(name = "speed", nullable = false)
     private Float speed;
@@ -42,11 +36,11 @@ public class Airplane {
 
     @NotNull
     @Column(name = "wingspan", nullable = false)
-    private Float  wingspan;
+    private Float wingspan;
 
     @NotNull
     @Column(name = "height", nullable = false)
-    private Float  height;
+    private Float height;
 
     @Size(max = 255)
     @NotNull
@@ -67,101 +61,4 @@ public class Airplane {
     @JoinColumn(name = "airline_id", nullable = false)
     private Airline airline;
 
-    // Getters and Setters
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getAirplaneName() {
-        return airplaneName;
-    }
-
-    public void setAirplaneName(String airplaneName) {
-        this.airplaneName = airplaneName;
-    }
-
-    public String getManufacturer() {
-        return manufacturer;
-    }
-
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
-    }
-
-    public String getDiagram() {
-        return diagram;
-    }
-
-    public void setDiagram(String diagram) {
-        this.diagram = diagram;
-    }
-
-    public Float getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(Float speed) {
-        this.speed = speed;
-    }
-
-    public Float getTotalLength() {
-        return totalLength;
-    }
-
-    public void setTotalLength(Float totalLength) {
-        this.totalLength = totalLength;
-    }
-
-    public Float getWingspan() {
-        return wingspan;
-    }
-
-    public void setWingspan(Float wingspan) {
-        this.wingspan = wingspan;
-    }
-
-    public Float getHeight() {
-        return height;
-    }
-
-    public void setHeight(Float height) {
-        this.height = height;
-    }
-
-    public String getAirplaneStatus() {
-        return airplaneStatus;
-    }
-
-    public void setAirplaneStatus(String airplaneStatus) {
-        this.airplaneStatus = airplaneStatus;
-    }
-
-    public Integer getSeatCapacity() {
-        return seatCapacity;
-    }
-
-    public void setSeatCapacity(Integer seatCapacity) {
-        this.seatCapacity = seatCapacity;
-    }
-
-    public String getAirplaneImage() {
-        return airplaneImage;
-    }
-
-    public void setAirplaneImage(String airplaneImage) {
-        this.airplaneImage = airplaneImage;
-    }
-
-    public Airline getAirline() {
-        return airline;
-    }
-
-    public void setAirline(Airline airline) {
-        this.airline = airline;
-    }
 }
