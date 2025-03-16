@@ -11,10 +11,9 @@ import lombok.Setter;
 @Entity
 @Table(name = "classcategory")
 public class Classcategory {
-
     @Id
-    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
     @Size(max = 255)
@@ -22,20 +21,21 @@ public class Classcategory {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @NotNull
     @Lob
-    @Column(name = "description")
+    @Column(name = "description", nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @NotNull
-    @Column(name = "seat_each_row", nullable = false)
-    private Integer seatEachRow;
-
     @Size(max = 255)
-    @NotNull
-    @Column(name = "image", nullable = false)
+    @Column(name = "image")
     private String image;
 
     @NotNull
     @Column(name = "surcharge", nullable = false)
     private Float surcharge;
+
+    @NotNull
+    @Column(name = "total_seats", nullable = false)
+    private Integer totalSeats;
+
 }
