@@ -18,6 +18,11 @@ public class Airport {
 
     @Size(max = 255)
     @NotNull
+    @Column(name = "airport_code", nullable = false)
+    private String airportCode;
+
+    @Size(max = 255)
+    @NotNull
     @Column(name = "airport_name", nullable = false)
     private String airportName;
 
