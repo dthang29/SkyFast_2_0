@@ -33,19 +33,13 @@ h3 {
     border-radius: 5px;
 }
 
-.btn-primary {
-    background-color: #007bff;
-    color: white;
-}
 
 .btn-secondary {
     background-color: #6c757d;
     color: white;
 }
 
-.left-button {
-    align-self: flex-start;
-}
+
 
 .right-button {
     align-self: flex-end;

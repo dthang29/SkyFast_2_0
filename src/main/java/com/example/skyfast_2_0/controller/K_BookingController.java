@@ -44,27 +44,7 @@ public class K_BookingController {
         return "redirect:/bookings";
     }
 
-//    hiển thị tạo mới booking
-@GetMapping("/new")
-public String newBooking(Model model) {
-    model.addAttribute("booking", new K_BookingDTO());
-    return "bookingCreate"; // Trả về view bookingCreate.html
-}
 
-// Tạo mới booking
-@PostMapping("/create")
-public String createBooking(@ModelAttribute K_BookingDTO KBookingDTO, Model model) {
-    try {
-        K_BookingDTO createdBooking = KBookingService.createBooking(KBookingDTO);
-        model.addAttribute("message", "Create successful!"); // Thêm thông báo vào model
-        model.addAttribute("booking", new K_BookingDTO()); // Reset form
-        return "bookingCreate"; // Giữ nguyên trang tạo booking
-    } catch (Exception e) {
-        model.addAttribute("error", "Failed to create booking: " + e.getMessage());
-        model.addAttribute("booking", new K_BookingDTO());
-        return "bookingCreate";
-    }
-}
 
     @GetMapping("/{id}/tickets")
     public String getTicketsByBookingId(@PathVariable Integer id, Model model) {

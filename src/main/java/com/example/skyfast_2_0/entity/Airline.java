@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.time.LocalDate;
 
 @Getter
@@ -13,10 +14,9 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "airline")
 public class Airline {
-
     @Id
-    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
     @Size(max = 255)
@@ -30,16 +30,17 @@ public class Airline {
     private String countryOfOperation;
 
     @NotNull
-    @Temporal(TemporalType.DATE)
     @Column(name = "founded_date", nullable = false)
     private LocalDate foundedDate;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private Status status;
 
     @Size(max = 255)
     @NotNull
     @Column(name = "image", nullable = false)
     private String image;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private Status status = Status.ACTIVE;
 }

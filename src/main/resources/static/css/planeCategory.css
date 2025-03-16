@@ -1,0 +1,146 @@
+ body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+        nav {
+            background: #343a40;
+            color: white;
+        }
+        .nav-link:hover {
+            background: #495057;
+            border-radius: 5px;
+        }
+        .content-container {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .dashboard-title {
+            cursor: pointer;
+        }
+        #notification-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+    display: none;
+    min-width: 250px; /* Chiều rộng tối thiểu */
+    max-width: 300px; /* Giới hạn chiều rộng */
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px; /* Font nhỏ hơn */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.toast-body {
+    padding: 10px;
+    text-align: center; /* Căn giữa text */
+}
+
+.btn-close {
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+
+
+        /* Màu xanh đậm */
+        .btn-success, .btn-info {
+            background-color: #greeen !important;
+            color: white !important;
+        }
+        h2 {
+            color: greeen !important;
+        }
+
+        /* Ô lọc tìm kiếm đẹp hơn */
+        .filterController {
+            background: #f2f2f2;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .filterElm {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Bảng máy bay */
+        .entity {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .entity th {
+            background: #1E4D2B;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        .entity td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        .entity img {
+            width: 100px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        /* Modal Add New Airplane */
+        .modal-content {
+            border-radius: 10px;
+        }
+        .modal-header {
+    background: #1E4D2B;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-radius: 10px 10px 0 0;
+}
+
+.modal-header h4 {
+    margin: 0;
+    flex-grow: 1; /* Để chữ căn trái */
+    text-align: left;
+}
+
+.modal-header .close {
+    color: white !important;
+    font-size: 22px;
+    opacity: 1;
+}
+
+        .modal-body {
+            padding: 20px;
+        }
+.status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 15px;
+    color: white;
+    text-transform: uppercase;
+}
+
+/* Trạng thái Waiting - Màu vàng */
+.status-waiting {
+    background-color: #ffc107; /* Màu vàng */
+}
+
+/* Trạng thái Flying - Màu xanh dương */
+.status-flying {
+    background-color: #007bff; /* Màu xanh dương */
+}
+
+/* Trạng thái Maintaining - Màu xám */
+.status-maintaining {
+    background-color: #6c757d; /* Màu xám */
+}

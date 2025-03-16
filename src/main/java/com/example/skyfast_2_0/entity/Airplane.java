@@ -11,10 +11,9 @@ import lombok.Setter;
 @Entity
 @Table(name = "airplane")
 public class Airplane {
-
     @Id
-    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
     @Size(max = 255)
@@ -27,11 +26,6 @@ public class Airplane {
     @Column(name = "manufacturer", nullable = false)
     private String manufacturer;
 
-    @Size(max = 255)
-    @NotNull
-    @Column(name = "diagram", nullable = false)
-    private String diagram;
-
     @NotNull
     @Column(name = "speed", nullable = false)
     private Float speed;
@@ -42,11 +36,11 @@ public class Airplane {
 
     @NotNull
     @Column(name = "wingspan", nullable = false)
-    private Float  wingspan;
+    private Float wingspan;
 
     @NotNull
     @Column(name = "height", nullable = false)
-    private Float  height;
+    private Float height;
 
     @Size(max = 255)
     @NotNull
@@ -63,7 +57,8 @@ public class Airplane {
     private String airplaneImage;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "airline_id", nullable = false)
     private Airline airline;
+
 }

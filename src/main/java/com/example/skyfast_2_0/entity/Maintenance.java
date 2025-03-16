@@ -14,8 +14,8 @@ import java.time.LocalDate;
 @Table(name = "maintenance")
 public class Maintenance {
     @Id
-    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
     @NotNull
@@ -34,6 +34,10 @@ public class Maintenance {
     @NotNull
     @Column(name = "duration", nullable = false)
     private Integer duration;
+
+    @NotNull
+    @Column(name = "completion_date", nullable = false)
+    private LocalDate completionDate;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

@@ -12,8 +12,8 @@ import lombok.Setter;
 @Table(name = "paymenttype")
 public class Paymenttype {
     @Id
-    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
     @Size(max = 255)
@@ -22,8 +22,7 @@ public class Paymenttype {
     private String name;
 
     @Size(max = 255)
-    @NotNull
-    @Column(name = "image", nullable = false)
+    @Column(name = "image")
     private String image;
 
 }

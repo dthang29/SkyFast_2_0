@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,9 +14,14 @@ import java.time.LocalDate;
 @Table(name = "refund")
 public class Refund {
     @Id
-    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
+
+    @NotNull
+    @Lob
+    @Column(name = "reason", nullable = false, columnDefinition = "TEXT")
+    private String reason;
 
     @Size(max = 255)
     @NotNull
@@ -30,11 +35,10 @@ public class Refund {
 
     @NotNull
     @Column(name = "request_date", nullable = false)
-    private LocalDate requestDate;
+    private LocalDateTime requestDate;
 
-    @NotNull
-    @Column(name = "refund_date", nullable = false)
-    private LocalDate refundDate;
+    @Column(name = "refund_date")
+    private LocalDateTime refundDate;
 
     @NotNull
     @Column(name = "refund_price", nullable = false)
@@ -44,6 +48,11 @@ public class Refund {
     @NotNull
     @Column(name = "status", nullable = false)
     private String status;
+
+    @NotNull
+    @Lob
+    @Column(name = "response", nullable = false, columnDefinition = "TEXT")
+    private String response;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

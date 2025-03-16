@@ -1,0 +1,73 @@
+   body {
+            font-family: Arial, sans-serif;
+            font-size: 14px !important;
+
+
+        }
+        .filterController input,
+        .filterController select {
+            min-width: 200px; /* Tăng chiều rộng tối thiểu */
+            height: 38px; /* Điều chỉnh chiều cao */
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+.filterController {
+    margin-bottom: 20px; /* Điều chỉnh khoảng cách với bảng */
+}
+#resetSearch {
+    margin-left: 10px;
+}
+
+        .content-container {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .modal-content {
+            border-radius: 10px;
+        }
+        .modal-header {
+    background: #1E4D2B;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-radius: 10px 10px 0 0;
+}
+
+.modal-header h4 {
+    margin: 0;
+    flex-grow: 1; /* Để chữ căn trái */
+    text-align: left;
+}
+.modal-header .close {
+    color: white !important;
+    font-size: 22px;
+    opacity: 1;
+}
+        .table th {
+    background-color: #2D5F3B !important; /* Màu xanh đậm */
+}
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 15px;
+            color: white;
+            text-transform: uppercase;
+        }
+        .status-unprocessed { background-color: #ffc107; }
+        .status-processing { background-color: #007bff; }
+        .status-processed { background-color: #28a745; }
+        .btn-update { background-color: #17a2b8; color: white; }
+        th {
+    background-color: #005f73 !important; /* Màu xanh đậm */
+    color: white !important;
+    padding: 15px; /* Tăng padding để rộng hơn */
+    font-size: 16px; /* Chữ to hơn một chút */
+    text-align: left;
+}
