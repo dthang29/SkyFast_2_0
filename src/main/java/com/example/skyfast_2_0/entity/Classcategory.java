@@ -16,10 +16,19 @@ public class Classcategory {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "airplane_id", nullable = false)
+    private Airplane airplane;
+
     @Size(max = 255)
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
+
+    @NotNull
+    @Column(name = "total_seats", nullable = false)
+    private Integer totalSeats;
 
     @NotNull
     @Lob
@@ -33,9 +42,5 @@ public class Classcategory {
     @NotNull
     @Column(name = "surcharge", nullable = false)
     private Float surcharge;
-
-    @NotNull
-    @Column(name = "total_seats", nullable = false)
-    private Integer totalSeats;
 
 }

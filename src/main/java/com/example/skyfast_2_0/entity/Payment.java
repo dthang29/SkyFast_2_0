@@ -27,7 +27,7 @@ public class Payment {
     private com.example.skyfast_2_0.entity.Paymenttype paymentType;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "booking_id", nullable = false)
     private Booking booking;
 
