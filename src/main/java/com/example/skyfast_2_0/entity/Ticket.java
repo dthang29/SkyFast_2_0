@@ -32,7 +32,7 @@ public class Ticket {
     private Flight flight;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "passenger_id", nullable = false)
     private Passenger passenger;
 
