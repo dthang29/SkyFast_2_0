@@ -14,29 +14,25 @@ import java.util.List;
 public interface FlightRepository extends JpaRepository<Flight, Integer> {
 @Query("SELECT f FROM Flight f WHERE f.departureTime BETWEEN :startOfDay AND :endOfDay")
     List<Flight> findFlightsByDepartureTimeRange(@NotNull LocalDateTime startOfDay, @NotNull LocalDateTime endOfDay);
-
-    @Query("SELECT f FROM Flight f " +
-            "WHERE f.price = (SELECT MIN(f2.price) FROM Flight f2 WHERE f2.route.id = f.route.id) " +
-            "ORDER BY f.price ASC")
-    List<Flight> findTopCheapestFlightsByRoute();
-
     @Query("""
     SELECT f FROM Flight f
     JOIN f.route r
     JOIN f.airplane a
-    JOIN Classcategory c ON a.id = c.airplane.id
+    JOIN Seat s ON s.airplane.id = a.id
+    JOIN s.classcategory c
     WHERE (:departureAirportId IS NULL OR r.departureAirportId = :departureAirportId)
     AND (:arrivalAirportId IS NULL OR r.arrivalAirportId = :arrivalAirportId)
     AND (function('DATE', f.departureTime) BETWEEN :departureDateStart AND :departureDateEnd)
-    AND (:classCategoryName IS NULL OR c.name = :classCategoryName)
+    AND (:classCategoryId IS NULL OR c.id = :classCategoryId)
     GROUP BY f.id
+    HAVING SUM(CASE WHEN s.status = 'available' THEN 1 ELSE 0 END) >= :passengerCount OR :passengerCount IS NULL
 """)
     List<Flight> searchFlights(
             @Param("departureAirportId") Integer departureAirportId,
             @Param("arrivalAirportId") Integer arrivalAirportId,
             @Param("departureDateStart") LocalDateTime departureDateStart,
             @Param("departureDateEnd") LocalDateTime departureDateEnd,
-            @Param("classCategoryName") String classCategoryName
-//            @Param("passengerCount") Integer passengerCount
+            @Param("classCategoryId") Integer classCategoryId,
+            @Param("passengerCount") Integer passengerCount
     );
 }

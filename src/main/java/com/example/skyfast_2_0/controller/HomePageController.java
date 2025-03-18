@@ -27,6 +27,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/homepage")
 public class HomePageController {
     @Autowired
+    private TicketService ticketService;
+    @Autowired
     private FlightService flightService;
     @Autowired
     private RouteService routeService;
@@ -84,7 +86,7 @@ public class HomePageController {
         return  "HomePage";
     }
     public void initModelData(Model model) {
-        List<Flight> tickets = flightService.findTopCheapestFlightsByRoute();
+        List<Ticket> tickets = ticketService.getTop10CheapestTickets();
         model.addAttribute("tickets", tickets);
 
         LocalDate date = LocalDate.of(2025, 3, 1);
