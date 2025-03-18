@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,8 +105,8 @@
                 <select id="class-input" name="class" class="form-select">
                     <option th:each="classcategory : ${classcategories}"
                             th:value="${classcategory.getId()}"
-                            th:text="${classcategory.getName()}"
-                            th:selected="${classcategory.getId() == flightClass}">
+                            th:text="${classcategory.getName()}">
+                        th:selected="${classcategory.getId() == flightClass}">
                     </option>
                 </select>
             </div>
@@ -119,15 +121,15 @@
         <div class="row">
             <div class="col-md-6" th:each="ticket : ${tickets}">
                 <div class="trip-item p-3 border rounded shadow-sm">
-                    <p th:text="'Route: ' + ${routeMap[ticket.flight.route.id][0]} + ' - ' + ${routeMap[ticket.flight.route.id][1]}">Ticket ID</p>
-                    <p th:text="${ticket.flight.getDepartureTime()}">Time</p>
-                    <p><strong th:text="'Price: $' + ${ticket.ticketPrice}">Price</strong></p>
+                    <p th:text="'Route: ' + ${routeMap[ticket.route.id][0]} + ' - ' + ${routeMap[ticket.route.id][1]}">Ticket ID</p>
+                    <p th:text="${ticket.getDepartureTime()}">Time</p>
+                    <p><strong th:text="'Price: $' + ${ticket.price}">Price</strong></p>
 
                     <form th:action="@{/flight}" method="GET">
 
-                        <input type="hidden" name="departureHome" th:value="${routeMap[ticket.flight.route.id][0]}" />
-                        <input type="hidden" name="arrivalHome" th:value="${routeMap[ticket.flight.route.id][1]}" />
-                        <input type="hidden" name="departureTimeHome" th:value="${#temporals.format(ticket.flight.getDepartureTime(), 'yyyy-MM-dd')}" />
+                        <input type="hidden" name="departureHome" th:value="${routeMap[ticket.route.id][0]}" />
+                        <input type="hidden" name="arrivalHome" th:value="${routeMap[ticket.route.id][1]}" />
+                        <input type="hidden" name="departureTimeHome" th:value="${#temporals.format(ticket.getDepartureTime(), 'yyyy-MM-dd')}" />
                         <button type="submit" class="btn btn-primary">Book Now</button>
                     </form>
                 </div>
@@ -311,3 +313,5 @@
 
 </body>
 </html>
+
+

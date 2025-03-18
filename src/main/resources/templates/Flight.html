@@ -113,16 +113,16 @@
 
 
     <!-- Location Inputs -->
-<!--    <div class="filter-section">-->
-<!--      <div class="input-group">-->
-<!--        <label>From</label>-->
-<!--        <input type="text" class="location-input" placeholder="Enter location">-->
-<!--      </div>-->
-<!--      <div class="input-group">-->
-<!--        <label>To</label>-->
-<!--        <input type="text" class="location-input" placeholder="Enter location">-->
-<!--      </div>-->
-<!--    </div>-->
+    <!--    <div class="filter-section">-->
+    <!--      <div class="input-group">-->
+    <!--        <label>From</label>-->
+    <!--        <input type="text" class="location-input" placeholder="Enter location">-->
+    <!--      </div>-->
+    <!--      <div class="input-group">-->
+    <!--        <label>To</label>-->
+    <!--        <input type="text" class="location-input" placeholder="Enter location">-->
+    <!--      </div>-->
+    <!--    </div>-->
 
     <!-- Price Range -->
     <div class="filter-section">
@@ -236,40 +236,40 @@
 
   <main class="main-content">
     <div id="flight-results">
-    <!-- Flight Card -->
-    <div class="flight-card" th:each="searchFlight:${searchFlights}">
-      <div class="flight-header">
-        <div class="airline-info">
-          <img class="airline-logo" th:src="${searchFlight.airline.getImage()}"></img>
-          <h3 th:text="${searchFlight.airline.getAirlineName()}+' : '+${routeMap[searchFlight.route.id][0]} + ' → ' + ${routeMap[searchFlight.route.id][1]}">Lufthansa : Hanoi - NYC</h3>
+      <!-- Flight Card -->
+      <div class="flight-card" th:each="searchFlight:${searchFlights}">
+        <div class="flight-header">
+          <div class="airline-info">
+            <img class="airline-logo" th:src="${searchFlight.airline.getImage()}"></img>
+            <h3 th:text="${searchFlight.airline.getAirlineName()}+' : '+${routeMap[searchFlight.route.id][0]} + ' → ' + ${routeMap[searchFlight.route.id][1]}">Lufthansa : Hanoi - NYC</h3>
+          </div>
+          <div class="price-book-container">
+            <span class="amount"></span>
+            <button class="book-now">BOOK NOW</button>
+          </div>
         </div>
-        <div class="price-book-container">
-          <span class="amount"></span>
-          <button class="book-now">BOOK NOW</button>
-        </div>
-      </div>
 
-      <div class="flight-details">
-        <div class="detail-item">
-          <span class="label">Route</span>
-          <span class="value" th:text="${routeMap[searchFlight.route.id][0]} + ' → ' + ${routeMap[searchFlight.route.id][1]}"></span>
-        </div>
-        <div class="detail-item">
-          <span class="label">Depart</span>
-          <span class="value" th:text="${#temporals.format(searchFlight.getDepartureTime(), 'HH:mm')}"></span>
-          <span class="value" th:text="${#temporals.format(searchFlight.getDepartureTime(), 'd MMM', T(java.util.Locale).ENGLISH)}"></span>
-        </div>
-        <div class="detail-item">
-          <span class="label">Arrive</span>
-          <span class="value" th:text="${#temporals.format(searchFlight.getArrivalTime(), 'HH:mm')}"></span>
-          <span class="value" th:text="${#temporals.format(searchFlight.getArrivalTime(), 'd MMM', T(java.util.Locale).ENGLISH)}"></span>
-        </div>
-        <div class="detail-item">
-          <span class="label">Duration</span>
-          <span class="value" th:text="${searchFlight.getDuration()}"></span>
+        <div class="flight-details">
+          <div class="detail-item">
+            <span class="label">Route</span>
+            <span class="value" th:text="${routeMap[searchFlight.route.id][0]} + ' → ' + ${routeMap[searchFlight.route.id][1]}"></span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Depart</span>
+            <span class="value" th:text="${#temporals.format(searchFlight.getDepartureTime(), 'HH:mm')}"></span>
+            <span class="value" th:text="${#temporals.format(searchFlight.getDepartureTime(), 'd MMM', T(java.util.Locale).ENGLISH)}"></span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Arrive</span>
+            <span class="value" th:text="${#temporals.format(searchFlight.getArrivalTime(), 'HH:mm')}"></span>
+            <span class="value" th:text="${#temporals.format(searchFlight.getArrivalTime(), 'd MMM', T(java.util.Locale).ENGLISH)}"></span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Duration</span>
+            <span class="value" th:text="${searchFlight.getDuration()}"></span>
+          </div>
         </div>
       </div>
-    </div>
     </div>
     <!-- Pagination -->
     <ul class="items"></ul>
@@ -293,3 +293,4 @@
 
 </body>
 </html>
+

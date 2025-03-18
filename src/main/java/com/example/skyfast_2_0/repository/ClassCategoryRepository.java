@@ -9,4 +9,5 @@ import java.util.List;
 public interface ClassCategoryRepository extends JpaRepository<Classcategory, Integer> {
     @Query("SELECT c FROM Classcategory c")
     List<Classcategory> findAllClassCategories();
+    List<Classcategory> findByAirplaneId(Integer airplaneId);
 }

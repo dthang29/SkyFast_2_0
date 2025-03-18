@@ -1,3 +1,4 @@
+
 package com.example.skyfast_2_0.controller;
 
 import com.example.skyfast_2_0.entity.Airline;
@@ -26,8 +27,6 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/homepage")
 public class HomePageController {
-    @Autowired
-    private TicketService ticketService;
     @Autowired
     private FlightService flightService;
     @Autowired
@@ -86,7 +85,7 @@ public class HomePageController {
         return  "HomePage";
     }
     public void initModelData(Model model) {
-        List<Ticket> tickets = ticketService.getTop10CheapestTickets();
+        List<Flight> tickets = flightService.findTopCheapestFlightsByRoute();
         model.addAttribute("tickets", tickets);
 
         LocalDate date = LocalDate.of(2025, 3, 1);
@@ -125,3 +124,4 @@ public class HomePageController {
     }
 
 }
+

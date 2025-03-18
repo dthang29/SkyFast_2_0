@@ -1,3 +1,4 @@
+
 package com.example.skyfast_2_0.controller;
 
 import com.example.skyfast_2_0.entity.Airline;
@@ -47,7 +48,7 @@ public class FlightController {
                                 @RequestParam(value = "departureHome", required = false) String departureHome,
                                 @RequestParam(value = "arrivalHome", required = false) String arrivalHome,
                                 @RequestParam(value = "departureTimeHome", required = false)
-                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureTimeHome,
+                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureTimeHome,
 
                                 Model model) {
         // Gọi initModelData để chuẩn bị dữ liệu cho giao diện (VD: danh sách sân bay, hãng bay...)
