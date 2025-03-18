@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang = "en" dir = "ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Login </title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/LoginForm.css">
+</head>
+<body>
+<div class="wrapper">
+    <h2>Login</h2>
+    <form th:action="@{/login}" method="post">
+        <div class="input-box">
+            <input name="username" type="text" placeholder="Email or Username" required>
+        </div>
+        <div class="input-box">
+            <input name="password" type="password" id="password" placeholder="Password" required>
+            <i class="fa fa-eye-slash" aria-hidden="true" id="eye-pass"
+               onclick="togglePassword('password', 'eye-pass')"></i>
+        </div>
+        <span th:if="${error}" th:text="${error}" style="color: red"></span>
+        <div class="input-box button">
+            <input type="Submit" value="Login">
+        </div>
+
+        <div>
+            <h3>
+                <label>
+                    <input type="checkbox" name="remember-me" />Remember Me
+                </label>
+            </h3>
+        </div>
+
+        <div class="pass-container">
+            <div class="link">
+                <h3>Don't have account ?</h3>
+                <h3><a href="/register">- Register now -</a></h3>
+            </div>
+            <div class="pass-link">
+                <h3><a href="/forgot-password">Forgot password?</a></h3>
+            </div>
+        </div>
+        <h3 class = "text-between" >Or</h3>
+        <div class = "google-link">
+                <h3><a class = "link" href="/oauth2/authorization/google">Login with Google</a></h3>
+        </div>
+    </form>
+</div>
+<script src="/js/ToggleEyePassword.js"></script>
+</body>
+</html>
