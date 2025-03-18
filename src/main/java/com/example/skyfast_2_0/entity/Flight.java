@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @Table(name = "flight")
 public class Flight {
     @Id
-    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
     @Size(max = 255)
@@ -54,5 +54,9 @@ public class Flight {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "route_id", nullable = false)
     private com.example.skyfast_2_0.entity.Route route;
+
+    @NotNull
+    @Column(name = "price", nullable = false)
+    private Integer price;
 
 }

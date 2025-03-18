@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,8 +14,8 @@ import java.time.LocalDate;
 @Table(name = "booking")
 public class Booking {
     @Id
-    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
     @NotNull
@@ -24,7 +24,7 @@ public class Booking {
 
     @NotNull
     @Column(name = "booking_date", nullable = false)
-    private LocalDate bookingDate;
+    private LocalDateTime bookingDate;
 
     @Size(max = 255)
     @NotNull
@@ -35,5 +35,14 @@ public class Booking {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private com.example.skyfast_2_0.entity.User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "promotion_id")
+    private com.example.skyfast_2_0.entity.Promotion promotion;
+
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "booking_code", nullable = false)
+    private String bookingCode;
 
 }

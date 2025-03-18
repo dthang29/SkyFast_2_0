@@ -7,14 +7,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
-import java.io.Serial;
 import java.util.Objects;
 
 @Getter
 @Setter
 @Embeddable
 public class TicketBaggageId implements java.io.Serializable {
-    @Serial
     private static final long serialVersionUID = -1461823924069246789L;
     @NotNull
     @Column(name = "ticket_id", nullable = false)

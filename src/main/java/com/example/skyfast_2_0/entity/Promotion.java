@@ -14,8 +14,8 @@ import java.time.LocalDate;
 @Table(name = "promotion")
 public class Promotion {
     @Id
-    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
     @Size(max = 255)
@@ -24,7 +24,7 @@ public class Promotion {
     private String code;
 
     @Lob
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @NotNull
@@ -43,11 +43,6 @@ public class Promotion {
     @NotNull
     @Column(name = "status", nullable = false)
     private String status;
-
-    @Size(max = 255)
-    @NotNull
-    @Column(name = "image", nullable = false)
-    private String image;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

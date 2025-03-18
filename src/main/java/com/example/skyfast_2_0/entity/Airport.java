@@ -12,8 +12,8 @@ import lombok.Setter;
 @Table(name = "airport")
 public class Airport {
     @Id
-    @Column(name = "airport_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
     @Size(max = 255)
@@ -35,23 +35,5 @@ public class Airport {
     @NotNull
     @Column(name = "location", nullable = false)
     private String location;
-
-    @NotNull
-    @Column(name = "runways_count", nullable = false)
-    private Integer runwaysCount;
-
-    @Size(max = 255)
-    @NotNull
-    @Column(name = "airport_type", nullable = false)
-    private String airportType;
-
-    @NotNull
-    @Column(name = "capacity", nullable = false)
-    private Integer capacity;
-
-    @Size(max = 255)
-    @NotNull
-    @Column(name = "image", nullable = false)
-    private String image;
 
 }

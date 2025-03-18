@@ -12,8 +12,8 @@ import lombok.Setter;
 @Table(name = "ticket")
 public class Ticket {
     @Id
-    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
     @Size(max = 255)
@@ -22,18 +22,9 @@ public class Ticket {
     private String status;
 
     @NotNull
-    @Column(name = "ticket_price", nullable = false)
-    private Float ticketPrice;
-
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "booking_id", nullable = false)
     private Booking booking;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "seat_id", nullable = false)
-    private Seat seat;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -41,8 +32,18 @@ public class Ticket {
     private Flight flight;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "passenger_id", nullable = false)
     private Passenger passenger;
+
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "seat_code", nullable = false)
+    private String seatCode;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "class_category_id", nullable = false)
+    private Classcategory classCategory;
 
 }
