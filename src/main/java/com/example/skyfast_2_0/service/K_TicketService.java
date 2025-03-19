@@ -23,8 +23,7 @@ public class K_TicketService {
     @Autowired
     private K_FlightRepository KFlightRepository;
 
-    @Autowired
-    private K_SeatRepository KSeatRepository;
+
 
     @Autowired
     private K_PassengerRepository KPassengerRepository;
@@ -43,7 +42,7 @@ public class K_TicketService {
             K_TicketInfoDTO dto = new K_TicketInfoDTO(ticket);
             dto.setId(ticket.getId());
             dto.setStatus(ticket.getStatus());
-            dto.setTicketPrice(ticket.getTicketPrice());
+            dto.setSeatCode(ticket.getSeatCode());
 
             // Lấy bookingId từ đối tượng booking nếu không null
             if(ticket.getBooking() != null) {
@@ -52,8 +51,8 @@ public class K_TicketService {
 
             // Lấy các trường từ các đối tượng quan hệ
             dto.setFlightNumber(ticket.getFlight().getFlightNumber());
-            dto.setSeatNumber(ticket.getSeat().getSeatNumber());
             dto.setPassengerFullName(ticket.getPassenger().getFullName());
+            dto.setClassCategoryId(ticket.getClassCategory().getId());
             return dto;
         }).collect(Collectors.toList());
     }
@@ -64,13 +63,13 @@ public class K_TicketService {
             K_TicketInfoDTO dto = new K_TicketInfoDTO(ticket);
             dto.setId(ticket.getId());
             dto.setStatus(ticket.getStatus());
-            dto.setTicketPrice(ticket.getTicketPrice());
+            dto.setSeatCode(ticket.getSeatCode());
             if (ticket.getBooking() != null) {
                 dto.setBookingId(ticket.getBooking().getId());
             }
             dto.setFlightNumber(ticket.getFlight().getFlightNumber());
-            dto.setSeatNumber(ticket.getSeat().getSeatNumber());
             dto.setPassengerFullName(ticket.getPassenger().getFullName());
+            dto.setClassCategoryId(ticket.getClassCategory().getId());
             return dto;
         }
         return null;
@@ -81,20 +80,19 @@ public class K_TicketService {
         if (optionalTicket.isPresent()) {
             Ticket ticket = optionalTicket.get();
             ticket.setStatus(KTicketDTO.getStatus());
-            ticket.setTicketPrice(KTicketDTO.getTicketPrice());
             // Cập nhật các field khác nếu cần...
             KTicketRepository.save(ticket);
 
             K_TicketInfoDTO dto = new K_TicketInfoDTO(ticket);
             dto.setId(ticket.getId());
             dto.setStatus(ticket.getStatus());
-            dto.setTicketPrice(ticket.getTicketPrice());
+            dto.setSeatCode(ticket.getSeatCode());
             if (ticket.getBooking() != null) {
                 dto.setBookingId(ticket.getBooking().getId());
             }
             dto.setFlightNumber(ticket.getFlight().getFlightNumber());
-            dto.setSeatNumber(ticket.getSeat().getSeatNumber());
             dto.setPassengerFullName(ticket.getPassenger().getFullName());
+            dto.setClassCategoryId(ticket.getClassCategory().getId());
             return dto;
         }
         return null;

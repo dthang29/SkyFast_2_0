@@ -5,11 +5,11 @@ import com.example.skyfast_2_0.entity.Ticket;
 public class K_TicketInfoDTO {
     private Integer id;
     private String status;
-    private Float ticketPrice;
     private Integer bookingId;
     private String flightNumber;
-    private String seatNumber;
     private String passengerFullName;
+    private String seatCode;
+    private Integer classCategoryId;
 
     public K_TicketInfoDTO() {
     }
@@ -17,11 +17,11 @@ public class K_TicketInfoDTO {
     public K_TicketInfoDTO(Ticket ticket) {
         this.id = ticket.getId();
         this.status = ticket.getStatus();
-        this.ticketPrice = ticket.getTicketPrice();
         this.bookingId = ticket.getBooking().getId();
         this.flightNumber = ticket.getFlight().getFlightNumber();
-        this.seatNumber = ticket.getSeat().getSeatNumber();
         this.passengerFullName = ticket.getPassenger().getFullName();
+        this.seatCode = ticket.getSeatCode();
+        this.classCategoryId = ticket.getClassCategory().getId();
     }
     // Getters & Setters
 
@@ -39,13 +39,6 @@ public class K_TicketInfoDTO {
         this.status = status;
     }
 
-    public Float getTicketPrice() {
-        return ticketPrice;
-    }
-    public void setTicketPrice(Float ticketPrice) {
-        this.ticketPrice = ticketPrice;
-    }
-
     public Integer getBookingId() {
         return bookingId;
     }
@@ -60,13 +53,6 @@ public class K_TicketInfoDTO {
         this.flightNumber = flightNumber;
     }
 
-    public String getSeatNumber() {
-        return seatNumber;
-    }
-    public void setSeatNumber(String seatNumber) {
-        this.seatNumber = seatNumber;
-    }
-
     public String getPassengerFullName() {
         return passengerFullName;
     }
@@ -74,5 +60,9 @@ public class K_TicketInfoDTO {
         this.passengerFullName = passengerFullName;
     }
 
+    public String getSeatCode() {return seatCode;}
+    public void setSeatCode(String seatCode) {this.seatCode = seatCode;}
 
+    public Integer getClassCategoryId() {return classCategoryId;}
+    public void setClassCategoryId(Integer classCategoryId) {this.classCategoryId = classCategoryId;}
 }

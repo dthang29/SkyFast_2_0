@@ -21,7 +21,7 @@
     <div class="container mt-4">
       <div class="card shadow-lg p-4">
         <h2 class="text-dark fw-bold">Ticket Detail</h2>
-        <form th:action="@{/tickets/update/{id}(id=${ticket.id})}" method="post">
+        <form th:action="@{/admin/tickets/update/{id}(id=${ticket.id})}" method="post">
           <div class="mb-3">
             <label for="ticketId" class="form-label">Ticket ID</label>
             <input type="text" class="form-control" id="ticketId" th:value="${ticket.id}" readonly>
@@ -35,16 +35,12 @@
             <input type="text" class="form-control" id="flightNumber" th:value="${ticket.flightNumber}" readonly>
           </div>
           <div class="mb-3">
-            <label for="seatNumber" class="form-label">Seat Number</label>
-            <input type="text" class="form-control" id="seatNumber" th:value="${ticket.seatNumber}" readonly>
-          </div>
-          <div class="mb-3">
             <label for="passengerFullName" class="form-label">Passenger Full Name</label>
             <input type="text" class="form-control" id="passengerFullName" th:value="${ticket.passengerFullName}" readonly>
           </div>
           <div class="mb-3">
-            <label for="ticketPrice" class="form-label">Ticket Price</label>
-            <input type="number" step="0.01" class="form-control" id="ticketPrice" name="ticketPrice" th:value="${ticket.ticketPrice}">
+            <label for="seatNumber" class="form-label">Seat Number</label>
+            <input type="text" class="form-control" id="seatNumber" th:value="${ticket.seatCode}" readonly>
           </div>
           <div class="mb-3">
             <label for="ticketStatus" class="form-label">Status</label>
@@ -56,7 +52,7 @@
 
           </div>
           <div class="mb-3">
-            <a href="/tickets" class="btn btn-secondary">Back</a>
+            <a href="/admin/tickets" class="btn btn-secondary">Back</a>
             <button type="submit" class="btn btn-primary">Save Changes</button>
           </div>
         </form>

@@ -3,7 +3,8 @@ package com.example.skyfast_2_0.service;
 import com.example.skyfast_2_0.dto.K_BookingDTO;
 import com.example.skyfast_2_0.dto.K_TicketInfoDTO;
 import com.example.skyfast_2_0.entity.Ticket;
-import com.example.skyfast_2_0.entity.User;
+
+import com.example.skyfast_2_0.repository.K_PromotionRepository;
 import com.example.skyfast_2_0.repository.K_TicketRepository;
 import com.example.skyfast_2_0.repository.K_UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,12 @@ import java.util.stream.Collectors;
 public class K_BookingService {
     @Autowired
     private K_TicketRepository KTicketRepository;
+
     @Autowired
     private K_UserRepository KUserRepository;
+
+    @Autowired
+    private K_PromotionRepository KPromotionRepository;
 
     private final K_BookingRepository KBookingRepository;
 
@@ -36,7 +41,10 @@ public class K_BookingService {
                         booking.getBookingDate(),
                         booking.getBookingStatus(),
                         booking.getUser() != null ? booking.getUser().getId() : null,
-                        booking.getUser().getUserName()))
+                        booking.getUser().getUserName(),
+                        booking.getPromotion() != null ? booking.getPromotion().getId() : null,
+                        booking.getPromotion() != null ? booking.getPromotion().getCode() : null,
+                        booking.getBookingCode()))
                 .collect(Collectors.toList());
     }
 
@@ -44,7 +52,10 @@ public class K_BookingService {
         Booking booking = KBookingRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Booking not found"));
         Integer userId = (booking.getUser() != null) ? booking.getUser().getId() : null;
-        return new K_BookingDTO(booking.getId(), booking.getTotalPrice(), booking.getBookingDate(), booking.getBookingStatus(), userId, booking.getUser().getUserName());
+        Integer promotionId = (booking.getPromotion() != null) ? booking.getPromotion().getId() : null;
+        String  promotionCode = (booking.getPromotion() != null) ? booking.getPromotion().getCode() : null;
+        return new K_BookingDTO(booking.getId(), booking.getTotalPrice(), booking.getBookingDate(), booking.getBookingStatus(),
+                userId, booking.getUser().getUserName(), promotionId, promotionCode, booking.getBookingCode());
     }
 
     public K_BookingDTO updateBookingStatus(Integer id, String bookingStatus) {
@@ -53,7 +64,11 @@ public class K_BookingService {
         booking.setBookingStatus(bookingStatus);
         KBookingRepository.save(booking);
         Integer userId = (booking.getUser() != null) ? booking.getUser().getId() : null;
-        return new K_BookingDTO(booking.getId(), booking.getTotalPrice(), booking.getBookingDate(), booking.getBookingStatus(), userId, booking.getUser().getUserName());
+        Integer promotionId = (booking.getPromotion() != null) ? booking.getPromotion().getId() : null;
+        String promotionCode= (booking.getPromotion() != null) ? booking.getPromotion().getCode() : null;
+        return new K_BookingDTO(booking.getId(), booking.getTotalPrice(), booking.getBookingDate(),
+                booking.getBookingStatus(), userId, booking.getUser().getUserName(),
+                promotionId, promotionCode, booking.getBookingCode());
     }
 
     public List<K_TicketInfoDTO> getTicketsByBookingId(Integer bookingId) {

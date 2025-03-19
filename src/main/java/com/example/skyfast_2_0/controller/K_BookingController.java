@@ -3,14 +3,14 @@ package com.example.skyfast_2_0.controller;
 import com.example.skyfast_2_0.dto.K_BookingDTO;
 import com.example.skyfast_2_0.dto.K_TicketInfoDTO;
 import com.example.skyfast_2_0.service.K_BookingService;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import java.util.List;
 
 @Controller
-@RequestMapping("/bookings")
+@RequestMapping("/admin/bookings")
 public class K_BookingController {
     private final K_BookingService KBookingService;
 
@@ -41,7 +41,7 @@ public class K_BookingController {
         if(updatedBooking == null) {
             return "notFound";
         }
-        return "redirect:/bookings";
+        return "redirect:/admin/bookings";
     }
 
 
