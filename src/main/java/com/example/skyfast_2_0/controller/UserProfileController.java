@@ -47,9 +47,17 @@ public class UserProfileController {
         return "Profile";
     }
 
-    @PostMapping("/edit-profile")
-    public String updateProfile(@ModelAttribute("user") User updatedUser, Authentication authentication) {
+    @PostMapping("/profile")
+    public String updateProfile(Model model, @ModelAttribute("user") User updatedUser,
+                                Authentication authentication) {
         String email = userProfileService.getUserEmail(authentication);
+        User user = userRepository.findByEmail(email);
+        if (!updatedUser.getPhoneNumber().equals(user.getPhoneNumber())) {
+            if (userProfileService.checkPhoneNumberExist(updatedUser.getPhoneNumber())) {
+                model.addAttribute("duplicatePhone", "Phone number already exists");
+                return "Profile";
+            }
+    }
         userProfileService.updateUserProfile(email, updatedUser);
         return "redirect:/homepage/profile";
     }

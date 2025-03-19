@@ -23,14 +23,7 @@ public class UserProfileService {
             existingUser.setFullName(updatedUser.getFullName());
             existingUser.setDateOfBirth(updatedUser.getDateOfBirth());
             existingUser.setAddress(updatedUser.getAddress());
-
-            if (!updatedUser.getPhoneNumber().equals(existingUser.getPhoneNumber())) {
-                if (userRepository.existsByPhoneNumber(updatedUser.getPhoneNumber())) {
-                    throw new RuntimeException("Phone number has been exist");
-                }
-                existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
-            }
-
+            existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
             existingUser.setUpdateAt(LocalDate.now());
             userRepository.save(existingUser);
         }
@@ -44,6 +37,10 @@ public class UserProfileService {
             return (String) attributes.get("email");
         }
         return null;
+    }
+
+    public boolean checkPhoneNumberExist(String phoneNum) {
+        return userRepository.existsByPhoneNumber(phoneNum);
     }
 
 }

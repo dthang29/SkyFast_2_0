@@ -3,13 +3,14 @@ package com.example.skyfast_2_0.service;
 import com.example.skyfast_2_0.constant.Role;
 import com.example.skyfast_2_0.entity.User;
 import com.example.skyfast_2_0.repository.T_UserRepository;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +18,15 @@ import java.time.LocalDate;
 
 @Service
 public class LoginService implements UserDetailsService {
+
     @Autowired
     private T_UserRepository userRepository;
 
-    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        User user = findByUserNameOrEmail(usernameOrEmail);
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = findByEmail(email);
         if(user == null){
             throw new UsernameNotFoundException("User not found");
         }
@@ -42,11 +47,11 @@ public class LoginService implements UserDetailsService {
             user.setUserName(name);
             user.setEmail(email);
             user.setGoogleId(googleId);
-            user.setPassword("OAUTH_DEFAULT_PASSWORD");
+            user.setPassword(passwordEncoder.encode("login_by_google"));
             user.setDateOfBirth(LocalDate.of(1,1,1));
             user.setRole(Role.CUSTOMER);
             user.setCreatedAt(LocalDate.now());
-            user.setStatus("Active");
+            user.setStatus("ACTIVE");
             userRepository.save(user);
         }
         else if (user.getGoogleId() == null){
@@ -67,12 +72,8 @@ public class LoginService implements UserDetailsService {
                 .build();
     }
 
-    private User findByUserNameOrEmail(String usernameOrEmail) {
-        User user = userRepository.findByUserName(usernameOrEmail);
-        if(user == null){
-            user = userRepository.findByEmail(usernameOrEmail);
-        }
-        return user;
+    private User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     public boolean getUserByEmail(String email) {
