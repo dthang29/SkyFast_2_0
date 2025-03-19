@@ -5,20 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Booking Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="/css/bookingManagement.css">
-
+    <!-- CSS Files -->
+    <link rel="stylesheet" th:href="@{/assets/css/planeCategory.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/plugins.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/kaiadmin.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/demo.css}" />
 </head>
 <body>
 <div class="d-flex flex-row">
     <!-- Sidebar -->
     <nav class="sidebar p-3">
-        <h4 class="text-center dashboard-title">Staff Management</h4>
+        <h4 class="text-center dashboard-title" style="color: #575962">SkyFast</h4>
         <ul class="nav flex-column" id="sidebar-links">
             <li class="nav-item">
-                <!-- Sử dụng th:href để tạo đường dẫn động tới /tickets/ticketManagement -->
-                <a th:href="@{/tickets}" class="nav-link active" data-page="ticketManagement">
-                    <i class="fas fa-credit-card mr-2"></i>
-                    Ticket Management
+                <a href="/dashboard" class="nav-link active" data-page="Dashboard.html">
+                    <i class="fas fa-home"></i>Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/flights" class="nav-link" data-page="flightManagement.html">
+                    <i class="fas fa-plane"></i>Flight Management
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/airlines/list" class="nav-link" data-page="airlineManagement.html">
+                    <i class="fas fa-plane"></i>Airline Management
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/users/list" class="nav-link" data-page="userlist.html">
+                    <i class="fas fa-users"></i>User Management
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/planeCategory">
+                    <i class="fa fa-gavel"></i> <span>Airplane Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/refund/list">
+                    <i class="fa fa-globe"></i> <span>Refund Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/bookings">
+                    <i class="fa fa-cart-plus"></i> <span>Booking Management</span>
                 </a>
             </li>
         </ul>
@@ -26,20 +58,19 @@
     <!-- End Sidebar -->
 
     <!-- Booking Table-->
-    <div class="container mt-4 main-content">
-        <div class="content-container" style="width: 1456px;">
+    <div class="container mt-4 main-content" style="margin-right: 290px;">
+        <div class="content-container" style="width: 1545px;">
             <h2 class="text-dark fw-bold">Booking List</h2>
 
             <!-- Bộ lọc tìm kiếm -->
-            <div class="filters-container">
-                <!-- Hàng 1: User Name và Booking Date -->
-                <div class="filter-row">
+            <div class="row mb-3">
+                <div class="col-md-4">
                     <input type="text" id="searchUserName" class="form-control" placeholder="Search by User Name"/>
-                    <input type="date" id="searchBookingDate" class="form-control"/>
                 </div>
-
-                <!-- Hàng 2: Booking Status !-->
-                <div class="filter-row">
+                <div class="col-md-4">
+                <input type="date" id="searchBookingDate" class="form-control"/>
+                </div>
+                <div class="col-md-4">
                     <select id="searchBookingStatus" class="form-control">
                         <option value="">-- All Status --</option>
                         <option value="Done">Done</option>
@@ -56,6 +87,8 @@
                     <th>User Name</th>
                     <th>Booking Date</th>
                     <th>Total Price</th>
+                    <th>Promotion</th>
+                    <th>Booking Code</th>
                     <th>Status</th>
                     <th>Actions</th>
                     <th>Detail Booking</th>
@@ -65,14 +98,16 @@
                 <tr th:each="booking : ${bookings}">
                     <td th:text="${booking.id}"></td>
                     <td th:text="${booking.userName}" class="user-name"> </td>
-                    <td th:text="${booking.bookingDate}" class="booking-date"> </td>
+                    <td th:text="${#temporals.format(booking.bookingDate, 'dd/MM/yyyy')}" class="booking-date"> </td>
                     <td th:text="${booking.totalPrice}"></td>
+                    <td th:text="${booking.code}"></td>
+                    <td th:text="${booking.bookingCode}"></td>
                     <td th:text="${booking.bookingStatus}" class="booking-status"></td>
                     <td>
-                        <a th:href="@{/bookings/{id}(id=${booking.id})}" class="btn btn-primary">Update</a>
+                        <a th:href="@{/admin/bookings/{id}(id=${booking.id})}" class="btn btn-primary">Update</a>
                     </td>
                     <td>
-                        <a th:href="@{/bookings/{id}/tickets(id=${booking.id})}" class="btn btn-primary">View Ticket</a>
+                        <a th:href="@{/admin/bookings/{id}/tickets(id=${booking.id})}" class="btn btn-primary">View Ticket</a>
                     </td>
                 </tr>
                 </tbody>
@@ -86,7 +121,32 @@
         </div>
     </div>
 </div>
+<!-- End Booking Table -->
+
+<script th:src="@{/assets/js/plugin/webfont/webfont.min.js}"></script>
+<script>
+    WebFont.load({
+        google: { families: ["Public Sans:300,400,500,600,700"] },
+        custom: {
+            families: [
+                "Font Awesome 5 Solid",
+                "Font Awesome 5 Regular",
+                "Font Awesome 5 Brands",
+                "simple-line-icons",
+            ],
+            urls: [/* Thêm Thymeleaf cho đúng đường dẫn */
+                /* "../assets/css/fonts.min.css" */
+                "/assets/css/fonts.min.css"
+            ],
+        },
+        active: function () {
+            sessionStorage.fonts = true;
+        },
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 <script src="/js/bookingManagementJs.js"></script>
+
 </body>
 </html>

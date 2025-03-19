@@ -39,6 +39,8 @@ function formatDateString(dateStr) {
     return dateStr; // Nếu đã là YYYY-MM-DD thì giữ nguyên
 }
 
+
+
 document.addEventListener("DOMContentLoaded", function() {
     let filterBookingId = "";
     if (filterBookingId) {
