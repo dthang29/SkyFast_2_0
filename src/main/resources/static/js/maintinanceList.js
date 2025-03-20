@@ -61,7 +61,7 @@ function searchMaintenance() {
         toDate: toDate
     });
 
-    fetch(`/maintenance/search?${queryParams.toString()}`)
+    fetch(`/admin/maintenance/search?${queryParams.toString()}`)
         .then(response => response.json())
         .then(data => {
             updateMaintenanceTable(data);
@@ -108,7 +108,7 @@ function resetMaintenanceList() {
         return;
     }
 
-    fetch(`/maintenance/list/json/${airplaneId}`)
+    fetch(`/admin/maintenance/list/json/${airplaneId}`)
         .then(response => response.json())
         .then(data => {
             updateMaintenanceTable(data);
@@ -152,7 +152,7 @@ function showNotification(message, type) {
 // 🎯 Xử lý update modal
 function openUpdateModal(id) {
     console.log("🔄 Opening update modal for ID:", id);
-    fetch(`/maintenance/get/${id}`)
+    fetch(`/admin/maintenance/get/${id}`)
         .then(response => response.json())
         .then(data => {
             if (data) {
@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 duration: maintenanceDuration
             };
 
-            fetch(`/maintenance/update/${maintenanceId}`, {
+            fetch(`/admin/maintenance/update/${maintenanceId}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

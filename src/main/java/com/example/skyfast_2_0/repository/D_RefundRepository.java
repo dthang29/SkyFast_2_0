@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface D_RefundRepository extends JpaRepository<Refund, Integer> {
@@ -18,8 +19,8 @@ public interface D_RefundRepository extends JpaRepository<Refund, Integer> {
             "(:toRefundDate IS NULL OR r.refundDate <= :toRefundDate)")
     List<Refund> searchRefunds(
             @Param("status") String status,
-            @Param("fromRequestDate") LocalDate fromRequestDate,
-            @Param("toRequestDate") LocalDate toRequestDate,
-            @Param("fromRefundDate") LocalDate fromRefundDate,
-            @Param("toRefundDate") LocalDate toRefundDate);
+            @Param("fromRequestDate") LocalDateTime fromRequestDate,
+            @Param("toRequestDate") LocalDateTime toRequestDate,
+            @Param("fromRefundDate") LocalDateTime fromRefundDate,
+            @Param("toRefundDate") LocalDateTime toRefundDate);
 }

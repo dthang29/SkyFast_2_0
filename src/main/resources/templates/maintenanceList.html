@@ -29,13 +29,12 @@
     </script>
 
     <!-- CSS Files -->
-    <link rel="stylesheet" th:href="@{/assets/css/maintinanceList.css}" />
     <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/assets/css/plugins.min.css}" />
     <link rel="stylesheet" th:href="@{/assets/css/kaiadmin.min.css}" />
     <link rel="stylesheet" th:href="@{/assets/css/demo.css}" />
 
-<!--    <link href="css/planeCategory.css" rel="stylesheet" type="text/css" />-->
+    <link href="../../css/maintinanceList.css" rel="stylesheet" type="text/css" />
     <script src="../../js/maintinanceList.js" type="text/javascript"></script>
 </head>
 
@@ -66,12 +65,12 @@
                 </a>
             </li>
             <li class=" nav-item active">
-                <a href="/planeCategory">
+                <a href="/admin/planeCategory">
                     <i class="fa fa-gavel"></i> <span>Airplane Management</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/refund/list">
+                <a href="/staff/refund/list">
                     <i class="fa fa-globe"></i> <span>Refund Management</span>
                 </a>
             </li>
@@ -113,15 +112,15 @@
                     <input type="date" class="form-control" name="toDate" style="width: 180px;">
 
                     <button class="btn btn-primary" type="submit">🔍 Search</button>
-                    <a class="btn btn-danger" id="resetSearch">✖ Reset</a>
+                    <a class="btn btn-danger" th:onclick="|window.location.href='/admin/maintenance/list/' + ${airplaneId}|">✖ Reset</a>
                 </div>
             </div>
 
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="text-dark fw-bold">Maintenance List</h2>
-<!--                <button class="btn btn-success" data-bs-toggle="modal" onclick="openModal(0)" data-bs-target="#createUserModal">-->
-<!--                    Add New Plane Category-->
-<!--                </button>-->
+                <!--                <button class="btn btn-success" data-bs-toggle="modal" onclick="openModal(0)" data-bs-target="#createUserModal">-->
+                <!--                    Add New Plane Category-->
+                <!--                </button>-->
             </div>
 
             <table class="table table-borderless align-middle mt-3">
@@ -153,20 +152,20 @@
                     <!--                    </td>-->
                     <td>
                         <button  class="btn btn-update"  th:if="${maintenance.maintenanceStatus != 'Processed'}"
-                                th:onclick="|openUpdateModal(${maintenance.id})|">Update</button>
+                                 th:onclick="|openUpdateModal(${maintenance.id})|">Update</button>
                     </td>
 
                 </tr>
                 </tbody>
             </table>
-            <a href="/planeCategory" class="btn btn-secondary">Back to Airplane List</a>
+            <a href="/admin/planeCategory" class="btn btn-secondary">Back to Airplane List</a>
         </div>
 
         <!-- Notification Toast -->
         <div id="notification-toast"
              class="toast align-items-center text-white border-0 position-fixed"
              role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
+            <div class="d-flex" hidden>
                 <div class="toast-body" id="notification-message"></div>
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
                         aria-label="Close"></button>

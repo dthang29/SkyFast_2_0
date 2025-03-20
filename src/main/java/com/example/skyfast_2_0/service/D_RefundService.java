@@ -5,7 +5,7 @@ import com.example.skyfast_2_0.repository.D_RefundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +23,7 @@ public class D_RefundService {
         return DRefundRepository.findById(id);
     }
 
-    public Refund updateRefund(Integer id, String status, LocalDate refundDate) {
+    public Refund updateRefund(Integer id, String status, LocalDateTime refundDate) {
         Optional<Refund> refundOpt = DRefundRepository.findById(id);
         if (refundOpt.isPresent()) {
             Refund refund = refundOpt.get();
@@ -34,9 +34,10 @@ public class D_RefundService {
         return null;
     }
 
-    public List<Refund> searchRefunds(String status, LocalDate fromRequestDate, LocalDate toRequestDate, LocalDate fromRefundDate, LocalDate toRefundDate) {
+    public List<Refund> searchRefunds(String status, LocalDateTime fromRequestDate, LocalDateTime toRequestDate, LocalDateTime fromRefundDate, LocalDateTime toRefundDate) {
         return DRefundRepository.searchRefunds(status, fromRequestDate, toRequestDate, fromRefundDate, toRefundDate);
     }
+
 
     public boolean updateRefundStatus(Integer id, String newStatus) {
         Optional<Refund> refundOpt = DRefundRepository.findById(id);

@@ -10,13 +10,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/refund")
+@RequestMapping("/staff/refund")
 public class D_RefundController {
 
     @Autowired
@@ -39,7 +40,8 @@ public class D_RefundController {
     @ResponseBody
     public Map<String, Object> updateRefund(@PathVariable Integer id, @RequestBody Map<String, Object> requestData) {
         String status = (String) requestData.get("status");
-        LocalDate refundDate = LocalDate.parse((String) requestData.get("refundDate"));
+        String refundDateString = (String) requestData.get("refundDate");
+        LocalDateTime refundDate = refundDateString != null ? LocalDateTime.parse(refundDateString) : null;
 
         Refund updatedRefund = DRefundService.updateRefund(id, status, refundDate);
         Map<String, Object> response = new HashMap<>();
@@ -73,7 +75,13 @@ public class D_RefundController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromRefundDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toRefundDate) {
 
-        List<Refund> refunds = DRefundService.searchRefunds(status, fromRequestDate, toRequestDate, fromRefundDate, toRefundDate);
+        List<Refund> refunds = DRefundService.searchRefunds(
+                status,
+                fromRequestDate != null ? fromRequestDate.atStartOfDay() : null,
+                toRequestDate != null ? toRequestDate.atTime(23, 59, 59) : null,
+                fromRefundDate != null ? fromRefundDate.atStartOfDay() : null,
+                toRefundDate != null ? toRefundDate.atTime(23, 59, 59) : null
+        );
         return ResponseEntity.ok(refunds);
     }
 }

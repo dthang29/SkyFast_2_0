@@ -51,7 +51,7 @@ function searchMaintenance() {
     if (fromDate) queryParams.append("fromDate", fromDate);
     if (toDate) queryParams.append("toDate", toDate);
 
-    fetch(`/maintenance/searchAll?${queryParams.toString()}`)
+    fetch(`/admin/maintenance/searchAll?${queryParams.toString()}`)
         .then(response => response.json())
         .then(data => {
             updateMaintenanceTable(data);
@@ -95,7 +95,7 @@ function updateMaintenanceTable(maintenanceList) {
 function resetMaintenanceList() {
     console.log("🔄 Resetting maintenance list...");
 
-    fetch(`/maintenance/list/json`)
+    fetch(`/admin/maintenance/list/json`)
         .then(response => response.json())
         .then(data => {
             updateMaintenanceTable(data);
@@ -136,7 +136,7 @@ function showNotification(message, type) {
 // 🎯 Xử lý update modal
 function openUpdateModal(id) {
     console.log("🔄 Opening update modal for ID:", id);
-    fetch(`/maintenance/get/${id}`)
+    fetch(`/admin/maintenance/get/${id}`)
         .then(response => response.json())
         .then(data => {
             if (data) {
@@ -187,34 +187,34 @@ document.addEventListener("DOMContentLoaded", function () {
                 duration: maintenanceDuration
             };
 
-            fetch(`/maintenance/update/${maintenanceId}`, {
+            fetch(`/admin/maintenance/update/${maintenanceId}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(requestData)
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    showNotification("✅ Maintenance updated successfully!", "success");
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification("✅ Maintenance updated successfully!", "success");
 
-                    // 🔴 Đóng modal sau khi update thành công
-                    let modalElement = document.getElementById("updateMaintenanceModal");
-                    let modal = bootstrap.Modal.getInstance(modalElement);
-                    if (modal) {
-                        modal.hide();
+                        // 🔴 Đóng modal sau khi update thành công
+                        let modalElement = document.getElementById("updateMaintenanceModal");
+                        let modal = bootstrap.Modal.getInstance(modalElement);
+                        if (modal) {
+                            modal.hide();
+                        }
+
+                        resetMaintenanceList(); // 🔄 Reload lại danh sách
+                    } else {
+                        showNotification("⚠ Update failed!", "error");
                     }
-
-                    resetMaintenanceList(); // 🔄 Reload lại danh sách
-                } else {
-                    showNotification("⚠ Update failed!", "error");
-                }
-            })
-            .catch(error => {
-                console.error("Error updating maintenance:", error);
-                showNotification("❌ An error occurred!", "error");
-            });
+                })
+                .catch(error => {
+                    console.error("Error updating maintenance:", error);
+                    showNotification("❌ An error occurred!", "error");
+                });
         });
     } else {
         console.error("❌ Update form not found!");

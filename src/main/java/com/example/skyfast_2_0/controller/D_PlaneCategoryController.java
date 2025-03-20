@@ -27,7 +27,7 @@ public class D_PlaneCategoryController {
     @Autowired
     private D_AirlineService DAirlineService;
 
-    @GetMapping("/planeCategory")
+    @GetMapping("/admin/planeCategory")
     public String getPlaneCategories(Model model) {
         // Lấy danh sách các PlaneCategory từ dịch vụ
         List<Airplane> airplaneList = DPlaneCategoryService.getAllPlaneCategories();
@@ -43,7 +43,6 @@ public class D_PlaneCategoryController {
     public String addAirplane(
             @RequestParam("airplaneName") String airplaneName,
             @RequestParam("manufacturer") String manufacturer,
-            @RequestParam("diagram") String diagram,
             @RequestParam("speed") Float speed,
             @RequestParam("totalLength") Float totalLength,
             @RequestParam("wingspan") Float wingspan,
@@ -58,7 +57,7 @@ public class D_PlaneCategoryController {
         boolean isExist = DPlaneCategoryService.existsByAirplaneName(airplaneName);
         if (isExist) {
             redirectAttributes.addFlashAttribute("errorMessage", "Airplane name already exists!");
-            return "redirect:/planeCategory";
+            return "redirect:/admin/planeCategory";
         }
 
         try {
@@ -73,7 +72,6 @@ public class D_PlaneCategoryController {
             Airplane airplane = new Airplane();
             airplane.setAirplaneName(airplaneName);
             airplane.setManufacturer(manufacturer);
-            airplane.setDiagram(diagram);
             airplane.setSpeed(speed);
             airplane.setTotalLength(totalLength);
             airplane.setWingspan(wingspan);
@@ -92,13 +90,14 @@ public class D_PlaneCategoryController {
             e.printStackTrace();
         }
 
-        return "redirect:/planeCategory";
+        return "redirect:/admin/planeCategory";
     }
 
 
-    @GetMapping("/planeCategory/search")
+    @GetMapping("/admin/planeCategory/search")
     public String searchAirplanes(@RequestParam(value = "name", required = false) String name,
                                   @RequestParam(value = "status", required = false) String status,
+                                  @RequestParam(value = "airlineName", required = false) String airlineName,
                                   Model model) {
         if (name != null && name.trim().isEmpty()) {
             name = null;
@@ -106,7 +105,7 @@ public class D_PlaneCategoryController {
         if (status != null && status.trim().isEmpty()) {
             status = null;
         }
-        List<Airplane> airplaneList = DPlaneCategoryService.searchAirplanes(name, status);
+        List<Airplane> airplaneList = DPlaneCategoryService.searchAirplanes(name, status, airlineName);
         model.addAttribute("airplaneList", airplaneList);
             return "planeCategory";
     }
@@ -129,7 +128,6 @@ public class D_PlaneCategoryController {
             @RequestParam("id") Integer id,
             @RequestParam("airplaneName") String airplaneName,
             @RequestParam("manufacturer") String manufacturer,
-            @RequestParam("diagram") String diagram,
             @RequestParam("speed") Float speed,
             @RequestParam("totalLength") Float totalLength,
             @RequestParam("wingspan") Float wingspan,
@@ -144,7 +142,6 @@ public class D_PlaneCategoryController {
         if (airplane != null) {
             airplane.setAirplaneName(airplaneName);
             airplane.setManufacturer(manufacturer);
-            airplane.setDiagram(diagram);
             airplane.setSpeed(speed);
             airplane.setTotalLength(totalLength);
             airplane.setWingspan(wingspan);
@@ -165,7 +162,7 @@ public class D_PlaneCategoryController {
                 } catch (IOException e) {
                     e.printStackTrace();
                     redirectAttributes.addFlashAttribute("errorMessage", "Failed to update airplane image!");
-                    return "redirect:/planeCategory";
+                    return "redirect:/admin/planeCategory";
                 }
             }
 
@@ -175,7 +172,7 @@ public class D_PlaneCategoryController {
             redirectAttributes.addFlashAttribute("errorMessage", "Airplane not found!");
         }
 
-        return "redirect:/planeCategory";
+        return "redirect:/admin/planeCategory";
     }
 
     @GetMapping("/airplanes/get")

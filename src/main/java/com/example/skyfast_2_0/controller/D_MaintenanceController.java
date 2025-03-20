@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/maintenance")
+@RequestMapping("/admin/maintenance")
 public class D_MaintenanceController {
 
     @Autowired
@@ -33,7 +33,7 @@ public class D_MaintenanceController {
         Map<String, Object> response = new HashMap<>();
         response.put("success", success);
         if (success) {
-            response.put("redirectUrl", "/maintenance/list/" + request.getAirplaneId());
+            response.put("redirectUrl", "/admin/maintenance/list/" + request.getAirplaneId());
         }
         return ResponseEntity.ok(response);
     }
@@ -42,6 +42,7 @@ public class D_MaintenanceController {
     public String getMaintenanceList(@PathVariable Integer airplaneId, Model model) {
         List<Maintenance> maintenanceList = DMaintenanceService.getMaintenanceByAirplaneId(airplaneId);
         model.addAttribute("maintenanceList", maintenanceList);
+        model.addAttribute("airplaneId", airplaneId);
         model.addAttribute("airplane", airplaneRepository.findById(airplaneId).orElse(null));
 
         return "maintenanceList"; // Trả về trang Thymeleaf (Không phải JSON)
