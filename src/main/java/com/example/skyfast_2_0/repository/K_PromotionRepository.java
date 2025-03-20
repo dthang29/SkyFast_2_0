@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface K_PromotionRepository extends JpaRepository<Promotion, Integer> {
     Optional<Promotion> findByCode(String code);
+    boolean existsByCode(String code);
 }

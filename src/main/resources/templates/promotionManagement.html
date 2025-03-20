@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ticket Management</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Promotion Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <!-- CSS Files -->
   <link rel="stylesheet" th:href="@{/assets/css/planeCategory.css}" />
   <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}" />
@@ -61,57 +61,56 @@
     </ul>
   </nav>
   <!-- End Sidebar -->
-
-  <!-- Booking Table-->
+  <!-- Promotion Table-->
   <div class="container mt-4 main-content" style="margin-right: 290px;">
     <div class="content-container" style="width: 1545px;">
-      <h2 class="text-dark fw-bold">Ticket List</h2>
+      <h2 class="text-dark fw-bold">Promotion List</h2>
 
       <!-- Bộ lọc tìm kiếm -->
       <div class="row mb-3">
-        <!-- Hàng 1: Flight Number, Seat Number và Booking Date -->
         <div class="col-md-4">
-          <input type="text" id="searchFlightNumber" class="form-control" placeholder="Search by Flight Number">
+          <input type="text" id="searchAirlineName" class="form-control" placeholder="Search by Airline Name"/>
         </div>
         <div class="col-md-4">
-        <input type="text" id="searchSeatNumber" class="form-control" placeholder="Search by Seat Number">
+          <input type="text" id="searchPromotionCode" class="form-control" placeholder="Search by Promotion Code"/>
         </div>
         <div class="col-md-4">
-        <input type="text" id="searchPassenger" class="form-control" placeholder="Search by Passenger">
-        </div>
-        <!-- Hàng 2: Ticket Status -->
-        <div class="filter-row">
-          <select id="searchTicketStatus" class="form-control">
+          <select id="searchPromotionStatus" class="form-control">
             <option value="">-- All Status --</option>
-            <option value="Available">Available</option>
-            <option value="Time-Expired">Time-Expired</option>
-            <option value="Cancelled">Cancelled</option>
+            <option value="ACTIVE">ACTIVE</option>
+            <option value="INACTIVE">INACTIVE</option>
           </select>
         </div>
       </div>
+
+       <a href="/admin/promotions/new" class="btn btn-success">+ New</a>
 
       <table class="table table-bordered mt-3">
         <thead class="table-light">
         <tr>
           <th>ID</th>
-          <th>Booking ID</th>
-          <th>Flight Number</th>
-          <th>Passenger</th>
-          <th>Seat Number</th>
+          <th>Airline</th>
+          <th>Code</th>
+          <th>Description</th>
+          <th>Discount Percentage</th>
+          <th>Start-Date</th>
+          <th>End-Date</th>
           <th>Status</th>
           <th>Actions</th>
         </tr>
         </thead>
-        <tbody id="ticketTableBody">
-        <tr th:each="ticket : ${tickets}">
-          <td th:text="${ticket.id}"></td>
-          <td th:text="${ticket.bookingId}"></td>
-          <td th:text="${ticket.flightNumber}" class="flight-number"></td>
-          <td th:text="${ticket.passengerFullName}" class="passenger"></td>
-          <td th:text="${ticket.seatCode}" class="seat-number"></td>
-          <td th:text="${ticket.status}" class="ticket-status"></td>
+        <tbody id="promotionTableBody">
+        <tr th:each="promotion : ${promotions}">
+          <td th:text="${promotion.id}"></td>
+          <td th:text="${promotion.airlineName}" class="airline-name"> </td>
+          <td th:text="${promotion.code}" class="promotion-code"></td>
+          <td th:text="${promotion.description}"></td>
+          <td th:text="${promotion.discountPercentage}"></td>
+          <td th:text="${#temporals.format(promotion.startDate, 'dd/MM/yyyy')}" class="start-date"> </td>
+          <td th:text="${#temporals.format(promotion.endDate, 'dd/MM/yyyy')}" class="end-date"> </td>
+          <td th:text="${promotion.status}" class="promotion-status"></td>
           <td>
-            <a th:href="@{/admin/tickets/{id}(id=${ticket.id})}" class="btn btn-primary">Update</a>
+            <a th:href="@{/admin/promotions/{id}(id=${promotion.id})}" class="btn btn-primary">Update</a>
           </td>
         </tr>
         </tbody>
@@ -125,7 +124,7 @@
     </div>
   </div>
 </div>
-<!--End Table-->
+<!-- End Promotion Table -->
 <script th:src="@{/assets/js/plugin/webfont/webfont.min.js}"></script>
 <script>
   WebFont.load({
@@ -149,7 +148,6 @@
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-<script src="/js/ticketManagementJs.js"></script>
+<script src="/js/promotionManagementJs.js"></script>
 </body>
 </html>
