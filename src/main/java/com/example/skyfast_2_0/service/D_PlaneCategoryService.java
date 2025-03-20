@@ -21,8 +21,8 @@ public class D_PlaneCategoryService {
         DPlaneCategoryRepository.save(airplane);
     }
 
-    public List<Airplane> searchAirplanes(String name, String status) {
-        return DPlaneCategoryRepository.searchAirplanes(name, status);
+    public List<Airplane> searchAirplanes(String name, String status, String airlineName) {
+        return DPlaneCategoryRepository.searchAirplanes(name, status, airlineName);
     }
 
     public Airplane findById(Integer id) {

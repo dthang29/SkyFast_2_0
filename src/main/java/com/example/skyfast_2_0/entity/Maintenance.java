@@ -44,4 +44,64 @@ public class Maintenance {
     @JoinColumn(name = "airplane_id", nullable = false)
     private Airplane airplane;
 
+    // Getter and Setter for id
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    // Getter and Setter for maintenanceDate
+    public LocalDate getMaintenanceDate() {
+        return maintenanceDate;
+    }
+
+    public void setMaintenanceDate(LocalDate maintenanceDate) {
+        this.maintenanceDate = maintenanceDate;
+    }
+
+    // Getter and Setter for description
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    // Getter and Setter for maintenanceStatus
+    public String getMaintenanceStatus() {
+        return maintenanceStatus;
+    }
+
+    public void setMaintenanceStatus(String maintenanceStatus) {
+        this.maintenanceStatus = maintenanceStatus;
+    }
+
+    // Getter and Setter for duration
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    // Getter and Setter for completionDate
+    public LocalDate getCompletionDate() {
+        return completionDate;
+    }
+
+    public void setCompletionDate(LocalDate completionDate) { this.completionDate = completionDate; }
+
+    // Getter and Setter for airplane
+    public Airplane getAirplane() {
+        return airplane;
+    }
+
+    public void setAirplane(Airplane airplane) {
+        this.airplane = airplane;
+    }
 }

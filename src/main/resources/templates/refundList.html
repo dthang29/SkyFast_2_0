@@ -29,13 +29,12 @@
     </script>
 
     <!-- CSS Files -->
-    <link rel="stylesheet" th:href="@{/assets/css/refundList.css}" />
     <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/assets/css/plugins.min.css}" />
     <link rel="stylesheet" th:href="@{/assets/css/kaiadmin.min.css}" />
     <link rel="stylesheet" th:href="@{/assets/css/demo.css}" />
 
-<!--    <link href="css/planeCategory.css" rel="stylesheet" type="text/css" />-->
+    <link href="../../css/refundList.css" rel="stylesheet" type="text/css" />
     <script src="../../js/refundList.js" type="text/javascript"></script>
 </head>
 
@@ -66,12 +65,12 @@
                 </a>
             </li>
             <li class=" nav-item ">
-                <a href="/planeCategory">
+                <a href="/admin/planeCategory">
                     <i class="fa fa-gavel"></i> <span>Airplane Management</span>
                 </a>
             </li>
             <li class="nav-item active">
-                <a href="/refund/list">
+                <a href="/staff/refund/list">
                     <i class="fa fa-globe"></i> <span>Refund Management</span>
                 </a>
             </li>
@@ -114,7 +113,7 @@
 
 
             <table class="table mt-3">
-                <thead class="table-dark">
+                <thead class="table-light">
                 <tr>
                     <th>Request Date</th>
                     <th>Refund Date</th>
