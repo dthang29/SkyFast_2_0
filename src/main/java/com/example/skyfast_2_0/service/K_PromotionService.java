@@ -49,6 +49,13 @@ public class K_PromotionService {
     public K_PromotionDTO updatePromotionStatus(Integer id, LocalDate endDate, String status) {
         Promotion promotion = KPromotionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Promotion not found"));
+
+
+        // Kiểm tra nếu endDate nhỏ hơn startDate thì báo lỗi
+        if (endDate.isBefore(promotion.getStartDate())) {
+            throw new IllegalArgumentException("End date cannot be before start date");
+        }
+
         promotion.setEndDate(endDate);
         promotion.setStatus(status);
         KPromotionRepository.save(promotion);

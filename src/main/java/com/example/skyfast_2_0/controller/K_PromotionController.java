@@ -33,13 +33,21 @@ public class K_PromotionController {
     }
 
     @PostMapping("/update/{id}")
-    public String updatePromotion(@PathVariable Integer id, @ModelAttribute K_PromotionDTO KPromotionDTO) {
-        K_PromotionDTO updatedPromotion = KPromotionService.updatePromotionStatus(id, KPromotionDTO.getEndDate(), KPromotionDTO.getStatus());
-        if(updatedPromotion == null) {
-            return "notFound";
+    public String updatePromotion(@PathVariable Integer id, @ModelAttribute K_PromotionDTO KPromotionDTO,  Model model) {
+        try {
+            K_PromotionDTO updatedPromotion = KPromotionService.updatePromotionStatus(id, KPromotionDTO.getEndDate(), KPromotionDTO.getStatus());
+            if (updatedPromotion == null) {
+                return "notFound";
+            }
+            model.addAttribute("message", "Updated promotion successfully");
+            return "redirect:/admin/promotions";
+        } catch(Exception e){
+                model.addAttribute("error", "Error: " + e.getMessage());
+                model.addAttribute("promotion", KPromotionDTO);
+                return "promotionDetail";
+            }
         }
-        return "redirect:/admin/promotions";
-    }
+
 
 // hiển thị tạo mới promotion
     @GetMapping("/new")
