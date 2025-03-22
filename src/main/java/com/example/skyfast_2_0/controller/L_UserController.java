@@ -10,47 +10,48 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/manager")
 public class L_UserController {
-    private final L_UserService LUserService;
+    private final L_UserService userService;
 
-    public L_UserController(L_UserService LUserService) {
-        this.LUserService = LUserService;
+    public L_UserController(L_UserService userService) {
+        this.userService = userService;
     }
 
-    @GetMapping("/list")
+    @GetMapping("/userlist")
     public String getAllUsers(Model model) {
-        List<L_UserDTO> users = LUserService.getAllActiveAndInactiveUsers();
+        List<L_UserDTO> users = userService.getAllActiveAndInactiveUsers();
         model.addAttribute("users", users);
         return "userlist";
     }
 
-    @GetMapping("/detail/{id}")
+    @GetMapping("user/detail/{id}")
     public String getUserDetail(@PathVariable Integer id, Model model) {
-        L_UserDTO user = LUserService.getUserById(id);
+        L_UserDTO user = userService.getUserById(id);
         if (user != null) {
             model.addAttribute("user", user);
             return "UserDetail";
         }
-        return "redirect:/users/list";
+        return "redirect:/manager/userlist";
     }
 
-    @PostMapping("/create")
-    public String createUser(@ModelAttribute L_UserDTO LUserDTO, RedirectAttributes redirectAttributes) {
+    @PostMapping("/create/user")
+    public String createUser(@ModelAttribute L_UserDTO userDTO, RedirectAttributes redirectAttributes) {
         try {
-            LUserService.createUser(LUserDTO);
+            userService.createUser(userDTO);
             redirectAttributes.addFlashAttribute("successMessage", "User created successfully!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Failed to create user: " + e.getMessage());
         }
-        return "redirect:/users/list";
+        return "redirect:/manager/userlist";
     }
 
-    @PostMapping("/update/{id}")
-    public String updateUser(@PathVariable Integer id, @ModelAttribute L_UserDTO LUserDTO, RedirectAttributes redirectAttributes) {
-        System.out.println("Received dateOfBirth: " + LUserDTO.getDateOfBirth());
+    @PostMapping("user/update/{id}")
+    public String updateUser(@PathVariable Integer id, @ModelAttribute L_UserDTO userDTO, RedirectAttributes redirectAttributes) {
+        System.out.println("Received dateOfBirth: " + userDTO.getDateOfBirth()); // Kiểm tra dữ liệu nhận được
+
         try {
-            L_UserDTO updatedUser = LUserService.updateUser(id, LUserDTO);
+            L_UserDTO updatedUser = userService.updateUser(id, userDTO);
             if (updatedUser != null) {
                 redirectAttributes.addFlashAttribute("successMessage", "User updated successfully!");
             } else {
@@ -59,20 +60,21 @@ public class L_UserController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Failed to update user: " + e.getMessage());
         }
-        return "redirect:/users/list";
+        return "redirect:/manager/userlist";
     }
 
-    @PostMapping("/delete/{id}")
+
+    @PostMapping("/delete/user/{id}")
     public String deleteUser(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         try {
-            if (LUserService.deleteUser(id)) {
-                redirectAttributes.addFlashAttribute("successMessage", "User disable successfully!");
+            if (userService.deleteUser(id)) {
+                redirectAttributes.addFlashAttribute("successMessage", "User deleted successfully!");
             } else {
                 redirectAttributes.addFlashAttribute("errorMessage", "User not found!");
             }
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Failed to disable user: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to delete user: " + e.getMessage());
         }
-        return "redirect:/users/list";
+        return "redirect:/manager/userlist";
     }
 }

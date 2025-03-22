@@ -47,17 +47,17 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/flights" class="nav-link" data-page="/flights">
+                <a href="/manager/flights" class="nav-link" data-page="/manager/flights">
                     <i class="fas fa-plane"></i>Flight Management
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/airlines/list" class="nav-link" data-page="/airlines/list">
+                <a href="/manager/airlinelist" class="nav-link" data-page="/manager/airlinelist">
                     <i class="fas fa-plane"></i>Airline Management
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/users/list" class="nav-link" data-page="/users/list">
+                <a href="/manager/userlist" class="nav-link" data-page="/manager/userlist">
                     <i class="fas fa-users"></i>User Management
                 </a>
             </li>
@@ -125,13 +125,13 @@
                     <td th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd')}"></td>
                     <td th:text="${#temporals.format(user.updateAt, 'yyyy-MM-dd')}"></td>
                     <td>
-                        <a th:href="@{/users/detail/{id}(id=${user.id})}" class="btn btn-primary">Edit</a>
-                        <form th:action="@{/users/delete/{id}(id=${user.id})}" method="post"
+                        <a th:href="@{/manager/user/detail/{id}(id=${user.id})}" class="btn btn-primary">Edit</a>
+                        <form th:action="@{/manager/delete/user/{id}(id=${user.id})}" method="post"
                               style="display: inline;">
                             <button type="submit" class="btn btn-danger"
                                     th:disabled="${user.status == 'INACTIVE'}"
                                     onclick="return confirm('Are you sure you want to disable this user?')">
-                                Delete
+                                Disable
                             </button>
                         </form>
                     </td>
@@ -149,7 +149,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <form th:action="@{/users/create}" method="post">
+                        <form th:action="@{/manager/create/user}" method="post">
                             <div class="mb-3">
                                 <label for="userName" class="form-label">User Name</label>
                                 <input type="text" class="form-control" id="userName" name="userName" required />

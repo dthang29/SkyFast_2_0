@@ -2,7 +2,7 @@ package com.example.skyfast_2_0.service;
 
 import com.example.skyfast_2_0.entity.Airline;
 import com.example.skyfast_2_0.constant.Status;
-import com.example.skyfast_2_0.repository.L_AirlineRepository;
+import com.example.skyfast_2_0.repository.AirlineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,47 +12,52 @@ import java.util.List;
 public class L_AirlineService {
 
     @Autowired
-    private L_AirlineRepository LAirlineRepository;
+    private AirlineRepository airlineRepository;
 
-    // Read operations
     public List<Airline> getAllAirlines() {
-        return LAirlineRepository.findAll();
+        return airlineRepository.findAll();
     }
 
     public Airline getAirlineById(Integer id) {
-        return LAirlineRepository.findById(id)
+        return airlineRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Airline not found with id: " + id));
     }
 
-    // Create operation
     public Airline createAirline(Airline airline) {
         if (airline.getAirlineName() == null || airline.getAirlineName().trim().isEmpty()) {
             throw new RuntimeException("Airline name cannot be empty");
         }
-//        airline.setStatus(Status.ACTIVE);
-        return LAirlineRepository.save(airline);
+        if (airline.getFoundedDate() == null) {
+            throw new RuntimeException("Founded date cannot be null");
+        }
+        airline.setStatus(Status.ACTIVE);
+        return airlineRepository.save(airline);
     }
 
-    // Update operation
     public Airline updateAirline(Airline airline) {
         Airline existingAirline = getAirlineById(airline.getId());
 
         existingAirline.setAirlineName(airline.getAirlineName());
         existingAirline.setCountryOfOperation(airline.getCountryOfOperation());
-        existingAirline.setFoundedDate(airline.getFoundedDate()); // LocalDate
+
+        if (airline.getFoundedDate() != null) {
+            existingAirline.setFoundedDate(airline.getFoundedDate());
+        } else {
+            throw new RuntimeException("Founded date cannot be null during update");
+        }
+
         existingAirline.setImage(airline.getImage());
 
         if (airline.getStatus() != null) {
             existingAirline.setStatus(airline.getStatus());
         }
 
-        return LAirlineRepository.save(existingAirline);
+        return airlineRepository.save(existingAirline);
     }
 
-    // Soft delete operation
     public void deleteAirline(Integer id) {
         Airline airline = getAirlineById(id);
         airline.setStatus(Status.INACTIVE);
-        LAirlineRepository.save(airline);
+        airlineRepository.save(airline);
     }
 }
