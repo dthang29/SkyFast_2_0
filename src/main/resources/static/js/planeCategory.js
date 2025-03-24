@@ -206,18 +206,91 @@ function openMaintenanceModal(airplaneId) {
 //            alert("Error while adding maintenance.");
 //        });
 //    });
+//document.addEventListener("DOMContentLoaded", function () {
+//    let maintenanceForm = document.getElementById("maintenanceForm");
+//    if (maintenanceForm) {
+//        maintenanceForm.addEventListener("submit", function (event) {
+//            event.preventDefault(); // Ngăn chặn submit mặc định
+//            console.log("✅ Maintenance form submitted!");
+//
+//            let description = document.getElementById("description").value.trim();
+//            let duration = document.getElementById("duration").value;
+//            let airplaneId = document.getElementById("airplaneId").value;
+//
+//            if (!description || duration <= 0) {
+//                alert("Vui lòng nhập đúng thông tin bảo trì!");
+//                return;
+//            }
+//
+//            let maintenanceData = {
+//                description: description,
+//                duration: duration,
+//                maintenanceDate: new Date().toISOString().split('T')[0], // Ngày hiện tại
+//                maintenanceStatus: "Unprocessed",
+//                airplaneId: airplaneId
+//            };
+//
+//            fetch("/admin/maintenance/add", {
+//                method: "POST",
+//                headers: { "Content-Type": "application/json" },
+//                body: JSON.stringify(maintenanceData)
+//            })
+//            .then(response => response.json())
+//            .then(data => {
+//                if (data.success) {
+//                    console.log("✅ Redirecting to:", data.redirectUrl);
+//                    window.location.href = data.redirectUrl; // Chuyển hướng tới trang danh sách bảo trì
+//                } else {
+//                    alert("Thêm bảo trì thất bại.");
+//                }
+//            })
+//            .catch(error => {
+//                console.error("Error:", error);
+//                alert("Lỗi khi thêm bảo trì.");
+//            });
+//        });
+//    } else {
+//        console.error("🚨 maintenanceForm không tìm thấy trong DOM!");
+//    }
+//});
 document.addEventListener("DOMContentLoaded", function () {
-    let maintenanceForm = document.getElementById("maintenanceForm");
+    // Lấy các phần tử input
+    const startDateInput = document.getElementById("startDate");
+    const durationInput = document.getElementById("duration");
+    const completionDateInput = document.getElementById("completionDate");
+    const maintenanceForm = document.getElementById("maintenanceForm");
+
+    // Thiết lập min cho startDate là ngày hiện tại
+    if (startDateInput) {
+        startDateInput.min = new Date().toISOString().split("T")[0];
+        startDateInput.addEventListener("change", updateCompletionDate);
+    }
+    if (durationInput) {
+        durationInput.addEventListener("change", updateCompletionDate);
+    }
+
+    function updateCompletionDate() {
+        const startDateValue = startDateInput.value;
+        const durationValue = parseInt(durationInput.value) || 0;
+        if (startDateValue && durationValue > 0) {
+            const startDateObj = new Date(startDateValue);
+            // Cộng duration vào ngày bắt đầu (lưu ý: nếu muốn tính ngày bắt đầu là ngày thứ 1 thì giữ nguyên công thức)
+            startDateObj.setDate(startDateObj.getDate() + durationValue);
+            completionDateInput.value = startDateObj.toISOString().split("T")[0];
+        } else {
+            completionDateInput.value = "";
+        }
+    }
+
+    // Xử lý submit form bảo trì
     if (maintenanceForm) {
         maintenanceForm.addEventListener("submit", function (event) {
-            event.preventDefault(); // Ngăn chặn submit mặc định
-            console.log("✅ Maintenance form submitted!");
-
+            event.preventDefault();
             let description = document.getElementById("description").value.trim();
-            let duration = document.getElementById("duration").value;
+            let duration = durationInput.value;
             let airplaneId = document.getElementById("airplaneId").value;
 
-            if (!description || duration <= 0) {
+            if (!description || duration <= 0 || !startDateInput.value) {
                 alert("Vui lòng nhập đúng thông tin bảo trì!");
                 return;
             }
@@ -225,7 +298,8 @@ document.addEventListener("DOMContentLoaded", function () {
             let maintenanceData = {
                 description: description,
                 duration: duration,
-                maintenanceDate: new Date().toISOString().split('T')[0], // Ngày hiện tại
+                maintenanceDate: startDateInput.value, // Ngày bắt đầu bảo trì được chọn
+                completionDate: completionDateInput.value, // Ngày kết thúc bảo trì tự động tính
                 maintenanceStatus: "Unprocessed",
                 airplaneId: airplaneId
             };
@@ -238,8 +312,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        console.log("✅ Redirecting to:", data.redirectUrl);
-                        window.location.href = data.redirectUrl; // Chuyển hướng tới trang danh sách bảo trì
+                        window.location.href = data.redirectUrl;
                     } else {
                         alert("Thêm bảo trì thất bại.");
                     }
@@ -253,3 +326,4 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("🚨 maintenanceForm không tìm thấy trong DOM!");
     }
 });
+

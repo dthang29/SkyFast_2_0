@@ -34,8 +34,8 @@
     <link rel="stylesheet" th:href="@{/assets/css/kaiadmin.min.css}" />
     <link rel="stylesheet" th:href="@{/assets/css/demo.css}" />
 
-    <link href="../../css/refundList.css" rel="stylesheet" type="text/css" />
-    <script src="../../js/refundList.js" type="text/javascript"></script>
+    <link href="../../../css/refundList.css" rel="stylesheet" type="text/css" />
+    <script src="../../../js/refundList.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -72,6 +72,31 @@
             <li class="nav-item active">
                 <a href="/staff/refund/list">
                     <i class="fa fa-globe"></i> <span>Refund Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/staff/feedback/list" class="nav-link">
+                    <i class="fa fa-comment"></i>Feedback Management
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/bookings">
+                    <i class="fa fa-cart-plus"></i> <span>Booking Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/promotions">
+                    <i class="icon-present"></i> <span>Promotion Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/manager/airports">
+                    <i class="icon-plane"></i> <span>Airport Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/manager/routes">
+                    <i class="fas fa-route"></i> <span>Route Management</span>
                 </a>
             </li>
         </ul>
@@ -115,56 +140,94 @@
             <table class="table mt-3">
                 <thead class="table-light">
                 <tr>
-                    <th>Request Date</th>
-                    <th>Refund Date</th>
+                    <th>Booking Code</th>
                     <th>Bank</th>
                     <th>Bank Number</th>
+                    <th>Request Date</th>
+                    <th>Reason</th>
                     <th>Refund Price</th>
+                    <th>Refund Date</th>
+                    <th>Response</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="refund : ${refundList}">
-                    <td th:text="${#temporals.format(refund.requestDate, 'dd/MM/yyyy')}"></td>
-                    <td th:text="${#temporals.format(refund.refundDate, 'dd/MM/yyyy')}"></td>
+                    <!-- Booking Code -->
+                    <td th:text="${refund.booking.bookingCode}"></td>
+
+                    <!-- Bank -->
                     <td th:text="${refund.bank}"></td>
+
+                    <!-- Bank Number -->
                     <td th:text="${refund.bankNumber}"></td>
+
+                    <!-- Request Date (dd/MM/yyyy HH:mm) -->
+                    <td th:text="${#temporals.format(refund.requestDate, 'dd/MM/yyyy HH:mm')}"></td>
+
+                    <!-- Reason -->
+                    <td th:text="${refund.reason}"></td>
+
+                    <!-- Refund Price -->
                     <td th:text="${refund.refundPrice}"></td>
+
+                    <!-- Refund Date (nếu có, hiển thị dạng dd/MM/yyyy HH:mm) -->
+                    <td th:text="${refund.refundDate != null ? #temporals.format(refund.refundDate, 'dd/MM/yyyy HH:mm') : ''}"></td>
+
+                    <!-- Response -->
+                    <td th:text="${refund.response}"></td>
+
+                    <!-- Status -->
                     <td>
-                        <span th:text="${refund.status}" class="badge bg-info"></span>
+                        <span class="badge bg-info" th:text="${refund.status}"></span>
                     </td>
+
+                    <!-- Action -->
                     <td>
-                        <button th:if="${refund.status != 'Processed'}"
+                        <button th:if="${refund.status == 'Processing'}"
                                 class="btn btn-warning btn-change-status"
                                 th:data-id="${refund.id}"
                                 th:data-status="${refund.status}">
                             Change Status
                         </button>
                     </td>
+
                 </tr>
                 </tbody>
             </table>
+
         </div>
         <div class="modal fade" id="changeStatusModal" tabindex="-1" aria-labelledby="changeStatusModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Xác nhận thay đổi trạng thái</h5>
-                        <!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
                     </div>
                     <div class="modal-body">
-                        <p id="statusMessage"></p>
-                        <input type="hidden" id="selectedRefundId">
-                        <input type="hidden" id="newStatus">
+                        <form id="updateRefundForm">
+                            <div class="mb-3">
+                                <label class="form-label">Chọn trạng thái:</label><br>
+                                <input type="radio" name="refundStatus" value="Approve" id="approveRadio">
+                                <label for="approveRadio">Approve</label>
+                                <input type="radio" name="refundStatus" value="Reject" id="rejectRadio">
+                                <label for="rejectRadio">Reject</label>
+                            </div>
+                            <div class="mb-3">
+                                <label for="refundReason" class="form-label">Lý do:</label>
+                                <input type="text" class="form-control" id="refundReason">
+                            </div>
+                            <input type="hidden" id="selectedRefundId">
+                        </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                        <button type="button" class="btn btn-primary" id="confirmChangeStatus">Xác nhận</button>
+                        <button type="button" class="btn btn-primary" id="confirmChangeStatus">Cập nhật</button>
                     </div>
                 </div>
             </div>
         </div>
+
 
         <!-- Notification Toast -->
         <div id="notification-toast"
