@@ -45,4 +45,5 @@ public class Booking {
     @Column(name = "booking_code", nullable = false)
     private String bookingCode;
 
+
 }

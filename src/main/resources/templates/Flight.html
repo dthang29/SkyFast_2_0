@@ -245,7 +245,9 @@
           </div>
           <div class="price-book-container">
             <span class="amount"></span>
-            <button class="book-now">BOOK NOW</button>
+            <a th:href="@{/flightconfirm(flightId=${searchFlight.getId()},passengerCount=${passengerCount}, flightClass=${flightClass})}">
+              <button class="book-now">BOOK NOW</button>
+            </a>
           </div>
         </div>
 

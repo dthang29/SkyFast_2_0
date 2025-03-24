@@ -42,11 +42,11 @@ paginationButtons.forEach(button => {
 });
 
 // Book now button functionality
-document.querySelectorAll('.book-now').forEach(button => {
-    button.addEventListener('click', () => {
-        alert('Booking functionality would go here!');
-    });
-});
+// document.querySelectorAll('.book-now').forEach(button => {
+//     button.addEventListener('click', () => {
+//         alert('Booking functionality would go here!');
+//     });
+// });
 
 document.getElementById('round-trip').addEventListener('change', function () {
     var returnDate = document.getElementById('return-date');
