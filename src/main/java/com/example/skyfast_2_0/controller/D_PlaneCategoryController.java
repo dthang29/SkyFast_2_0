@@ -99,16 +99,23 @@ public class D_PlaneCategoryController {
                                   @RequestParam(value = "status", required = false) String status,
                                   @RequestParam(value = "airlineName", required = false) String airlineName,
                                   Model model) {
+
         if (name != null && name.trim().isEmpty()) {
             name = null;
         }
         if (status != null && status.trim().isEmpty()) {
             status = null;
         }
+        if (airlineName != null && airlineName.trim().isEmpty()) {
+            airlineName = null;
+        }
+
+        // Search based on the airplane name, status, and airline name
         List<Airplane> airplaneList = DPlaneCategoryService.searchAirplanes(name, status, airlineName);
         model.addAttribute("airplaneList", airplaneList);
-            return "planeCategory";
+        return "planeCategory";
     }
+
 
     @GetMapping("/airplanes/edit")
     public String editAirplane(@RequestParam("id") Integer id, Model model) {
