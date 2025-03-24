@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Failed</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #4169e1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.5rem 1.5rem 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .underline {
+            height: 4px;
+            width: 60px;
+            background-color: #e74c3c;
+            margin-top: 0.5rem;
+        }
+
+        .card-content {
+            padding: 1rem 1.5rem;
+        }
+
+        .card-footer {
+            padding: 1rem 1.5rem 1.5rem;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            border: none;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            margin-bottom: 0.75rem;
+        }
+
+        .btn-primary {
+            background-color: #4169e1;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a5ecc;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #4169e1;
+            border: 1px solid #4169e1;
+        }
+
+        .btn-outline:hover {
+            background-color: #f8f9fa;
+        }
+
+        .error-icon-container {
+            display: flex;
+            justify-content: center;
+            margin: 1.5rem 0;
+        }
+
+        .error-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #fef2f2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e74c3c;
+        }
+
+        .error-message {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .error-message h2 {
+            font-size: 1.5rem;
+            color: #e74c3c;
+            margin-bottom: 0.5rem;
+        }
+
+        .error-message p {
+            color: #555;
+        }
+
+        .info-section {
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            color: #555;
+        }
+
+        .info-value {
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #333;
+        }
+
+        .error-details {
+            margin-bottom: 2rem;
+        }
+
+        .error-code {
+            background-color: #fef2f2;
+            border-left: 4px solid #e74c3c;
+            padding: 0.75rem 1rem;
+            margin-top: 1rem;
+            font-family: monospace;
+            color: #333;
+        }
+
+        .troubleshooting {
+            margin-bottom: 2rem;
+        }
+
+        .troubleshooting ul {
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .troubleshooting li {
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #e74c3c;">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <span>Payment Failed</span>
+        </div>
+        <div class="underline"></div>
+    </div>
+
+    <div class="card-content">
+        <div class="error-icon-container">
+            <div class="error-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                </svg>
+            </div>
+        </div>
+
+        <div class="error-message">
+            <h2>Payment Failed</h2>
+            <p>We couldn't process your payment. Please try again.</p>
+        </div>
+            <a th:href="@{/homepage}" class="btn btn-outline">Return to Homepage</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

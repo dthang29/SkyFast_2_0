@@ -10,7 +10,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" th:href="@{/homepage}">SKYFAST</a>
+        <a class="navbar-brand">SKYFAST</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expande  d="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -32,8 +32,16 @@
         <div class="secondary-nav-links" id="secondaryNavbarNav">
             <a href="#" th:href="@{/homepage/profile}" class="secondary-nav-link active">Profile</a>
             <a href="#" th:href="@{/homepage/user-change-password}" class="secondary-nav-link">Change Password</a>
-            <a href="#" th:href="@{/homepage/booking-history}" class="secondary-nav-link">Booking History</a>
-            <a href="#" th:href="@{/homepage/refund}" class="secondary-nav-link">Refund</a>
+            <a href="#" th:if="${#authorization.expression('hasRole(''CUSTOMER'')')}"
+               th:href="@{/homepage/booking-history}" class="secondary-nav-link">Booking History</a>
+            <a href="#" th:if="${#authorization.expression('hasRole(''CUSTOMER'')')}"
+               th:href="@{/homepage/refund}" class="secondary-nav-link">Refund</a>
+            <a th:if="${#authorization.expression('hasRole(''MANAGER'')')}"
+               th:href="@{/airlines/list}" class="secondary-nav-link">Management</a>
+            <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
+               th:href="@{/airlines/list}" class="secondary-nav-link">Management</a>
+            <a th:if="${#authorization.expression('hasRole(''STAFF'')')}"
+               th:href="@{/airlines/list}" class="secondary-nav-link">Management</a>
             <a href="#" th:href="@{/logout}" class="secondary-nav-link">Logout</a>
         </div>
         <button class="secondary-navbar-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#secondaryNavbarNav"
@@ -89,7 +97,6 @@
                 </div>
                 <div class="input-box button">
                     <input type="Submit" value="Update Profile">
-                    <a th:href="@{/homepage}"><button class="cancel-button" type="button">Cancel</button></a>
                 </div>
             </form>
         </div>
