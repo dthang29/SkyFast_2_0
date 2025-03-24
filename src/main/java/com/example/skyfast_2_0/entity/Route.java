@@ -30,4 +30,7 @@ public class Route {
     @Column(name = "distance", nullable = false)
     private Integer distance;
 
+    @NotNull
+    @Column(name = "route_status", nullable = false)
+    private String routeStatus = "ACTIVE";
 }

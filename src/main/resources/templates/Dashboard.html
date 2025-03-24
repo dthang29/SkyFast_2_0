@@ -78,23 +78,38 @@
     <h4 class="text-center dashboard-title" style="color: #575962">SkyFast</h4>
     <ul class="nav flex-column" id="sidebar-links">
       <li class="nav-item">
-        <a href="/dashboard" class="nav-link active" data-page="Dashboard.html">
+        <a href="/dashboard" class="nav-link active" data-page="/dashboard">
           <i class="fas fa-home"></i>Dashboard
         </a>
       </li>
       <li class="nav-item">
-        <a href="/flights" class="nav-link" data-page="flightManagement.html">
+        <a href="/manager/flights" class="nav-link" data-page="/manager/flights">
           <i class="fas fa-plane"></i>Flight Management
         </a>
       </li>
       <li class="nav-item">
-        <a href="/airlines/list" class="nav-link" data-page="airlineManagement.html">
+        <a href="/manager/airlinelist" class="nav-link" data-page="/manager/airlinelist">
           <i class="fas fa-plane"></i>Airline Management
         </a>
       </li>
       <li class="nav-item">
-        <a href="/users/list" class="nav-link" data-page="userlist.html">
+        <a href="/manager/userlist" class="nav-link" data-page="/manager/userlist">
           <i class="fas fa-users"></i>User Management
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="/planeCategory">
+          <i class="fa fa-gavel"></i> <span>Airplane Management</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="/refund/list">
+          <i class="fa fa-globe"></i> <span>Refund Management</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="/admin/bookings">
+          <i class="fa fa-cart-plus"></i> <span>Booking Management</span>
         </a>
       </li>
     </ul>
@@ -385,6 +400,40 @@
     <div class="container">
       <div class="page-inner">
         <div class="row">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-header">Tổng Đơn Hàng</div>
+                <div class="card-body">
+                  <h3 id="totalOrders">0</h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-header">Tổng Doanh Thu</div>
+                <div class="card-body">
+                  <h3 id="totalRevenue">0</h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-header">Khách Hàng Mới</div>
+                <div class="card-body">
+                  <h3 id="newCustomers">0</h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-header">Tổng Phản Hồi</div>
+                <div class="card-body">
+                  <h3 id="totalFeedbacks">0</h3>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="col-md-6">
             <div class="card">
               <div class="card-header">
@@ -1214,6 +1263,25 @@
   for (var i = 0; i < legendItems.length; i += 1) {
     legendItems[i].addEventListener("click", legendClickCallback, false);
   }
+
+  $(document).ready(function () {
+    $.get("/dashboard/orders/data", function (data) {
+      $("#totalOrders").text(data.totalOrders);
+    });
+
+    $.get("/dashboard/revenue/data", function (data) {
+      $("#totalRevenue").text(data.totalRevenue);
+    });
+
+    $.get("/dashboard/customers/data", function (data) {
+      $("#newCustomers").text(data.newCustomers);
+    });
+
+    $.get("/dashboard/feedbacks/data", function (data) {
+      $("#totalFeedbacks").text(data.totalFeedbacks);
+    });
+  });
+
 </script>
 </body>
 
