@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flight Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script th:src="@{/assets/js/plugin/webfont/webfont.min.js}"></script>
+    <script>
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: ["/assets/css/fonts.min.css"]
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/plugins.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/kaiadmin.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/demo.css}" />
+</head>
+
+<body>
+<div class="d-flex flex-row">
+    <!-- Sidebar giữ nguyên -->
+    <nav class="sidebar p-3">
+        <h4 class="text-center dashboard-title" style="color: #575962">SkyFast</h4>
+        <ul class="nav flex-column" id="sidebar-links">
+            <li class="nav-item">
+                <a href="/dashboard" class="nav-link active" data-page="/dashboard">
+                    <i class="fas fa-home"></i>Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/manager/flights" class="nav-link" data-page="/manager/flights">
+                    <i class="fas fa-plane"></i>Flight Management
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/manager/airlinelist" class="nav-link" data-page="/manager/airlinelist">
+                    <i class="fas fa-plane"></i>Airline Management
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/manager/userlist" class="nav-link" data-page="/manager/userlist">
+                    <i class="fas fa-users"></i>User Management
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4 main-content" style="margin-right: 290px;">
+        <div class="content-container" style="width: 1545px;">
+            <!-- Thêm thông báo lỗi/thành công -->
+            <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span th:text="${errorMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Flight Management</h2>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFlightModal">
+                    <i class="fas fa-plus"></i> Add New Flight
+                </button>
+            </div>
+
+            <!-- Filters giữ nguyên -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-filter"></i>
+                            </span>
+                        <select id="statusFilter" class="form-select" onchange="filterFlights()">
+                            <option value="">All Status</option>
+                            <option value="SCHEDULED">SCHEDULED</option>
+                            <option value="DELAYED">DELAYED</option>
+                            <option value="BOARDING">BOARDING</option>
+                            <option value="IN_FLIGHT">IN_FLIGHT</option>
+                            <option value="LANDED">LANDED</option>
+                            <option value="CANCELLED">CANCELLED</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        <input type="text" id="searchFilter" class="form-control"
+                               placeholder="Search by Flight Number" oninput="filterFlights()" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flights Table giữ nguyên -->
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Flight Number</th>
+                    <th>Departure Time</th>
+                    <th>Arrival Time</th>
+                    <th>Duration (mins)</th>
+                    <th>Status</th>
+                    <th>Airline</th>
+                    <th>Airplane</th>
+                    <th>Route</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="flight : ${flights}"
+                    th:class="${flight.statusFlight == 'INACTIVE' ? 'table-secondary' : ''}">
+                    <td th:text="${flight.flightNumber}"></td>
+                    <td th:text="${#temporals.format(flight.departureTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${#temporals.format(flight.arrivalTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td th:text="${flight.duration + ' mins'}"></td>
+                    <td>
+                                <span th:class="${'badge ' + (flight.status == 'SCHEDULED' ? 'bg-primary' :
+                            flight.status == 'DELAYED' ? 'bg-warning' :
+                            flight.status == 'BOARDING' ? 'bg-info' :
+                            flight.status == 'IN_FLIGHT' ? 'bg-success' :
+                            flight.status == 'LANDED' ? 'bg-secondary' :
+                            flight.status == 'CANCELLED' ? 'bg-danger' : 'bg-secondary')}" th:text="${flight.status}">
+                                </span>
+                    </td>
+                    <td th:text="${flight.airlineId}"></td>
+                    <td th:text="${flight.airplaneId}"></td>
+                    <td th:text="${flight.routeId}"></td>
+                    <td>
+                        <a th:href="@{/manager/flight/{id}(id=${flight.id})}" class="btn btn-sm btn-primary me-1">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form th:if="${flight.statusFlight == 'ACTIVE'}"
+                              th:action="@{/manager/delete/flight/{id}(id=${flight.id})}" method="post"
+                              style="display: inline;">
+                            <button type="submit" class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Are you sure you want to delete this flight?')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                        <button th:if="${flight.statusFlight != 'ACTIVE'}" class="btn btn-sm btn-secondary"
+                                disabled>
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add/Edit Flight Modal -->
+<div class="modal fade" id="addFlightModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Add New Flight</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/manager/create/flight}" th:object="${flight}" method="post">
+                    <input type="hidden" th:field="*{id}">
+                    <div class="mb-3">
+                        <label class="form-label">Flight Number</label>
+                        <input type="text" class="form-control" th:field="*{flightNumber}" required>
+                        <div class="text-danger" th:errors="*{flightNumber}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Departure Time</label>
+                        <input type="datetime-local" class="form-control" th:field="*{departureTime}" required>
+                        <div class="text-danger" th:errors="*{departureTime}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Arrival Time</label>
+                        <input type="datetime-local" class="form-control" th:field="*{arrivalTime}" required>
+                        <div class="text-danger" th:errors="*{arrivalTime}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Duration (minutes)</label>
+                        <input type="number" class="form-control" th:field="*{duration}" required>
+                        <div class="text-danger" th:errors="*{duration}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Price</label>
+                        <input type="number" class="form-control" th:field="*{price}" required>
+                        <div class="text-danger" th:errors="*{price}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <select class="form-select" th:field="*{status}" required>
+                            <option value="SCHEDULED">SCHEDULED</option>
+                            <option value="DELAYED">DELAYED</option>
+                            <option value="BOARDING">BOARDING</option>
+                            <option value="IN_FLIGHT">IN_FLIGHT</option>
+                            <option value="LANDED">LANDED</option>
+                            <option value="CANCELLED">CANCELLED</option>
+                        </select>
+                        <div class="text-danger" th:errors="*{status}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Airline</label>
+                        <select class="form-select" th:field="*{airlineId}" required>
+                            <option th:each="airline : ${airlines}" th:value="${airline.id}"
+                                    th:text="${airline.airlineName}">
+                            </option>
+                        </select>
+                        <div class="text-danger" th:errors="*{airlineId}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Airplane</label>
+                        <select class="form-select" th:field="*{airplaneId}" required>
+                            <option th:each="airplane : ${airplanes}" th:value="${airplane.id}"
+                                    th:text="${airplane.airplaneName}">
+                            </option>
+                        </select>
+                        <div class="text-danger" th:errors="*{airplaneId}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Route</label>
+                        <select class="form-select" th:field="*{routeId}" required>
+                            <option th:each="route : ${routes}" th:value="${route.id}"
+                                    th:text="${route.departureAirportId + ' -> ' + route.arrivalAirportId}">
+                            </option>
+                        </select>
+                        <div class="text-danger" th:errors="*{routeId}"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+<script>
+    function filterFlights() {
+        const statusFilter = document.getElementById("statusFilter").value;
+        const searchFilter = document.getElementById("searchFilter").value.toLowerCase();
+        const rows = document.querySelectorAll("tbody tr");
+
+        rows.forEach(row => {
+            const status = row.querySelector("td:nth-child(5) span").textContent;
+            const flightNumber = row.querySelector("td:nth-child(1)").textContent.toLowerCase();
+
+            const statusMatch = statusFilter === "" || status === statusFilter;
+            const searchMatch = searchFilter === "" || flightNumber.includes(searchFilter);
+
+            row.style.display = statusMatch && searchMatch ? "" : "none";
+        });
+    }
+</script>
+</body>
+
+</html>
