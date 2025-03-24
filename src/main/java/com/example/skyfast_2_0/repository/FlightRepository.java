@@ -4,6 +4,7 @@ import com.example.skyfast_2_0.entity.Flight;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.relational.core.sql.Select;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +13,8 @@ import java.util.List;
 
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Integer> {
+    @Query("select f from Flight f where f.id=:id")
+    Flight findById(@Param("id") int id);
     @Query("SELECT f FROM Flight f WHERE f.departureTime BETWEEN :startOfDay AND :endOfDay")
     List<Flight> findFlightsByDepartureTimeRange(@NotNull LocalDateTime startOfDay, @NotNull LocalDateTime endOfDay);
 

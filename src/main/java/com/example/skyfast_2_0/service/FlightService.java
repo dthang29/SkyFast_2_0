@@ -9,11 +9,14 @@ import com.example.skyfast_2_0.repository.FlightRepository;
 import com.example.skyfast_2_0.repository.RouteRepository;
 import com.example.skyfast_2_0.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +31,10 @@ public class FlightService {
     private TicketRepository ticketRepository;
     @Autowired
     private ClassCategoryRepository classCategoryRepository;
+
+    public Flight findFlightById(Integer id){
+        return flightRepository.findById(id).orElse(null);
+    }
 
     public List<Flight> findTopCheapestFlightsByRoute() {
         return flightRepository.findTopCheapestFlightsByRoute();
@@ -53,7 +60,7 @@ public class FlightService {
 //        return flightRepository.searchFlights(departureAirportId, arrivalAirportId, startDate, endDate, classCategoryName);
         return searchFlights;
     }
-    public static int getTotalPassengers(String passengerCount) {
+    public int getTotalPassengers(String passengerCount) {
         int total = 0;
         String[] parts = passengerCount.split(","); // Tách từng phần (Người lớn, Trẻ em, Em bé)
 
@@ -100,5 +107,52 @@ public class FlightService {
             }
         }
         return className;
+    }
+
+    public List<Integer> getPassengers(String text){
+
+        String[] parts = text.split(", ");
+        List<Integer> peopleCounts = new ArrayList<>();
+
+        for (String part : parts) {
+            peopleCounts.add(Integer.parseInt(part.split(" ")[0]));
+        }
+        return peopleCounts;
+    }
+
+    public List<String> priceEachPassenger(String text, Integer classChoice, Flight flight){
+        float classMultiplier=0;
+        switch (classChoice) {
+            case 1: classMultiplier = 1.0f; break;  // Economy
+            case 2: classMultiplier = 1.5f; break; // Premium Economy
+            case 3: classMultiplier = 2.0f; break; // Business
+        }
+        List<Integer> getPassengers = getPassengers(text);
+        // 3. Tính tổng giá
+        float basePrice = flight.getPrice();
+
+        List<String> priceList = new ArrayList<>();
+        if (getPassengers.get(0) > 0) priceList.add(getPassengers.get(0) * 1.0f * basePrice * classMultiplier + "");
+        if (getPassengers.get(1) > 0) priceList.add(getPassengers.get(1) * 0.9f * basePrice * classMultiplier + "");
+        if (getPassengers.get(2) > 0) priceList.add(getPassengers.get(2) * 0.8f * basePrice * classMultiplier + "");
+
+        return priceList;
+
+    }
+
+    public String totalPrice(String text, Integer classChoice, Flight flight) {
+        float classMultiplier=0;
+        switch (classChoice) {
+            case 1: classMultiplier = 1.0f; break;  // Economy
+            case 2: classMultiplier = 1.5f; break; // Premium Economy
+            case 3: classMultiplier = 2.0f; break; // Business
+        }
+        List<Integer> getPassengers = getPassengers(text);
+        // 3. Tính tổng giá
+        float basePrice = flight.getPrice();
+        float totalPrice = (getPassengers.get(0) * 1.0f + getPassengers.get(1) * 0.9f + getPassengers.get(2) * 0.8f) * basePrice * classMultiplier;
+
+        return totalPrice + "";
+
     }
 }
