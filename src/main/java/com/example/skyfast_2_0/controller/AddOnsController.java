@@ -3,7 +3,6 @@ package com.example.skyfast_2_0.controller;
 
 
 import com.example.skyfast_2_0.entity.*;
-import com.example.skyfast_2_0.repository.BookingRepository;
 import com.example.skyfast_2_0.repository.T_UserRepository;
 import com.example.skyfast_2_0.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.core.Authentication;
-import java.sql.Date;
-import java.time.LocalDateTime;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +28,7 @@ public class AddOnsController {
     @Autowired
     private RouteService routeService;
     @Autowired
-    private AirportService airportService;
+    private V_AirportService VAirportService;
     @Autowired
     private ClassCategoryService classCategoryService;
     @Autowired
@@ -72,8 +70,8 @@ public class AddOnsController {
         Flight flight = flightService.findFlightById(flightId);
         model.addAttribute("flight",flight);
 
-        Airport departureAirport = airportService.findAirportById(flight.getRoute().getDepartureAirportId());
-        Airport arrivalAirport = airportService.findAirportById(flight.getRoute().getArrivalAirportId());
+        Airport departureAirport = VAirportService.findAirportById(flight.getRoute().getDepartureAirportId());
+        Airport arrivalAirport = VAirportService.findAirportById(flight.getRoute().getArrivalAirportId());
         model.addAttribute("departureAirport",departureAirport);
         model.addAttribute("arrivalAirport",arrivalAirport);
 

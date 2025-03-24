@@ -1,16 +1,15 @@
 package com.example.skyfast_2_0.service;
 
 import com.example.skyfast_2_0.entity.Airport;
-import com.example.skyfast_2_0.repository.AirportRepository;
-import com.example.skyfast_2_0.repository.FlightRepository;
+import com.example.skyfast_2_0.repository.V_AirportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AirportService {
+public class V_AirportService {
     @Autowired
-    private AirportRepository airportRepository;
+    private V_AirportRepository VAirportRepository;
     public Airport findAirportById(Integer id) {
-        return airportRepository.findAirportById(id);
+        return VAirportRepository.findAirportById(id);
     }
 }

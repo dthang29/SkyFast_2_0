@@ -26,7 +26,7 @@ public class FlightConfirmController {
     @Autowired
     private RouteService routeService;
     @Autowired
-    private AirportService airportService;
+    private V_AirportService VAirportService;
     @Autowired
     private ClassCategoryService classCategoryService;
 
@@ -48,8 +48,8 @@ public class FlightConfirmController {
         model.addAttribute("flight",flight);
 
         System.out.println(flightId);
-        Airport departureAirport = airportService.findAirportById(flight.getRoute().getDepartureAirportId());
-        Airport arrivalAirport = airportService.findAirportById(flight.getRoute().getArrivalAirportId());
+        Airport departureAirport = VAirportService.findAirportById(flight.getRoute().getDepartureAirportId());
+        Airport arrivalAirport = VAirportService.findAirportById(flight.getRoute().getArrivalAirportId());
         model.addAttribute("departureAirport",departureAirport);
         model.addAttribute("arrivalAirport",arrivalAirport);
 
