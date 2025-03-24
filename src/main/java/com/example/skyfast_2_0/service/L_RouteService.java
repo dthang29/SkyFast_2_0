@@ -1,10 +1,8 @@
 package com.example.skyfast_2_0.service;
 
 import com.example.skyfast_2_0.dto.L_RouteDTO;
-import com.example.skyfast_2_0.entity.Airport;
 import com.example.skyfast_2_0.entity.Route;
 import com.example.skyfast_2_0.mapper.L_RouteMapper;
-import com.example.skyfast_2_0.repository.L_AirportRepository;
 import com.example.skyfast_2_0.repository.L_RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +16,8 @@ public class L_RouteService {
     @Autowired
     private L_RouteRepository routeRepository;
 
-    @Autowired
-    private L_AirportRepository airportRepository;
+//    @Autowired
+//    private L_AirportRepository airportRepository;
 
     @Autowired
     private L_RouteMapper routeMapper;
@@ -40,13 +38,13 @@ public class L_RouteService {
     public L_RouteDTO createRoute(L_RouteDTO routeDTO) {
         Route route = routeMapper.toEntity(routeDTO);
 
-        Airport departureAirport = airportRepository.findById(routeDTO.getDepartureAirportId())
-                .orElseThrow(() -> new RuntimeException("Departure Airport not found"));
-        Airport arrivalAirport = airportRepository.findById(routeDTO.getArrivalAirportId())
-                .orElseThrow(() -> new RuntimeException("Arrival Airport not found"));
+//        Airport departureAirport = airportRepository.findById(routeDTO.getDepartureAirportId())
+//                .orElseThrow(() -> new RuntimeException("Departure Airport not found"));
+//        Airport arrivalAirport = airportRepository.findById(routeDTO.getArrivalAirportId())
+//                .orElseThrow(() -> new RuntimeException("Arrival Airport not found"));
 
-        route.setDepartureAirport(departureAirport);
-        route.setArrivalAirport(arrivalAirport);
+//        route.setDepartureAirport(departureAirport);
+//        route.setArrivalAirport(arrivalAirport);
         route.setRouteStatus("ACTIVE");
 
         Route savedRoute = routeRepository.save(route);
@@ -60,13 +58,13 @@ public class L_RouteService {
         Route updatedRoute = routeMapper.toEntity(routeDTO);
         updatedRoute.setId(id);
 
-        Airport departureAirport = airportRepository.findById(routeDTO.getDepartureAirportId())
-                .orElseThrow(() -> new RuntimeException("Departure Airport not found"));
-        Airport arrivalAirport = airportRepository.findById(routeDTO.getArrivalAirportId())
-                .orElseThrow(() -> new RuntimeException("Arrival Airport not found"));
+//        Airport departureAirport = airportRepository.findById(routeDTO.getDepartureAirportId())
+//                .orElseThrow(() -> new RuntimeException("Departure Airport not found"));
+//        Airport arrivalAirport = airportRepository.findById(routeDTO.getArrivalAirportId())
+//                .orElseThrow(() -> new RuntimeException("Arrival Airport not found"));
 
-        updatedRoute.setDepartureAirport(departureAirport);
-        updatedRoute.setArrivalAirport(arrivalAirport);
+//        updatedRoute.setDepartureAirport(departureAirport);
+//        updatedRoute.setArrivalAirport(arrivalAirport);
 
         updatedRoute = routeRepository.save(updatedRoute);
         return routeMapper.toDTO(updatedRoute);
