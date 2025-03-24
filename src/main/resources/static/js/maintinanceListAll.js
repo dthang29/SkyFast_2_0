@@ -46,11 +46,21 @@ function searchMaintenance() {
     let fromDate = document.querySelector("input[name='fromDate']").value;
     let toDate = document.querySelector("input[name='toDate']").value;
 
+    // Lấy thêm giá trị từ input airplaneName
+    let airplaneName = document.querySelector("input[name='airplaneName']").value;
+
     let queryParams = new URLSearchParams();
     if (status !== "") queryParams.append("status", status);
     if (fromDate) queryParams.append("fromDate", fromDate);
     if (toDate) queryParams.append("toDate", toDate);
 
+    // Nếu người dùng nhập tên máy bay, ta đưa vào query param
+    if (airplaneName) {
+        queryParams.append("airplaneName", airplaneName);
+    }
+
+    // Gọi endpoint /admin/maintenance/searchAll,
+    // ta sẽ sửa backend để nhận thêm param airplaneName
     fetch(`/admin/maintenance/searchAll?${queryParams.toString()}`)
         .then(response => response.json())
         .then(data => {
@@ -61,6 +71,7 @@ function searchMaintenance() {
             showNotification("Failed to search maintenance!", "error");
         });
 }
+
 
 
 function updateMaintenanceTable(maintenanceList) {
@@ -78,6 +89,7 @@ function updateMaintenanceTable(maintenanceList) {
             <td>${maintenance.airplane.airplaneName}</td>  <!-- Hiển thị tên máy bay -->
             <td>${maintenance.maintenanceDate}</td>
             <td>${maintenance.duration}</td>
+            <td>${maintenance.completionDate}</td>
             <td>${maintenance.description}</td>
             <td>
                 <span class="status-badge ${getStatusClass(maintenance.maintenanceStatus)}">
