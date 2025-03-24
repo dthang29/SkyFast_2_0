@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Success</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #4169e1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.5rem 1.5rem 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .underline {
+            height: 4px;
+            width: 60px;
+            background-color: #4169e1;
+            margin-top: 0.5rem;
+        }
+
+        .card-content {
+            padding: 1rem 1.5rem;
+        }
+
+        .card-footer {
+            padding: 1rem 1.5rem 1.5rem;
+        }
+
+        .message {
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            border: none;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: #4169e1;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a5ecc;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #4169e1;
+            border: 1px solid #4169e1;
+        }
+
+        .btn-outline:hover {
+            background-color: #4169e1;
+            color: white;
+        }
+
+        .payment-options {
+            display: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-options.active {
+            display: block;
+        }
+
+        .payment-title {
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .payment-option {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: border-color 0.2s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .payment-option:hover {
+            border-color: #4169e1;
+        }
+
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 0.5rem;
+            color: #4169e1;
+        }
+
+        .payment-logo {
+            height: 40px;
+            margin-bottom: 0.5rem;
+            object-fit: contain;
+        }
+
+        .payment-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .check-icon {
+            color: #22c55e;
+        }
+
+        .buttons-container {
+            display: block;
+        }
+
+        .buttons-container.hidden {
+            display: none;
+        }
+
+        .back-button-container {
+            display: none;
+        }
+
+        .back-button-container.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">
+            <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+            <span>Booking Success</span>
+        </div>
+        <div class="underline"></div>
+    </div>
+    <div class="card-content">
+        <p class="message">Booking approved, please pay at least 10 days before flight time.</p>
+
+        <div id="paymentOptions" class="payment-options">
+            <p class="payment-title">Select payment method:</p>
+            <div class="payment-grid">
+                <form th:action="@{/vn-pay}" method="POST" class="payment-option">
+                    <img th:src="@{/img/vnpay-logo.png}" alt="VNPay" class="payment-logo">
+                    <input type="hidden" name="bookingCode" th:value="${bookingCode}"/>
+                    <button type="submit" class="payment-label">VNPay</button>
+                </form>
+
+                <form th:action="@{/pay-with-qr}" method="get" class="payment-option">
+                    <svg class="payment-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path>
+                        <path d="M4 6v12c0 1.1.9 2 2 2h14v-4"></path>
+                        <path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"></path>
+                    </svg>
+                    <input type="hidden" name="bookingCode" th:value="${bookingCode}"/>
+                    <button type="submit" class="payment-label">QR Code</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div id="buttonsContainer" class="buttons-container">
+            <button id="payNowBtn" class="btn btn-primary">Pay Now</button>
+        </div>
+        <div id="backButtonContainer" class="back-button-container">
+            <button id="backBtn" class="btn btn-outline">Back</button>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        const payNowBtn = document.getElementById('payNowBtn');
+        const backBtn = document.getElementById('backBtn');
+        const paymentOptions = document.getElementById('paymentOptions');
+        const buttonsContainer = document.getElementById('buttonsContainer');
+        const backButtonContainer = document.getElementById('backButtonContainer');
+
+        payNowBtn.addEventListener('click', function() {
+            paymentOptions.classList.add('active');
+            buttonsContainer.classList.add('hidden');
+            backButtonContainer.classList.add('active');
+        });
+
+        backBtn.addEventListener('click', function() {
+            paymentOptions.classList.remove('active');
+            buttonsContainer.classList.remove('hidden');
+            backButtonContainer.classList.remove('active');
+        });
+    });
+</script>
+</body>
+</html>
