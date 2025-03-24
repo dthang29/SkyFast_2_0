@@ -16,15 +16,20 @@ public class Route {
     private Integer id;
 
     @NotNull
-    @Column(name = "departure_airport_id", nullable = false)
-    private Integer departureAirportId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "departure_airport_id", nullable = false)
+    private Airport departureAirport;
 
     @NotNull
-    @Column(name = "arrival_airport_id", nullable = false)
-    private Integer arrivalAirportId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "arrival_airport_id", nullable = false)
+    private Airport arrivalAirport;
 
     @NotNull
     @Column(name = "distance", nullable = false)
     private Integer distance;
 
+    @NotNull
+    @Column(name = "route_status", nullable = false)
+    private String routeStatus = "ACTIVE";
 }
