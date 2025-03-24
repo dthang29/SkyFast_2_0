@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Payment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #4169e1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.5rem 1.5rem 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .underline {
+            height: 4px;
+            width: 60px;
+            background-color: #4169e1;
+            margin-top: 0.5rem;
+        }
+
+        .card-content {
+            padding: 1rem 1.5rem;
+        }
+
+        .card-footer {
+            padding: 1rem 1.5rem 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #4169e1;
+        }
+
+        .form-control:disabled {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+        }
+
+        .qr-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .qr-instructions {
+            text-align: center;
+            color: #555;
+            font-size: 0.9rem;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            border: none;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: #4169e1;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a5ecc;
+        }
+
+        .info-section {
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            color: #555;
+        }
+
+        .info-value {
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #333;
+        }
+
+        .total-price {
+            padding-top: 0.5rem;
+            border-top: 1px dashed #ddd;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #4169e1;">
+                <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+                <rect width="3" height="3" x="7" y="7"></rect>
+                <rect width="3" height="3" x="14" y="7"></rect>
+                <rect width="3" height="3" x="7" y="14"></rect>
+                <rect width="3" height="3" x="14" y="14"></rect>
+            </svg>
+            <span>Scan QR Code to Pay</span>
+        </div>
+        <div class="underline"></div>
+    </div>
+
+    <div class="card-content">
+        <!-- Booking Information -->
+        <div class="section-title">Booking Information</div>
+        <div class="info-section">
+            <div class="info-item">
+                <span class="info-label">Booking Code:</span>
+                <span class="info-value" th:text="${booking.getBookingCode()}"></span>
+            </div>
+            <div class="info-item total-price">
+                <span class="info-label">Booking Price:</span>
+                <span class="info-value" th:text="${booking.getTotalPrice()}"></span>
+            </div>
+        </div>
+
+        <!-- Customer Information -->
+        <div class="section-title">Customer Information</div>
+        <div class="info-section">
+            <div class="info-item">
+                <span class="info-label">User Name:</span>
+                <span class="info-value" th:text="${user.getUserName()}"></span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Email:</span>
+                <span class="info-value" th:text="${user.getEmail()}"></span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Phone Number:</span>
+                <span class="info-value" th:text="${user.getPhoneNumber()}"></span>
+            </div>
+        </div>
+
+        <form th:action="@{/success-pay-qr}" method="post">
+            <input type="hidden" name="bookingCode"  th:value="${bookingCode}">
+            <div class="qr-container">
+                <img th:src="@{/img/payment-qr.jpg}" alt="Payment QR Code" class="qr-code" />
+                <p class="qr-instructions">Scan this QR code with your banking app or payment app to complete the payment</p>
+            </div>
+            <div class="card-footer" style="padding: 0;">
+                <button type="submit" class="btn btn-primary">Confirm Payment</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

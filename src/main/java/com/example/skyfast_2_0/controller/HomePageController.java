@@ -1,13 +1,13 @@
 
 package com.example.skyfast_2_0.controller;
 
-import com.example.skyfast_2_0.entity.Airline;
-import com.example.skyfast_2_0.entity.Classcategory;
-import com.example.skyfast_2_0.entity.Flight;
-import com.example.skyfast_2_0.entity.Ticket;
+import com.example.skyfast_2_0.entity.*;
+import com.example.skyfast_2_0.repository.T_UserRepository;
 import com.example.skyfast_2_0.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +35,10 @@ public class HomePageController {
     private AirlineService airlineService;
     @Autowired
     private ClassCategoryService classCategoryService;
+    @Autowired
+    private UserProfileService userProfileService;
+    @Autowired
+    private T_UserRepository t_userRepository;
     @GetMapping
     public String searchFlights(@RequestParam(value = "departure", required = false) String from,
                                 @RequestParam(value = "arrival", required = false) String to,
@@ -42,11 +46,15 @@ public class HomePageController {
                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureDate,
                                 @RequestParam(value = "people", required = false) String passengerCount,
                                 @RequestParam(value = "class", required = false) Integer flightClass,
-                                Model model) {
+                                Model model, Authentication authentication) {
 
         // Gọi initModelData để chuẩn bị dữ liệu cho giao diện (VD: danh sách sân bay, hãng bay...)
         initModelData(model);
-
+        if(authentication != null){
+        String email = userProfileService.getUserEmail(authentication);
+        User user = t_userRepository.findByEmail(email);
+        model.addAttribute("username", user.getUserName());
+        }
         // Kiểm tra nếu thiếu tham số thì chỉ hiển thị trang, không thực hiện tìm kiếm
         if (from == null || to == null || departureDate == null || passengerCount == null || flightClass == null) {
             return "HomePage"; // Không gọi searchFlights, chỉ hiển thị giao diện

@@ -1,6 +1,7 @@
 package com.example.skyfast_2_0.entity;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +10,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "route")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

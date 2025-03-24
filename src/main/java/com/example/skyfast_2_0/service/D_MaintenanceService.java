@@ -20,10 +20,10 @@ public class D_MaintenanceService {
     private D_MaintenanceRepository DMaintenanceRepository;
 
     @Autowired
-    private D_PlaneCategoryRepository airplaneRepository;
+    private D_PlaneCategoryRepository DAirplaneRepository;
 
-    public boolean addMaintenance(D_MaintenanceDTO request) {
-        Optional<Airplane> airplaneOpt = airplaneRepository.findById(request.getAirplaneId());
+    public boolean addMaintenance(Maintenance request) {
+        Optional<Airplane> airplaneOpt = DAirplaneRepository.findById(request.getAirplane().getId());
 
         if (airplaneOpt.isPresent()) {
             Airplane airplane = airplaneOpt.get();
@@ -32,14 +32,15 @@ public class D_MaintenanceService {
             Maintenance maintenance = new Maintenance();
             maintenance.setDescription(request.getDescription());
             maintenance.setDuration(request.getDuration());
-            maintenance.setMaintenanceDate(LocalDate.now()); // Ngày hiện tại
+            maintenance.setMaintenanceDate(request.getMaintenanceDate()); // Ngày từ request
+            maintenance.setCompletionDate(request.getCompletionDate()); // Ngày hoàn thành
             maintenance.setMaintenanceStatus("Unprocessed");
             maintenance.setAirplane(airplane);
             DMaintenanceRepository.save(maintenance);
 
-            // Cập nhật trạng thái máy bay thành "Maintaining"
+            // Cập nhật trạng thái máy bay thành
             airplane.setAirplaneStatus("Maintaining");
-            airplaneRepository.save(airplane);
+            DAirplaneRepository.save(airplane);
 
             return true;
         }
@@ -54,8 +55,8 @@ public class D_MaintenanceService {
         return DMaintenanceRepository.findAll();
     }
 
-    public List<Maintenance> searchMaintenancee(String status, LocalDate fromDate, LocalDate toDate) {
-        return DMaintenanceRepository.findByCriteria(status, fromDate, toDate);
+    public List<Maintenance> searchMaintenancee(String status, LocalDate fromDate, LocalDate toDate, String airplaneName) {
+        return DMaintenanceRepository.findByCriteria(status, fromDate, toDate, airplaneName);
     }
 
     public Maintenance updateMaintenance(Integer id, String status, String description, int duration) {
@@ -67,7 +68,7 @@ public class D_MaintenanceService {
             maintenance.setDuration(duration);
             if ("Processed".equals(status)) {
                 maintenance.getAirplane().setAirplaneStatus("Waiting");
-                airplaneRepository.save(maintenance.getAirplane()); // Cập nhật máy bay
+                DAirplaneRepository.save(maintenance.getAirplane());
             }
             return DMaintenanceRepository.save(maintenance);
         }

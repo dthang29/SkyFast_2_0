@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-let statusMessage = document.getElementById("statusMessage");
+    let statusMessage = document.getElementById("statusMessage");
     if (!statusMessage) {
         console.warn("⚠️ statusMessage không tồn tại khi DOM load, kiểm tra lại HTML!");
     }
@@ -48,7 +48,7 @@ let statusMessage = document.getElementById("statusMessage");
         if (fromRefundDate) queryParams.append("fromRefundDate", fromRefundDate);
         if (toRefundDate) queryParams.append("toRefundDate", toRefundDate);
 
-        fetch(`/refund/search?${queryParams.toString()}`)
+        fetch(`/staff/refund/search?${queryParams.toString()}`)
             .then(response => response.json())
             .then(data => updateRefundTable(data))
             .catch(error => {
@@ -63,7 +63,7 @@ let statusMessage = document.getElementById("statusMessage");
     }
 
     function resetRefundList() {
-        fetch(`/refund/list`)
+        fetch(`/staff/refund/list`)
             .then(response => response.text())
             .then(html => {
                 let parser = new DOMParser();
@@ -76,42 +76,66 @@ let statusMessage = document.getElementById("statusMessage");
                 showToast("Lỗi khi reset danh sách refund!", "error");
             });
     }
-
     function updateRefundTable(refundList) {
         let tableBody = document.querySelector("tbody");
         tableBody.innerHTML = "";
+
         refundList.forEach(refund => {
+            // Lưu ý: Dữ liệu bookingCode phải được trả về trong JSON => refund.booking.bookingCode
             let row = `<tr>
-                <td>${formatDate(refund.requestDate)}</td>
-                <td>${formatDate(refund.refundDate)}</td>
-                <td>${refund.bank}</td>
-                <td>${refund.bankNumber}</td>
-                <td>${refund.refundPrice}</td>
-                <td><span class="badge bg-info">${refund.status}</span></td>
-                <td>
-                    ${refund.status !== "Processed" ? `<button class="btn btn-warning btn-change-status" data-id="${refund.id}" data-status="${refund.status}">Change Status</button>` : ''}
-                </td>
-            </tr>`;
+            <!-- Booking Code -->
+            <td>${refund.booking?.bookingCode ?? ""}</td>
+
+            <!-- Bank -->
+            <td>${refund.bank ?? ""}</td>
+
+            <!-- Bank Number -->
+            <td>${refund.bankNumber ?? ""}</td>
+
+            <!-- Request Date -->
+            <td>${formatDate(refund.requestDate)}</td>
+
+            <!-- Reason -->
+            <td>${refund.reason ?? ""}</td>
+
+            <!-- Refund Price -->
+            <td>${refund.refundPrice ?? ""}</td>
+
+            <!-- Refund Date -->
+            <td>${formatDate(refund.refundDate)}</td>
+
+            <!-- Response -->
+            <td>${refund.response ?? ""}</td>
+
+            <!-- Status -->
+            <td><span class="badge bg-info">${refund.status}</span></td>
+
+            <!-- Action -->
+            <td>
+                ${refund.status !== "Processed"
+                ? `<button class="btn btn-warning btn-change-status"
+                               data-id="${refund.id}" data-status="${refund.status}">
+                          Change Status
+                       </button>`
+                : ""
+            }
+            </td>
+        </tr>`;
             tableBody.innerHTML += row;
         });
-        attachEventListeners(); // Gán lại sự kiện sau khi cập nhật danh sách
+
+        // Gán lại sự kiện cho các nút sau khi cập nhật bảng
+        attachEventListeners();
     }
+
 
     function showChangeStatusModal(target) {
         let refundId = target.getAttribute("data-id");
-        let currentStatus = target.getAttribute("data-status");
-        let newStatus = "";
-
-        if (currentStatus === "Unprocessed") {
-            newStatus = "Is_Processing";
-            document.getElementById("statusMessage").innerText = "Bạn có muốn chuyển sang Is_Processing?";
-        } else if (currentStatus === "Is_Processing") {
-            newStatus = "Processed";
-            document.getElementById("statusMessage").innerText = "Bạn có muốn chuyển sang Processed?";
-        }
-
         document.getElementById("selectedRefundId").value = refundId;
-        document.getElementById("newStatus").value = newStatus;
+
+        // Reset form modal (xóa radio checked và input reason)
+        document.querySelectorAll("input[name='refundStatus']").forEach(radio => radio.checked = false);
+        document.getElementById("refundReason").value = "";
 
         let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById("changeStatusModal"));
         modal.show();
@@ -119,31 +143,37 @@ let statusMessage = document.getElementById("statusMessage");
 
     function updateRefundStatus() {
         let refundId = document.getElementById("selectedRefundId").value;
-        let newStatus = document.getElementById("newStatus").value;
+        let selectedRadio = document.querySelector("input[name='refundStatus']:checked");
+        if (!selectedRadio) {
+            showToast("Vui lòng chọn trạng thái Approve hoặc Reject", "error");
+            return;
+        }
+        let newStatus = selectedRadio.value;
+        let reason = document.getElementById("refundReason").value;
 
-        fetch(`/refund/updateStatus/${refundId}`, {
+        fetch(`/staff/refund/updateStatus/${refundId}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ status: newStatus })
+            body: JSON.stringify({ status: newStatus, reason: reason })
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                closeModalAndShowToast("Trạng thái đã cập nhật thành công!", "success");
-                setTimeout(() => location.reload(), 2000);
-            } else {
-                showToast("Cập nhật thất bại!", "error");
-            }
-        })
-        .catch(error => {
-            console.error("Lỗi cập nhật trạng thái:", error);
-            showToast("Lỗi hệ thống, thử lại sau!", "error");
-        });
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    closeModalAndShowToast("Trạng thái đã cập nhật thành công!", "success");
+                    setTimeout(() => location.reload(), 2000);
+                } else {
+                    showToast("Cập nhật thất bại!", "error");
+                }
+            })
+            .catch(error => {
+                console.error("Lỗi cập nhật trạng thái:", error);
+                showToast("Lỗi hệ thống, thử lại sau!", "error");
+            });
     }
 
     function closeModalAndShowToast(message, type) {
         let modal = bootstrap.Modal.getOrCreateInstance(document.getElementById("changeStatusModal"));
-        modal.hide(); // Đóng modal ngay lập tức
+        modal.hide();
         showToast(message, type);
     }
 
@@ -164,7 +194,7 @@ let statusMessage = document.getElementById("statusMessage");
 
         setTimeout(() => {
             toast.style.display = "none";
-        }, 2000); // Ẩn toast sau 2 giây
+        }, 2000);
     }
 
     function formatDate(dateString) {

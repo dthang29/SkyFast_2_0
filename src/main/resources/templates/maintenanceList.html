@@ -34,8 +34,8 @@
     <link rel="stylesheet" th:href="@{/assets/css/kaiadmin.min.css}" />
     <link rel="stylesheet" th:href="@{/assets/css/demo.css}" />
 
-    <link href="../../css/maintinanceList.css" rel="stylesheet" type="text/css" />
-    <script src="../../js/maintinanceList.js" type="text/javascript"></script>
+    <link href="../../../css/maintinanceList.css" rel="stylesheet" type="text/css" />
+    <script src="../../../js/maintinanceList.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -72,6 +72,31 @@
             <li class="nav-item">
                 <a href="/staff/refund/list">
                     <i class="fa fa-globe"></i> <span>Refund Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/staff/feedback/list" class="nav-link">
+                    <i class="fa fa-comment"></i>Feedback Management
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/bookings">
+                    <i class="fa fa-cart-plus"></i> <span>Booking Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/promotions">
+                    <i class="icon-present"></i> <span>Promotion Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/manager/airports">
+                    <i class="icon-plane"></i> <span>Airport Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/manager/routes">
+                    <i class="fas fa-route"></i> <span>Route Management</span>
                 </a>
             </li>
         </ul>
@@ -128,6 +153,7 @@
                 <tr>
                     <th>Maintenance Date</th>
                     <th>Duration (days)</th>
+                    <th>Completion Date</th>
                     <th>Description</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -138,6 +164,7 @@
                     <!--                    <td th:text="${maintenance.airplane.airplaneName}"></td>-->
                     <td th:text="${#temporals.format(maintenance.maintenanceDate, 'dd/MM/yyyy')}"></td>
                     <td th:text="${maintenance.duration}"></td>
+                    <td th:text="${#temporals.format(maintenance.completionDate, 'dd/MM/yyyy')}"></td>
                     <td th:text="${maintenance.description}"></td>
                     <td>
                             <span class="status-badge"
@@ -147,9 +174,6 @@
                                   th:text="${maintenance.maintenanceStatus}">
                             </span>
                     </td>
-                    <!--                    <td>-->
-                    <!--                        <button class="btn btn-update" th:onclick="|openUpdateModal(${maintenance.id})|">Update</button>-->
-                    <!--                    </td>-->
                     <td>
                         <button  class="btn btn-update"  th:if="${maintenance.maintenanceStatus != 'Processed'}"
                                  th:onclick="|openUpdateModal(${maintenance.id})|">Update</button>

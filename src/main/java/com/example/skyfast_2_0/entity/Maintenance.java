@@ -40,7 +40,7 @@ public class Maintenance {
     private LocalDate completionDate;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "airplane_id", nullable = false)
     private Airplane airplane;
 
@@ -94,7 +94,9 @@ public class Maintenance {
         return completionDate;
     }
 
-    public void setCompletionDate(LocalDate completionDate) { this.completionDate = completionDate; }
+    public void setCompletionDate(LocalDate completionDate) {
+        this.completionDate = completionDate;
+    }
 
     // Getter and Setter for airplane
     public Airplane getAirplane() {

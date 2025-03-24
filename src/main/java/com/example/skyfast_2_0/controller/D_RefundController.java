@@ -27,7 +27,7 @@ public class D_RefundController {
     public String getRefundList(Model model) {
         List<Refund> refundList = DRefundService.getAllRefunds();
         model.addAttribute("refundList", refundList);
-        return "refundList"; // Trả về trang Thymeleaf
+        return "refundList";
     }
 
     @GetMapping("/get/{id}")
@@ -49,6 +49,19 @@ public class D_RefundController {
         return response;
     }
 
+    //    @PostMapping("/updateStatus/{id}")
+//    @ResponseBody
+//    public ResponseEntity<Map<String, Object>> updateRefundStatus(
+//            @PathVariable Integer id,
+//            @RequestBody Map<String, String> requestData) {
+//
+//        String newStatus = requestData.get("status");
+//        boolean isUpdated = refundService.updateRefundStatus(id, newStatus);
+//
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("success", isUpdated);
+//        return ResponseEntity.ok(response);
+//    }
     @PostMapping("/updateStatus/{id}")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> updateRefundStatus(
@@ -56,14 +69,13 @@ public class D_RefundController {
             @RequestBody Map<String, String> requestData) {
 
         String newStatus = requestData.get("status");
-        boolean isUpdated = DRefundService.updateRefundStatus(id, newStatus);
+        String responsed = requestData.get("reason");
+        boolean isUpdated = DRefundService.updateRefundStatus(id, newStatus, responsed);
 
         Map<String, Object> response = new HashMap<>();
         response.put("success", isUpdated);
-
         return ResponseEntity.ok(response);
     }
-
 
 
     @GetMapping("/search")
@@ -82,6 +94,12 @@ public class D_RefundController {
                 fromRefundDate != null ? fromRefundDate.atStartOfDay() : null,
                 toRefundDate != null ? toRefundDate.atTime(23, 59, 59) : null
         );
+        for (Refund r : refunds) {
+            float totalPrice = r.getBooking().getTotalPrice();
+            r.setRefundPrice(totalPrice * 0.8f);
+        }
+
         return ResponseEntity.ok(refunds);
     }
+
 }
