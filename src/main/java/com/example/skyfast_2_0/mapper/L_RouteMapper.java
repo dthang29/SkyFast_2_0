@@ -10,8 +10,8 @@ public class L_RouteMapper {
     public L_RouteDTO toDTO(Route route) {
         L_RouteDTO dto = new L_RouteDTO();
         dto.setId(route.getId());
-        dto.setDepartureAirportId((int) route.getDepartureAirport().getId());
-        dto.setArrivalAirportId((int) route.getArrivalAirport().getId());
+//        dto.setDepartureAirportId((int) route.getDepartureAirport().getId());
+//        dto.setArrivalAirportId((int) route.getArrivalAirport().getId());
         dto.setDistance(route.getDistance());
         dto.setRouteStatus(route.getRouteStatus());
         return dto;

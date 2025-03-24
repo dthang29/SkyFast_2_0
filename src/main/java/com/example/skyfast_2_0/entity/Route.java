@@ -16,14 +16,12 @@ public class Route {
     private Integer id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "departure_airport_id", nullable = false)
-    private Airport departureAirport;
+    @Column(name = "departure_airport_id", nullable = false)
+    private Integer departureAirportId;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "arrival_airport_id", nullable = false)
-    private Airport arrivalAirport;
+    @Column(name = "arrival_airport_id", nullable = false)
+    private Integer arrivalAirportId;
 
     @NotNull
     @Column(name = "distance", nullable = false)
