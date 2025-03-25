@@ -2,9 +2,11 @@ package com.example.skyfast_2_0.controller;
 
 import com.example.skyfast_2_0.entity.Booking;
 import com.example.skyfast_2_0.entity.Payment;
+import com.example.skyfast_2_0.entity.User;
 import com.example.skyfast_2_0.repository.T_BookingRepository;
 import com.example.skyfast_2_0.repository.T_PaymentRepository;
 import com.example.skyfast_2_0.repository.T_PaymentTypeRepository;
+import com.example.skyfast_2_0.repository.T_UserRepository;
 import com.example.skyfast_2_0.service.EmailSenderService;
 import com.example.skyfast_2_0.service.UserProfileService;
 import com.example.skyfast_2_0.service.VNPayService;
@@ -42,6 +44,9 @@ public class VNPayController {
     @Autowired
     private EmailSenderService emailSenderService;
 
+    @Autowired
+    private T_UserRepository t_UserRepository;
+
     @PostMapping("/vn-pay")
     public String submitOrder(HttpServletRequest request, @RequestParam("bookingCode") String bookingCode, HttpSession session) {
         if (bookingCode == null) {
@@ -67,7 +72,9 @@ public class VNPayController {
         paymentRepository.save(payment);
         booking.setBookingStatus("Done");
         bookingRepository.save(booking);
-        emailSenderService.successPayment(email, booking, payment);
+        User user = t_UserRepository.findByEmail(email);
+        String username = user.getUserName();
+        emailSenderService.successPayment(email, username, booking, payment);
         session.removeAttribute("bookingCode");
         if(paymentStatus == 1){
             return "successPayment";

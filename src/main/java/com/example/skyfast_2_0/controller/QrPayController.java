@@ -77,7 +77,9 @@ public class QrPayController {
         paymentRepository.save(payment);
         booking.setBookingStatus("Done");
         bookingRepository.save(booking);
-        emailSenderService.successPayment(email, booking, payment);
+        User user = t_UserRepository.findByEmail(email);
+        String username = user.getUserName();
+        emailSenderService.successPayment(email, username, booking, payment);
         return "successPayment";
     }
 }

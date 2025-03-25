@@ -124,7 +124,11 @@ public class AddOnsController {
             String bookingCode = bookingService.findBookingWithMaxId().getBookingCode();
             return "redirect:/homepage";
         }else if(method.equals("paynow")){
-            return "redirect:/flight";
+            passengerService.insertPassenger(title, FirstName, LastName, nationality, phoneNumber, email);
+            bookingService.insertBooking(Float.parseFloat(totalPrice), "PROCESSING", user.getId(), 1);
+            ticketService.insertTicket(flight.getId(), flightClass);
+            String bookingCode = bookingService.findBookingWithMaxId().getBookingCode();
+            return "redirect:/select-payment-method?bookingCode="+bookingCode;
         }
 
         model.addAttribute("selectedBaggage", selectedBaggage);

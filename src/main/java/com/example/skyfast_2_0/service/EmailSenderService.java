@@ -48,7 +48,7 @@ public class EmailSenderService {
     }
 
     @Async
-    public void successPayment(String recipient, Booking booking, Payment payment)
+    public void successPayment(String recipient, String Username, Booking booking, Payment payment)
             throws MessagingException {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -59,7 +59,7 @@ public class EmailSenderService {
                 + "<body>"
                 + "<h2>Your Booking is Payment successful</h2>"
                 + "<br>" + " "
-                + "<p>Customer: <b>" + booking.getUser().getUserName() + "</b></p>"
+                + "<p>Customer: <b>" + Username + "</b></p>"
                 + "<br>" + " "
                 + "<p>Booking Code: " + booking.getBookingCode()
                 + "<br>" + " "

@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers(STATIC_RESOURCE).permitAll()
                                 .requestMatchers("/homepage").permitAll()
-                                .requestMatchers("/api/airlines/**",
+                                .requestMatchers("/api/airplanes/**",
                                         "/manager/**",
                                         "/api/routes/**").hasRole("MANAGER")
                                 .requestMatchers("/admin/**").hasAnyRole("ADMIN", "MANAGER")

@@ -33,7 +33,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
                 redirectUrl = "/staff/refund";
                 break;
             } else if(role.equals("ROLE_MANAGER")) {
-                redirectUrl = "/airlines/list";
+                redirectUrl = "/manager/airlinelist";
                 break;
             }
         }
