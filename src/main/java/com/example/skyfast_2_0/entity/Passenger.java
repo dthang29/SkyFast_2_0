@@ -39,4 +39,12 @@ public class Passenger {
     @Column(name = "email")
     private String email;
 
+    public Passenger() {}
+    public Passenger(String title, String fullName, String nationality, String phoneNumber, String email) {
+        this.title = title;
+        this.fullName = fullName;
+        this.nationality = nationality;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
 }

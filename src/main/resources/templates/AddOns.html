@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flight Booking Form</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .progress-step {
+      position: relative;
+      text-align: center;
+    }
+    .progress-step::before {
+      content: "";
+      height: 2px;
+      width: 100%;
+      background-color: #dee2e6;
+      position: absolute;
+      top: 15px;
+      left: 50%;
+      z-index: 1;
+    }
+    .progress-step:first-child::before {
+      display: none;
+    }
+    .progress-step:last-child::before {
+      width: 50%;
+      left: 0;
+    }
+    .step-number {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: #fff;
+      border: 2px solid #dee2e6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 8px;
+      position: relative;
+      z-index: 2;
+    }
+    .active .step-number {
+      background-color: #dc3545;
+      border-color: #dc3545;
+      color: white;
+    }
+    .active .step-text {
+      color: #dc3545;
+      font-weight: 500;
+    }
+    .completed .step-number {
+      background-color: #28a745;
+      border-color: #28a745;
+      color: white;
+    }
+    .flight-info {
+      background-color: #f8f9fa;
+      border-radius: 4px;
+      padding: 15px;
+    }
+    .warning-box {
+      background-color: #fff3cd;
+      border: 1px solid #ffeeba;
+      border-radius: 4px;
+      padding: 15px;
+    }
+    .promo-box {
+      background-color: #ffebee;
+      border-radius: 4px;
+      padding: 15px;
+      position: relative;
+    }
+    .promo-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 60px;
+    }
+    .form-label {
+      font-size: 0.85rem;
+      color: #6c757d;
+    }
+    .form-label.required::after {
+      content: "*";
+      color: #dc3545;
+    }
+    .dropdown-toggle {
+      background-color: white;
+      border: 1px solid #ced4da;
+      text-align: left;
+    }
+    .dropdown-toggle::after {
+      float: right;
+      margin-top: 8px;
+    }
+    .continue-btn {
+      background-color: #dc3545;
+      border-color: #dc3545;
+    }
+    .continue-btn:hover {
+      background-color: #c82333;
+      border-color: #bd2130;
+    }
+    .flag-icon {
+      width: 20px;
+      height: 15px;
+      margin-right: 5px;
+    }
+    .baggage-icon {
+      color: #dc3545;
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body class="py-4">
+<div class="container">
+  <!-- Progress Steps -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between">
+        <div class="progress-step active">
+          <div class="step-number">1</div>
+          <div class="step-text">Booking</div>
+        </div>
+        <div class="progress-step">
+          <div class="step-number">2</div>
+          <div class="step-text">Add ons</div>
+        </div>
+        <div class="progress-step">
+          <div class="step-number">3</div>
+          <div class="step-text">Payment</div>
+        </div>
+        <div class="progress-step">
+          <div class="step-number">4</div>
+          <div class="step-text">Complete</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Main Form Column -->
+    <div class="col-lg-8">
+      <form th:action="@{/addons}" method="get">
+      <!-- Flight Info -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="d-flex align-items-center mb-2">
+                <span class="fw-medium" th:text="${departureAirport.getLocation()} + ' (' + ${departureAirport.getAirportCode()}+')'">Depart : Hanoi (HAN)</span>
+                <i class="bi bi-arrow-right mx-2"></i>
+                <span class="fw-medium" th:text="${arrivalAirport.getLocation()} + ' (' + ${arrivalAirport.getAirportCode()}+')'">Ho Chi Minh City (SGN)</span>
+              </div>
+              <div class="text-secondary small" th:text="${flight.getDepartureTime().toLocalDate()}+' | '+${#temporals.format(flight.getDepartureTime(),'HH:mm')}+'-'+${#temporals.format(flight.getArrivalTime(),'HH:mm')}">
+                Mon, 17 Mar 2025 | 22:00 - 00:10
+              </div>
+            </div>
+            <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#flightDetails">
+              <i class="bi bi-chevron-down"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Passenger Details -->
+
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="mb-4">Passenger Details</h5>
+
+          <div class="warning-box mb-4">
+            <div class="d-flex">
+              <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
+              <div>
+                <p class="mb-1">Enter the passenger's name as written on the passport/ ID Card. Spelling or punctuation errors may cause rejection of boarding or change fees.</p>
+<!--                <a href="#" class="text-decoration-none">Check Name Guidelines</a>-->
+              </div>
+            </div>
+          </div>
+
+          <h6 class="mb-3">Adult 1</h6>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label class="form-label required">Title</label>
+              <select class="form-select w-100" name="title" required>
+                <option value="" th:selected="${title == null}"></option>
+                <option value="Mr" th:selected="${title == 'Mr'}">Mr</option>
+                <option value="Mrs" th:selected="${title == 'Mrs'}">Mrs</option>
+                <option value="Ms" th:selected="${title == 'Ms'}">Ms</option>
+              </select>
+
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label class="form-label required">Last Name/ Surname</label>
+              <div class="input-group">
+                <input type="text" class="form-control" name="LastName" th:value="${lastName}">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label required">First/ Given Name</label>
+              <div class="input-group">
+                <input type="text" class="form-control" name="FirstName" th:value="${firstName}">
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="mb-3">
+            <label class="form-label required">Nationality</label>
+            <input type="text" class="form-control" name="nationality" th:value="${nationality}">
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Details -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="mb-4">Contact Details</h5>
+
+          <div class="mb-3">
+              <label class="form-label required">Email</label>
+              <input type="email" class="form-control" name="email" th:value="${email}">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label required">Mobile Number</label>
+            <div class="input-group">
+<!--              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" style="width: 100px;">-->
+<!--&lt;!&ndash;                <img src="https://flagcdn.com/w20/vn.png" alt="Vietnam" class="flag-icon"> +84&ndash;&gt;-->
+<!--              </button>-->
+<!--              <ul class="dropdown-menu">-->
+<!--                <li><a class="dropdown-item" href="#"><img src="https://flagcdn.com/w20/vn.png" alt="Vietnam" class="flag-icon"> +84</a></li>-->
+<!--                <li><a class="dropdown-item" href="#"><img src="https://flagcdn.com/w20/us.png" alt="USA" class="flag-icon"> +1</a></li>-->
+<!--                <li><a class="dropdown-item" href="#"><img src="https://flagcdn.com/w20/jp.png" alt="Japan" class="flag-icon"> +81</a></li>-->
+<!--              </ul>-->
+              <input type="text" class="form-control" name="phoneNumber" th:value="${phoneNumber}">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Baggage -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-4">
+            <i class="bi bi-luggage-fill baggage-icon me-2"></i>
+            <h5 class="mb-0">Baggage</h5>
+          </div>
+
+          <div class="flight-info mb-3">
+            <div class="d-flex align-items-center mb-2">
+              <span class="fw-medium" th:text="${departureAirport.getLocation()} + ' (' + ${departureAirport.getAirportCode()}+')'">Depart : Hanoi (HAN)</span>
+              <i class="bi bi-arrow-right mx-2"></i>
+              <span class="fw-medium" th:text="${arrivalAirport.getLocation()} + ' (' + ${arrivalAirport.getAirportCode()}+')'">Ho Chi Minh City (SGN)</span>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="text-secondary" th:text="${flight.getFlightNumber()} + ' | ' + ${departureAirport.getAirportCode()}+ '-' +${arrivalAirport.getAirportCode()}">
+<!--              <i class="bi bi-dash-lg text-danger" th:text="${flight.getFlightNumber()} + ' | ' + ${departureAirport.getAirportCode()}+ '-' +${arrivalAirport.getAirportCode()}"></i> -->
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="d-flex align-items-center">
+              <span></span>
+              <span class="ms-2 badge bg-secondary">0kg</span>
+            </div>
+          </div>
+
+          <div class="mb-3">
+<!--            <form action="" method="get">-->
+              <input type="hidden" name="flightId" th:value="${flight.id}" />
+              <input type="hidden" name="passengerCount" th:value="${passengerCount}" />
+              <input type="hidden" name="flightClass" th:value="${flightClass}" />
+              <label for="baggageQuantity">Add Extra Baggage:</label>
+              <select class="form-select w-100 text-secondary" name="baggageQuantity" id="baggageQuantity" onchange="this.form.submit()">
+                <option value="0" selected>0</option>
+                <option value="1" th:selected="${selectedQuantity == 1}">1</option>
+                <option value="2" th:selected="${selectedQuantity == 2}">2</option>
+                <option value="3" th:selected="${selectedQuantity == 3}">3</option>
+                <option value="4" th:selected="${selectedQuantity == 4}">4</option>
+                <option value="5" th:selected="${selectedQuantity == 5}">5</option>
+              </select>
+<!--            </form>-->
+          </div>
+
+          <!-- Hiển thị dropdown cho từng hành lý đã chọn -->
+          <div th:if="${selectedQuantity > 0}">
+            <div th:each="i : ${#numbers.sequence(1, selectedQuantity)}" class="mb-3">
+              <label th:text="'Baggage ' + ${i} + ':'"></label>
+              <select class="form-select w-100 text-secondary" name="baggage" onchange="this.form.submit()">
+                <option value="0" selected>0kg - ₫0</option>
+                <option th:each="baggage : ${baggageList}"
+                        th:value="${baggage.id}"
+                        th:text="${baggage.weight} + 'kg - ₫' + ${baggage.baggagePrice}"
+                        th:selected="${selectedBaggage != null and selectedBaggage.get(-1+i).equals(baggage.id)}"></option>
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Continue Button -->
+        <input type="hidden" name="method" id="method">
+
+        <!-- Nút mở Modal -->
+        <div class="d-flex justify-content-end mb-4">
+          <button type="button" class="btn continue-btn text-white px-5 py-2" data-bs-toggle="modal" data-bs-target="#paymentModal">
+            Continue
+          </button>
+        </div>
+
+        <!-- Modal chọn thanh toán -->
+        <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="paymentModalLabel">Chọn phương thức thanh toán</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Vui lòng chọn một phương thức thanh toán:
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" onclick="submitPayment(event, 'paynow')">Pay Now</button>
+                <button type="submit" class="btn btn-secondary" onclick="submitPayment(event, 'paylater')">Pay Later</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Price Details Column -->
+    <div class="col-lg-4">
+
+      <!-- Price Details -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="mb-4">Price Detail</h5>
+
+          <div class="mb-4">
+            <div th:if="${getPassenger.get(0) > 0}" class="d-flex justify-content-between align-items-center">
+              <div class="small" th:text="'Adult ('+${getPassenger.get(0)} + ' Pax)'">Adult (1 Pax)</div>
+              <div class="d-flex align-items-center fw-medium">
+                <span th:text="'₫ '+ ${priceEachPassenger.get(0)}">₫ 2,138,600</span>
+                <i class="bi bi-chevron-down ms-1 text-secondary small"></i>
+              </div>
+            </div>
+
+            <!-- Trẻ em -->
+            <div th:if="${getPassenger.get(1) > 0}" class="d-flex justify-content-between align-items-center mt-2">
+              <div class="small" th:text="'Child ('+${getPassenger.get(1)} + ' Pax)'">Child (1 Pax)</div>
+              <div class="d-flex align-items-center fw-medium">
+                <span th:text="'₫ '+ ${priceEachPassenger.get(1)}">₫ 2,138,600</span>
+                <i class="bi bi-chevron-down ms-1 text-secondary small"></i>
+              </div>
+            </div>
+
+            <!-- Em bé -->
+            <div th:if="${getPassenger.get(2) > 0}" class="d-flex justify-content-between align-items-center mt-2">
+              <div class="small" th:text="'Infant ('+${getPassenger.get(2)} + ' Pax)'">Infant (1 Pax)</div>
+              <div class="d-flex align-items-center fw-medium">
+                <span th:text="'₫ '+ ${priceEachPassenger.get(2)}">₫ 2,138,600</span>
+                <i class="bi bi-chevron-down ms-1 text-secondary small"></i>
+              </div>
+            </div>
+            <div class="input-group mt-3">
+              <input type="text" class="form-control" name="promotionCode" id="promotionCode" placeholder="Enter promotion code" />
+              <button type="Submit" class="btn btn-primary" >Apply</button>
+            </div>
+            <div th:if="${totalBaggagePrice != '0.0'}"
+                 class="d-flex justify-content-between align-items-center mt-2">
+              <div class="small" th:text="'Baggage ('+${selectedQuantity} + ' Pax)'"></div>
+              <div class="d-flex align-items-center fw-medium">
+                <span th:text="'₫ '+ ${totalBaggagePrice}"></span>
+                <i class="bi bi-chevron-down ms-1 text-secondary small"></i>
+              </div>
+            </div>
+
+            <div class="pt-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="fw-medium">Total Price</div>
+                <div class="fw-medium text-end" th:text="'₫ ' +${totalPrice}">₫ 2,138,600</div>
+              </div>
+              <div class="d-flex justify-content-between text-secondary small">
+                <div th:text="'For '+ ${getTotal} +' pax' ">For 1 pax</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/AddOns.js"></script>
+</body>
+</html>

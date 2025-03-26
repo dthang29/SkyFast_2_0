@@ -1,35 +1,43 @@
 package com.example.skyfast_2_0.configuration;
 
-import com.example.skyfast_2_0.constant.Role;
+import com.example.skyfast_2_0.service.CustomOAuth2UserService;
 import com.example.skyfast_2_0.service.LoginService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private static final String[] STATIC_RESOURCE = {"/css/**", "/font/**", "/js/**", "/image/**"};
+    private static final String[] STATIC_RESOURCE = {"/css/**", "/js/**", "/img/**", "/assets/**"};
     private final LoginService customUserDetailsService;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
-    public SecurityConfig(LoginService customUserDetailsService) {
+    public SecurityConfig(LoginService customUserDetailsService, CustomOAuth2UserService customOAuth2UserService) {
         this.customUserDetailsService = customUserDetailsService;
+        this.customOAuth2UserService = customOAuth2UserService;
     }
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
+    SecurityFilterChain filterChain(HttpSecurity http, CustomSuccessHandler successHandler) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers(STATIC_RESOURCE).permitAll()
                                 .requestMatchers("/homepage").permitAll()
-//                                .requestMatchers("/manager").hasAuthority("ROLE_MANAGER")
+                                .requestMatchers("/api/airplanes/**",
+                                        "/manager/**",
+                                        "/api/routes/**").hasRole("MANAGER")
+                                .requestMatchers("/admin/**").hasAnyRole("ADMIN", "MANAGER")
+                                .requestMatchers("/staff/**").hasAnyRole("STAFF", "MANAGER")
+                                .requestMatchers("/homepage/booking-history",
+                                        "/homepage/refund").hasRole("CUSTOMER")
                                 .requestMatchers("/login").permitAll()
                                 .requestMatchers("/register").permitAll()
                                 .requestMatchers("/verify-code",
@@ -42,9 +50,8 @@ public class SecurityConfig {
                 ).oauth2Login(
                         oauth2 -> oauth2
                                 .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
-                                        .userService(oauth2UserService()))
-//                                .successHandler(successHandler)
-                                .defaultSuccessUrl("/homepage", true)
+                                        .userService(customOAuth2UserService))
+                                .successHandler(successHandler)
                                 .failureUrl("/login?error=true")
                                 .loginPage("/login")
                                 .permitAll()
@@ -53,8 +60,7 @@ public class SecurityConfig {
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-//                                .successHandler(successHandler)
-                                .defaultSuccessUrl("/homepage", true)
+                                .successHandler(successHandler)
                                 .failureUrl("/login?error=true")
                                 .permitAll()
                 ).rememberMe(rememberMe -> rememberMe
@@ -64,7 +70,7 @@ public class SecurityConfig {
                 .logout(
                         logout -> logout
                                 .logoutUrl("/logout")
-                                .logoutSuccessUrl("/login?logout")
+                                .logoutSuccessUrl("/homepage")
                                 .invalidateHttpSession(true)
                                 .deleteCookies("JSESSIONID", "rememberMe")
                                 .permitAll()

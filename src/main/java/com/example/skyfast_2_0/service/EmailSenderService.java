@@ -1,5 +1,7 @@
 package com.example.skyfast_2_0.service;
 
+import com.example.skyfast_2_0.entity.Booking;
+import com.example.skyfast_2_0.entity.Payment;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,32 @@ public class EmailSenderService {
                 + "<br>" + " "
                 + "<b><h3>" + content + "</b></h3></p>"
                 + "<p>This verification code will expire in 5 minutes.</p>"
+                + "<br>"
+                + "</body>"
+                + "</html>";
+        helper.setText(htmlContent, true);
+        emailSender.send(message);
+    }
+
+    @Async
+    public void successPayment(String recipient, String Username, Booking booking, Payment payment)
+            throws MessagingException {
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setFrom(fromEmail);
+        helper.setTo(recipient);
+        helper.setSubject("Payment Success");
+        String htmlContent = "<html>"
+                + "<body>"
+                + "<h2>Your Booking is Payment successful</h2>"
+                + "<br>" + " "
+                + "<p>Customer: <b>" + Username + "</b></p>"
+                + "<br>" + " "
+                + "<p>Booking Code: " + booking.getBookingCode()
+                + "<br>" + " "
+                + "<b>Total Price: <h3>" + booking.getTotalPrice() + "</b></h3></p>"
+                + "<br>" + " "
+                + "<p>Payment Date: " + payment.getPaymentDate() + "</p>"
                 + "<br>"
                 + "</body>"
                 + "</html>";

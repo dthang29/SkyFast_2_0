@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ClassCategoryRepository extends JpaRepository<Classcategory, Integer> {
-    @Query("SELECT c FROM Classcategory c")
+    @Query("SELECT c FROM Classcategory c WHERE c.id = (SELECT MIN(c2.id) FROM Classcategory c2 WHERE c2.name = c.name)")
     List<Classcategory> findAllClassCategories();
     List<Classcategory> findByAirplaneId(Integer airplaneId);
 }

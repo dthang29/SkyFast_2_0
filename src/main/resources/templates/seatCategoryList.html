@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${pageTitle}">Flight Ticket Dashboard - User List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script th:src="@{/assets/js/plugin/webfont/webfont.min.js}"></script>
+    <script>
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: [/* Thêm Thymeleaf cho đúng đường dẫn */
+                    /* "../assets/css/fonts.min.css" */
+                    "/assets/css/fonts.min.css"
+                ],
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+    </script>
+
+    <!-- CSS Files -->
+    <!--    <link rel="stylesheet" th:href="@{/assets/css/maintinanceList.css}" />-->
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/plugins.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/kaiadmin.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/demo.css}" />
+
+    <link href="../../css/seatCategory.css" rel="stylesheet" type="text/css" />
+    <script src="../../js/seatCategory.js" type="text/javascript"></script>
+</head>
+
+<body>
+<div class="d-flex flex-row">
+    <!-- Sidebar -->
+    <nav class="sidebar p-3">
+        <h4 class="text-center dashboard-title" style="color: #575962">SkyFast</h4>
+        <ul class="nav flex-column" id="sidebar-links">
+            <li class="nav-item">
+                <a href="/dashboard" class="nav-link active" data-page="Dashboard.html">
+                    <i class="fas fa-home"></i>Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/flights" class="nav-link" data-page="flightManagement.html">
+                    <i class="fas fa-plane"></i>Flight Management
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/airlines/list" class="nav-link" data-page="airlineManagement.html">
+                    <i class="fas fa-plane"></i>Airline Management
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/users/list" class="nav-link" data-page="userlist.html">
+                    <i class="fas fa-users"></i>User Management
+                </a>
+            </li>
+            <li class=" nav-item active">
+                <a href="/admin/planeCategory">
+                    <i class="fa fa-gavel"></i> <span>Airplane Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/staff/refund/list">
+                    <i class="fa fa-globe"></i> <span>Refund Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/staff/feedback/list" class="nav-link">
+                    <i class="fa fa-comment"></i>Feedback Management
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/bookings">
+                    <i class="fa fa-cart-plus"></i> <span>Booking Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/promotions">
+                    <i class="icon-present"></i> <span>Promotion Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/manager/airports">
+                    <i class="icon-plane"></i> <span>Airport Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/manager/routes">
+                    <i class="fas fa-route"></i> <span>Route Management</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4 main-content" style="margin-right: 290px;">
+        <div class="content-container" style="width: 1545px;">
+            <h2 th:text="'Seat Categories for ' + ${airplane.airplaneName}"></h2>
+
+            <!-- Add Seat Category Button -->
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">Add New Seat Category</button>
+
+            <!-- Existing Seat Categories Table -->
+            <h3>Existing Seat Categories</h3>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Total Seats</th>
+                    <th>Description</th>
+                    <th>Surcharge</th>
+                    <th>Image</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="category : ${categories}">
+                    <td th:text="${category.name}"></td>
+                    <td th:text="${category.totalSeats}"></td>
+                    <td th:text="${category.description}"></td>
+                    <td th:text="${category.surcharge}"></td>
+                    <td>
+                        <img th:if="${category.image != null}" th:src="@{${category.image}}" alt="Image" style="width:100px;">
+                    </td>
+                    <td>
+                        <!-- Update Button -->
+                        <button class="btn btn-primary btn-update" th:data-id="${category.id}">Update</button>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div th:if="${errorMessage}" class="alert alert-danger">
+                <span th:text="${errorMessage}"></span>
+            </div>
+            <div th:if="${successMessage}" class="alert alert-success">
+                <span th:text="${successMessage}"></span>
+            </div>
+
+
+            <!-- Modal Add Seat Category -->
+            <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addModalLabel">Add Seat Category</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/admin/seatCategory/add" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="airplaneId" th:value="${airplane.id}" />
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Category Name</label>
+                                    <select class="form-select" name="name" id="name" required>
+                                        <option value="">Select Category</option>
+                                        <option value="Economy">Economy</option>
+                                        <option value="Business">Business</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="totalSeats" class="form-label">Total Seats</label>
+                                    <input type="number" class="form-control" name="totalSeats" id="totalSeats" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="surcharge" class="form-label">Surcharge</label>
+                                    <input type="number" step="0.01" class="form-control" name="surcharge" id="surcharge" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    <textarea class="form-control" name="description" id="description" required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="imageFile" class="form-label">Upload Image</label>
+                                    <input type="file" class="form-control" name="imageFile" id="imageFile" accept="image/*" required>
+                                </div>
+                                <button type="submit" class="btn btn-success">Add Category</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Update Seat Category -->
+            <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="updateModalLabel">Update Seat Category</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/admin/seatCategory/update" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="id" id="updateId">
+                                <div class="mb-3">
+                                    <label for="updateName" class="form-label">Category Name</label>
+                                    <input type="text" class="form-control" name="name" id="updateName" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="updateTotalSeats" class="form-label">Total Seats</label>
+                                    <input type="number" class="form-control" name="totalSeats" id="updateTotalSeats" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="updateSurcharge" class="form-label">Surcharge</label>
+                                    <input type="number" step="0.01" class="form-control" name="surcharge" id="updateSurcharge" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="updateDescription" class="form-label">Description</label>
+                                    <textarea class="form-control" name="description" id="updateDescription" required></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="updateCurrentImage" class="form-label">Current Image</label>
+                                    <img id="updateCurrentImage" src="" alt="Current Image" style="width:100px;">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="updateImage" class="form-label">Upload New Image</label>
+                                    <input type="file" class="form-control" name="image" id="updateImage" accept="image/*">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update Category</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>

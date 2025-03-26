@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booking Summary</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .flight-path-line {
+            position: absolute;
+            left: 4px;
+            top: 12px;
+            bottom: 12px;
+            width: 1px;
+            background-color: #dee2e6;
+        }
+        .flight-path-dot {
+            position: absolute;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: white;
+            border: 2px solid #adb5bd;
+            margin-left: -3.5px;
+        }
+        .dot-top {
+            top: 12px;
+        }
+        .dot-bottom {
+            bottom: 12px;
+        }
+        .airline-logo {
+            width: 80px;
+            height: 30px;
+            background-color: #f8d7da;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #dc3545;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        .checkout-btn {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        .checkout-btn:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+        .change-flight-btn {
+            color: #dc3545;
+            border-color: #dc3545;
+        }
+        .change-flight-btn:hover {
+            background-color: #f8d7da;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body class="p-3">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">SKYFAST</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expande  d="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" th:href="@{/homepage}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/flight}">Flight</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/airplane}">Plane</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/homepage}">Contact</a></li>
+            </ul>
+        </div>
+        <div class="d-flex">
+            <a class="btn btn-outline-primary me-2" href="#">Sign Up</a>
+            <a class="btn btn-primary" href="#">Login</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="card shadow-sm mb-4 mx-auto" style="max-width: 1000px;">
+        <div class="card-body p-4">
+            <div class="row g-4">
+                <!-- Trip Summary Section -->
+                <div class="col-md-8">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="mb-0">Trip Summary</h5>
+                        <button class="btn btn-link text-secondary p-0">
+                            <i class="bi bi-share fs-5"></i>
+                        </button>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-secondary small fw-medium">Selected Departure Flight</span>
+                            <form th:action="@{/flightconfirm}" method="get">
+                                <input type="hidden" name="flightId" th:value="${flight.id}">
+                                <input type="hidden" name="passengerCount" th:value="${passengerCount}">
+                                <label>Hạng ghế</label>
+                                <select id="class-input" name="flightClass" class="form-select" onchange="this.form.submit()">
+                                    <option th:each="classcategory : ${classcategories}"
+                                            th:value="${classcategory.getId()}"
+                                            th:text="${classcategory.getName()}"
+                                            th:selected="${classcategory.getId() == flightClass}">
+                                    </option>
+                                </select>
+                            </form>
+                            <form action="javascript:history.back()">
+                                <button class="btn btn-sm change-flight-btn" type="submit">
+                                    Change Flight
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="d-flex align-items-center gap-2 mb-2 fw-medium small">
+                            <span th:text="${departureAirport.getLocation()} + ' (' + ${departureAirport.getAirportCode()}+')'">Hanoi (HAN)</span>
+                            <i class="bi bi-arrow-right text-secondary small"></i>
+                            <span th:text="${arrivalAirport.getLocation()} + ' (' + ${arrivalAirport.getAirportCode()}+')'">Ho Chi Minh City (SGN)</span>
+                        </div>
+
+                        <div class="text-secondary small mb-4" th:text="${flight.getDepartureTime().toLocalDate()}+' | '+${flight.getDepartureTime().getHour()}+'-'+${flight.getArrivalTime().getHour()}">
+                            Mon, 17 Mar 2025 | 22:00 - 00:10 | Direct
+                        </div>
+
+                        <div class="d-flex mt-4">
+                            <div class="text-center me-3" style="width: 100px;">
+                                <div class="airline-logo mb-2 mx-auto" th:text="${flight.getAirline().getAirlineName()}">VIETJET</div>
+                                <div class="small" th:text="${flight.getAirline().getAirlineName()}">Vietjet Air</div>
+                                <div class="text-secondary small" th:text="${flight.getFlightNumber()}">VJ169</div>
+                                <div class="text-secondary small" >321</div>
+                                <div class="text-secondary small">Eco</div>
+                            </div>
+
+                            <div class="flex-grow-1 position-relative ps-4 pe-2">
+                                <div class="flight-path-line"></div>
+                                <div class="flight-path-dot dot-top"></div>
+                                <div class="flight-path-dot dot-bottom"></div>
+
+                                <div class="d-flex justify-content-between mb-4">
+                                    <div>
+                                        <div class="fw-medium" th:text="${#temporals.format(flight.getDepartureTime(),'HH:mm')}">22:00</div>
+                                        <div class="text-secondary small" th:text="${#temporals.format(flight.getDepartureTime(),'dd MMM yyyy')}">17 Mar 2025</div>
+                                    </div>
+                                    <div class="text-end">
+                                        <div class="fw-medium" th:text="${departureAirport.getLocation()} + ' (' + ${departureAirport.getAirportCode()}+')'">Hanoi (HAN)</div>
+                                        <div class="text-secondary small" th:text="${departureAirport.getAirportName()}">Noi Bai International Airport</div>
+                                        <div class="text-secondary small">(Terminal 1)</div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-center align-items-center my-3">
+                                    <i class="bi bi-clock text-secondary me-1 small"></i>
+                                    <span class="text-secondary small" th:text="${flight.getDuration()}+' m'">2h 10m</span>
+                                </div>
+
+                                <div class="d-flex justify-content-between mt-4">
+                                    <div>
+                                        <div class="fw-medium" th:text="${#temporals.format(flight.getArrivalTime(),'HH:mm')}">00:10</div>
+                                        <div class="text-secondary small" th:text="${#temporals.format(flight.getArrivalTime(),'dd MMM yyyy')}">18 Mar 2025</div>
+<!--                                        <div class="text-danger small">+1d</div>-->
+                                    </div>
+                                    <div class="text-end">
+                                        <div class="fw-medium" th:text="${arrivalAirport.getLocation()} + ' (' + ${arrivalAirport.getAirportCode()}+')'">Ho Chi Minh City (SGN)</div>
+                                        <div class="text-secondary small" th:text="${arrivalAirport.getAirportName()}">Tan Son Nhat International Airport</div>
+                                        <div class="text-secondary small">(Terminal 1)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap gap-3 text-secondary small mt-4">
+                        <div class="d-flex align-items-center">
+                <span class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle me-1" style="width: 20px; height: 20px;">
+                  <i class="bi bi-briefcase small"></i>
+                </span>
+                            <span>Cabin Baggage 7kg</span>
+                        </div>
+
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-check-circle me-1 small"></i>
+                            <span>Reschedulable</span>
+                            <i class="bi bi-info-circle ms-1 text-secondary small"></i>
+                        </div>
+
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-exclamation-circle me-1 small"></i>
+                            <span>Non Refundable</span>
+                            <i class="bi bi-info-circle ms-1 text-secondary small"></i>
+                        </div>
+
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-check-circle me-1 small"></i>
+                            <span>Estimated ticket issued &lt;1h</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price Detail Section -->
+                <div class="col-md-4">
+                    <h5 class="mb-4">Price Detail</h5>
+
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="small" th:text="'Adult ('+${getPassenger.get(0)} + ' Pax)'">Adult (1 Pax)</div>
+                            <div class="d-flex align-items-center fw-medium">
+                                <span th:text="'₫ '+ ${priceEachPassenger.get(0)}">₫ 2,138,600</span>
+                                <i class="bi bi-chevron-down ms-1 text-secondary small"></i>
+                            </div>
+                        </div>
+
+                        <!-- Trẻ em -->
+                        <div th:if="${getPassenger.get(1) > 0}" class="d-flex justify-content-between align-items-center mt-2">
+                            <div class="small" th:text="'Child ('+${getPassenger.get(1)} + ' Pax)'">Child (1 Pax)</div>
+                            <div class="d-flex align-items-center fw-medium">
+                                <span th:text="'₫ '+ ${priceEachPassenger.get(1)}">₫ 2,138,600</span>
+                                <i class="bi bi-chevron-down ms-1 text-secondary small"></i>
+                            </div>
+                        </div>
+
+                        <!-- Em bé -->
+                        <div th:if="${getPassenger.get(2) > 0}" class="d-flex justify-content-between align-items-center mt-2">
+                            <div class="small" th:text="'Infant ('+${getPassenger.get(2)} + ' Pax)'">Infant (1 Pax)</div>
+                            <div class="d-flex align-items-center fw-medium">
+                                <span th:text="'₫ '+ ${priceEachPassenger.get(2)}">₫ 2,138,600</span>
+                                <i class="bi bi-chevron-down ms-1 text-secondary small"></i>
+                            </div>
+                        </div>
+
+                        <div class="pt-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="fw-medium">Total Price</div>
+                                <div class="fw-medium text-end" th:text="'₫ ' +${totalPrice}">₫ 2,138,600</div>
+                            </div>
+                            <div class="d-flex justify-content-between text-secondary small">
+                                <div th:text="'For '+ ${getTotal} +' pax' ">For 1 pax</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form th:action="@{/addons}" method="get">
+                        <input type="hidden" name="flightId" th:value="${flight.id}" />
+                        <input type="hidden" name="passengerCount" th:value="${passengerCount}" />
+                        <input type="hidden" name="flightClass" th:value="${flightClass}" />
+                        <input type="hidden" name="totalPrice" th:value="${totalPrice}" />
+
+                        <button type="submit" class="btn checkout-btn text-white w-100 py-2 mt-4">
+                            Checkout
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

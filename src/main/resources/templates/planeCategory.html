@@ -37,8 +37,8 @@
     <link rel="stylesheet" th:href="@{/assets/css/kaiadmin.min.css}"/>
     <link rel="stylesheet" th:href="@{/assets/css/demo.css}"/>
 
-    <link href="../css/planeCategory.css" rel="stylesheet" type="text/css" />
-    <script src="../js/planeCategory.js" type="text/javascript"></script>
+    <link href="../../css/planeCategory.css" rel="stylesheet" type="text/css" />
+    <script src="../../js/planeCategory.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -75,6 +75,31 @@
             <li class="nav-item">
                 <a href="/staff/refund/list">
                     <i class="fa fa-globe"></i> <span>Refund Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/staff/feedback/list">
+                    <i class="fa fa-comment"></i>Feedback Management
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/bookings">
+                    <i class="fa fa-cart-plus"></i> <span>Booking Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/promotions">
+                    <i class="icon-present"></i> <span>Promotion Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/manager/airports">
+                    <i class="icon-plane"></i> <span>Airport Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/manager/routes">
+                    <i class="fas fa-route"></i> <span>Route Management</span>
                 </a>
             </li>
         </ul>
@@ -198,6 +223,9 @@
                                 th:onclick="|window.location.href='/admin/maintenance/list/' + ${airplane.id}|">
                             View Maintenance Airplane
                         </button>
+                        <button class="btn btn-info" th:onclick="|window.location.href='/admin/seatCategory/' + ${airplane.id}|">
+                            View Seat Category
+                        </button>
 
                     </td>
                 </tr>
@@ -216,20 +244,28 @@
                     <div class="modal-body">
                         <form id="maintenanceForm">
                             <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
-                                <textarea class="form-control" id="description" name="description" required></textarea>
-                                <div class="invalid-feedback">Description cannot be empty.</div>
+                                <label for="startDate" class="form-label">Ngày Bắt Đầu Bảo Trì</label>
+                                <input type="date" class="form-control" id="startDate" name="maintenanceDate" required>
                             </div>
                             <div class="mb-3">
                                 <label for="duration" class="form-label">Duration (days)</label>
-                                <input type="number" class="form-control" id="duration" name="duration" min="1"
-                                       required>
+                                <input type="number" class="form-control" id="duration" name="duration" min="1" required>
                                 <div class="invalid-feedback">Duration must be greater than 0.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="completionDate" class="form-label">Ngày Kết Thúc Bảo Trì</label>
+                                <input type="date" class="form-control" id="completionDate" name="completionDate" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" name="description" required></textarea>
+                                <div class="invalid-feedback">Description cannot be empty.</div>
                             </div>
                             <input type="hidden" id="airplaneId">
                             <button type="submit" class="btn btn-primary">Create</button>
                         </form>
                     </div>
+
                 </div>
             </div>
         </div>

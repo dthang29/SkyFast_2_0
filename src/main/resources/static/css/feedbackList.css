@@ -1,0 +1,51 @@
+ body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+        .content-container {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 15px;
+            color: white;
+            text-transform: uppercase;
+        }
+        .status-unprocessed { background-color: #ffc107; }
+        .status-processing { background-color: #007bff; }
+        .status-processed { background-color: #28a745; }
+        .btn-update { background-color: #17a2b8; color: white; }
+        th {
+    padding: 15px; /* Tăng padding để rộng hơn */
+    font-size: 16px; /* Chữ to hơn một chút */
+    text-align: left;
+}
+.btn-update {
+    background-color: #ffcc00 !important; /* Màu vàng nổi bật */
+    color: #333; /* Màu chữ đậm */
+    font-weight: bold;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px; /* Bo tròn */
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-update:hover {
+    background-color: #ff9900 !important; /* Màu cam khi hover */
+    color: white;
+    transform: scale(1.05);
+}
+
+.btn-update:active {
+    transform: scale(0.95);
+}

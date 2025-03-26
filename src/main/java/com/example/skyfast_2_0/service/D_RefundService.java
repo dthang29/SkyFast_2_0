@@ -15,8 +15,18 @@ public class D_RefundService {
     @Autowired
     private D_RefundRepository DRefundRepository;
 
+    //    public List<Refund> getAllRefunds() {
+//        return refundRepository.findAll();
+//    }
     public List<Refund> getAllRefunds() {
-        return DRefundRepository.findAll();
+        List<Refund> refundList = DRefundRepository.findAll();
+        // Cập nhật refundPrice = booking.totalPrice * 80% (nếu bạn muốn tính lại mỗi lần hiển thị)
+        for (Refund r : refundList) {
+            float totalPrice = r.getBooking().getTotalPrice(); // Giả sử booking có hàm getTotalPrice()
+            float newRefundPrice = totalPrice * 0.8f;
+            r.setRefundPrice(newRefundPrice);
+        }
+        return refundList;
     }
 
     public Optional<Refund> getRefundById(Integer id) {
@@ -38,22 +48,25 @@ public class D_RefundService {
         return DRefundRepository.searchRefunds(status, fromRequestDate, toRequestDate, fromRefundDate, toRefundDate);
     }
 
-
-    public boolean updateRefundStatus(Integer id, String newStatus) {
+    public boolean updateRefundStatus(Integer id, String newStatus, String reason) {
         Optional<Refund> refundOpt = DRefundRepository.findById(id);
-
         if (refundOpt.isPresent()) {
             Refund refund = refundOpt.get();
-
-            // Kiểm tra nếu trạng thái hợp lệ
-            if ((refund.getStatus().equals("Unprocessed") && newStatus.equals("Is_Processing")) ||
-                    (refund.getStatus().equals("Is_Processing") && newStatus.equals("Processed"))) {
-
-                refund.setStatus(newStatus);
-                DRefundRepository.save(refund);
-                return true;
+            // Chỉ cho phép cập nhật nếu trạng thái hiện tại là "Processing"
+            if (!"Processing".equals(refund.getStatus())) {
+                return false;
             }
+            // Chỉ chấp nhận trạng thái mới là Approve hoặc Reject
+            if (!("Approve".equals(newStatus) || "Reject".equals(newStatus))) {
+                return false;
+            }
+            refund.setStatus(newStatus);
+            refund.setResponse(reason);
+            refund.setRefundDate(LocalDateTime.now()); // Ghi nhận thời điểm cập nhật
+            DRefundRepository.save(refund);
+            return true;
         }
         return false;
     }
+
 }
