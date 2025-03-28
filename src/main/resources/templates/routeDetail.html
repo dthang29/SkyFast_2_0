@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Route Detail</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/plugins.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/kaiadmin.min.css}" />
+    <link rel="stylesheet" th:href="@{/assets/css/demo.css}" />
+</head>
+<body>
+<div class="container mt-4">
+    <div id="layout">
+        <nav class="sidebar p-3">
+            <h4 class="text-center dashboard-title" style="color: #575962">SkyFast</h4>
+            <ul class="nav flex-column" id="sidebar-links">
+                <li class="nav-item">
+                    <a href="/homepage/profile" class="nav-link">
+                        <i class="fas fa-users"></i>Profile
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/flights" class="nav-link" data-page="flightManagement.html">
+                        <i class="fas fa-plane"></i>Flight Management
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/airlines/list" class="nav-link" data-page="airlineManagement.html">
+                        <i class="fas fa-plane"></i>Airline Management
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/users/list" class="nav-link" data-page="userlist.html">
+                        <i class="fas fa-users"></i>User Management
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/planeCategory">
+                        <i class="fa fa-gavel"></i> <span>Airplane Management</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/staff/refund/list">
+                        <i class="fa fa-globe"></i> <span>Refund Management</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/bookings">
+                        <i class="fa fa-cart-plus"></i> <span>Booking Management</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/promotions">
+                        <i class="icon-present"></i> <span>Promotion Management</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/manager/airports">
+                        <i class="icon-plane"></i> <span>Airport Management</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/manager/routes">
+                        <i class="fas fa-route"></i> <span>Route Management</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div th:if="${message}" class="alert alert-success text-center" role="alert">
+            <span th:text="${message}"></span>
+        </div>
+        <div th:if="${error}" class="alert alert-danger text-center" role="alert">
+            <span th:text="${error}"></span>
+        </div>
+        <div class="card shadow-lg p-4" style="width: 1545px;">
+            <h2 class="text-dark fw-bold">Route Detail</h2>
+            <form th:action="@{/manager/routes/update/{id}(id=${route.id})}" th:object="${route}" method="post">
+                <div class="mb-3">
+                    <label for="departure" class="form-label">Departure</label>
+                    <input type="text" class="form-control" id="departure" name="departure" th:value="${airport.get(-1+route.getDepartureAirportId()).airport_name} + '(' + ${airport.get(-1+route.getDepartureAirportId()).location} + ')' " readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="arrival" class="form-label">Arrival</label>
+                    <input type="text" class="form-control" id="arrival" name="arrival" th:value="${airport.get(-1+route.getArrivalAirportId()).airport_name} + (${airport.get(-1+route.getArrivalAirportId()).location})" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="distance" class="form-label">Distance</label>
+                    <input type="number" class="form-control" id="distance" name="distance" th:value="${route.distance}" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-control" id="status" name="status" th:field="${route.routeStatus}" required>
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="DEACTIVE">DEACTIVE</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script th:src="@{/assets/js/plugin/webfont/webfont.min.js}"></script>
+<script>
+    WebFont.load({
+        google: { families: ["Public Sans:300,400,500,600,700"] },
+        custom: {
+            families: [
+                "Font Awesome 5 Solid",
+                "Font Awesome 5 Regular",
+                "Font Awesome 5 Brands",
+                "simple-line-icons",
+            ],
+            urls: ["/assets/css/fonts.min.css"],
+        },
+        active: function () {
+            sessionStorage.fonts = true;
+        },
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

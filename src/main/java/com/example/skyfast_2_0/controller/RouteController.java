@@ -61,9 +61,30 @@ public class RouteController {
         newRoute.setDepartureAirportId(departureAirport.getId());
         newRoute.setArrivalAirportId(arrivalAirport.getId());
         newRoute.setDistance((int) distance);
+        newRoute.setRouteStatus("DEACTIVE");
         KRouteService.saveRoute(newRoute);
 
         return "redirect:/manager/routes";
+    }
+
+    @GetMapping("/update/{id}")
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+        Route route = KRouteService.getRouteById(id);
+        model.addAttribute("route", route);
+        model.addAttribute("airport", airportService.getAllAirports());
+        return "routeDetail";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateRoute(@PathVariable Integer id, @RequestParam String routeStatus, Model model) {
+        try {
+            KRouteService.updateRoute(id, routeStatus);
+            model.addAttribute("message", "Updated route successfully");
+            return "redirect:/manager/routes";
+        } catch (Exception e) {
+            model.addAttribute("error", "Error: " + e.getMessage());
+            return "routeDetail";
+        }
     }
 
 }

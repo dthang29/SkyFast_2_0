@@ -26,4 +26,15 @@ public class K_RouteService {
     public boolean isRouteExists(int departureAirportId, int arrivalAirportId) {
         return KRouteRepository.existsByDepartureAirportIdAndArrivalAirportId(departureAirportId, arrivalAirportId);
     }
+
+    public Route updateRoute(Integer id, String routeStatus){
+        Route route = KRouteRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Route not found"));
+        route.setRouteStatus(routeStatus);
+        KRouteRepository.save(route);
+        return route;
+    }
+
+    public Route getRouteById(Integer id) {
+        return KRouteRepository.findById(id).orElseThrow();
+    }
 }

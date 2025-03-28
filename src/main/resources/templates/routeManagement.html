@@ -95,6 +95,8 @@
                     <th>Departure</th>
                     <th>Arrival</th>
                     <th>Distance</th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody id="routeTableBody">
@@ -102,8 +104,13 @@
                     <td th:text="${iterStat.index + 1}"></td> <!-- ID route -->
                     <td th:text="${route[1]}" class="departure-name"></td> <!-- Tên sân bay đi -->
                     <td th:text="${route[2]}" class="arrival-name"></td> <!-- Tên sân bay đến -->
-                    <td th:text="${route[3]}"></td> <!-- distance -->
+                    <td th:text="${route[3]}"></td>
+                    <td th:text="${route[4]}"></td>
+                    <td>
+                        <a th:href="@{/manager/routes/update/{id}(id=${route[0]})}" class="btn btn-primary">Update</a>
+                    </td>
                 </tr>
+
                 </tbody>
             </table>
             <!-- divide page -->

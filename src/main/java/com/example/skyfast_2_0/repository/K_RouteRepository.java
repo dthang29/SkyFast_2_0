@@ -10,7 +10,7 @@ public interface K_RouteRepository extends JpaRepository<Route, Integer> {
     @Query("SELECT r.id, " +
             "CONCAT(da.airportName, ' (', da.location, ')') AS departureAirportName, " +
             "CONCAT(aa.airportName, ' (', aa.location, ')') AS arrivalAirportName, " +
-            "r.distance " +
+            "r.distance, r.routeStatus " +
             "FROM Route r " +
             "JOIN Airport da ON r.departureAirportId = da.id " +
             "JOIN Airport aa ON r.arrivalAirportId = aa.id")
