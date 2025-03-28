@@ -9,17 +9,15 @@ import lombok.Setter;
 @Entity
 @Table(name = "ticket_baggage")
 public class TicketBaggage {
-    @EmbeddedId
-    private TicketBaggageId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @MapsId("ticketId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ticket_id", nullable = false)
     private Ticket ticket;
 
-    @MapsId("baggageId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "baggage_id", nullable = false)
     private Baggage baggage;
-
 }

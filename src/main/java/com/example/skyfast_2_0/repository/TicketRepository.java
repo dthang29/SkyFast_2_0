@@ -21,5 +21,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Integer> {
                       @Param("flight") Flight flight,
                       @Param("passenger") Passenger passenger,
                       @Param("classCategory") Classcategory classCategory);
-
+    @Query("select t from Ticket t where t.id = (select max(t.id) from Ticket t)")
+    Ticket findTicketByMaxId();
 }
