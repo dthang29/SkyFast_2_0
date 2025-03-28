@@ -1,10 +1,11 @@
 package com.example.skyfast_2_0.controller;
 
 import com.example.skyfast_2_0.dto.L_FlightDTO;
-import com.example.skyfast_2_0.service.L_AirlineService;
-import com.example.skyfast_2_0.service.L_AirplaneService;
-import com.example.skyfast_2_0.service.L_FlightService;
-import com.example.skyfast_2_0.service.L_RouteService;
+import com.example.skyfast_2_0.repository.AirPlaneRepository;
+import com.example.skyfast_2_0.repository.AirlineRepository;
+import com.example.skyfast_2_0.repository.AirportRepository;
+import com.example.skyfast_2_0.repository.RouteRepository;
+import com.example.skyfast_2_0.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,17 @@ public class L_FlightController {
     @Autowired
     private L_RouteService routeService;
 
+    @Autowired
+    private AirlineRepository airlineRepository;
+
+    @Autowired
+    private AirPlaneRepository airPlaneRepository;
+
+    @Autowired
+    private AirportRepository airportRepository;
+
+    @Autowired
+    private RouteRepository routeRepository;
     @GetMapping("/flights")
     public String getAllFlights(Model model) {
         model.addAttribute("flights", flightService.getAllFlights());
@@ -36,6 +48,10 @@ public class L_FlightController {
         model.addAttribute("airlines", airlineService.getAllAirlines());
         model.addAttribute("airplanes", airplaneService.getAllAirplanes());
         model.addAttribute("routes", routeService.getAllRoutes());
+        model.addAttribute("airline", airlineRepository.findAllAirline());
+        model.addAttribute("airplane", airPlaneRepository.findAllPlane());
+        model.addAttribute("airport", airportRepository.findAllAirport());
+        model.addAttribute("routeAll", routeRepository.findAll());
         return "flightManagement";
     }
 
@@ -45,6 +61,10 @@ public class L_FlightController {
         model.addAttribute("airlines", airlineService.getAllAirlines());
         model.addAttribute("airplanes", airplaneService.getAllAirplanes());
         model.addAttribute("routes", routeService.getAllRoutes());
+        model.addAttribute("airline", airlineRepository.findAllAirline());
+        model.addAttribute("airplane", airPlaneRepository.findAllPlane());
+        model.addAttribute("airport", airportRepository.findAllAirport());
+        model.addAttribute("routeAll", routeRepository.findAll());
         return "flightDetail";
     }
 
@@ -60,6 +80,10 @@ public class L_FlightController {
             model.addAttribute("airlines", airlineService.getAllAirlines());
             model.addAttribute("airplanes", airplaneService.getAllAirplanes());
             model.addAttribute("routes", routeService.getAllRoutes());
+            model.addAttribute("airline", airlineRepository.findAllAirline());
+            model.addAttribute("airplane", airPlaneRepository.findAllPlane());
+            model.addAttribute("airport", airportRepository.findAllAirport());
+            model.addAttribute("routeAll", routeRepository.findAll());
             return "flightManagement"; // Trả về form nếu có lỗi
         }
 

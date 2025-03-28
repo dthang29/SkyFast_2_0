@@ -9,4 +9,5 @@ import java.util.List;
 public interface AirlineRepository extends JpaRepository<Airline, Integer> {
 @Query("SELECT a FROM Airline a")
 List<Airline> findAllAirline();
+Airline findAirlineById(Integer id);
 }

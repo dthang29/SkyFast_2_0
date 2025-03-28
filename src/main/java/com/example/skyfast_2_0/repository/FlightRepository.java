@@ -2,6 +2,7 @@ package com.example.skyfast_2_0.repository;
 
 import com.example.skyfast_2_0.entity.Flight;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.relational.core.sql.Select;
@@ -23,6 +24,8 @@ public interface FlightRepository extends JpaRepository<Flight, Integer> {
             "ORDER BY f.price ASC")
     List<Flight> findTopCheapestFlightsByRoute();
 
+    List<Flight> findFlightByStatus(@Size(max = 255) @NotNull String status);
+    
     @Query("""
     SELECT f FROM Flight f
     JOIN f.route r

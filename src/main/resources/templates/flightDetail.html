@@ -155,7 +155,7 @@
                         <div class="mb-3">
                             <label for="airplaneId" class="form-label">Airplane</label>
                             <select class="form-select" id="airplaneId" disabled>
-                                <option th:each="airplane : ${airplanes}" th:value="${airplane.id}"
+                                <option th:each="airplane : ${airplane}" th:value="${airplane.id}"
                                         th:text="${airplane.airplaneName}"
                                         th:selected="${airplane.id == flight.airplaneId}">
                                 </option>
@@ -167,8 +167,8 @@
                         <div class="mb-3">
                             <label for="routeId" class="form-label">Route</label>
                             <select class="form-select" id="routeId" disabled>
-                                <option th:each="route : ${routes}" th:value="${route.id}"
-                                        th:text="${route.departureAirportId + ' -> ' + route.arrivalAirportId}"
+                                <option th:each="route : ${routeAll}" th:value="${route.id}"
+                                        th:text="${airport.get(-1+route.departureAirportId).getLocation() + ' -> ' + airport.get(-1+route.arrivalAirportId).getLocation()}"
                                         th:selected="${route.id == flight.routeId}">
                                 </option>
                             </select>

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RouteRepository extends JpaRepository<Airport, Integer> {
+public interface RouteRepository extends JpaRepository<Route, Integer> {
     @Query("SELECT r.id, da.location AS departureAirportName, aa.location AS arrivalAirportName " +
             "FROM Route r " +
             "JOIN Airport da ON r.departureAirportId = da.id " +
@@ -34,4 +34,8 @@ public interface RouteRepository extends JpaRepository<Airport, Integer> {
     @Query("SELECT a.id " +
             "FROM Airport a " +"WHERE a.location = :departureAirport")
     Integer airportIdByDepartureAirport(String departureAirport);
+
+    @Query("SELECT r from Route r")
+    List<Route> findAll();
+
 }

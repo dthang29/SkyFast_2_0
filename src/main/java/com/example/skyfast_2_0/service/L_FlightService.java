@@ -42,6 +42,10 @@ public class L_FlightService {
                 .collect(Collectors.toList());
     }
 
+    public List<Flight> getAllFlights2(){
+        return flightRepository.findAll();
+    }
+
     public L_FlightDTO getFlightById(Integer id) {
         Flight flight = flightRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Flight not found"));
