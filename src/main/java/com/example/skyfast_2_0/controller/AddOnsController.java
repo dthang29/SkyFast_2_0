@@ -119,7 +119,7 @@ public class AddOnsController {
         System.out.println("totalBaggagePrice"+ totalBaggagePrice);
         float promotionPrice = 0f;
         Promotion promotionGet = promotionRepository.findPromotionByCode(promotion);
-        if (promotionGet != null && promotionGet.getStatus().equals("Active")){
+        if (promotionGet != null && (promotionGet.getStatus().equals("Active")||promotionGet.getStatus().equals("ACTIVE"))) {
             System.out.println(promotionGet.getDiscountPercentage());
             promotionPrice = (float)promotionGet.getDiscountPercentage()/100;
         }
