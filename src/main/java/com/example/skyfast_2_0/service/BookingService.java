@@ -31,9 +31,9 @@ public class BookingService {
             return sb.toString();
         }
         @Transactional
-    public void insertBooking(float totalPrice, String bookingStatus, Integer userId, Integer promotionId) {
+    public void insertBooking(float totalPrice, String bookingStatus, Integer userId, String promotionCode) {
         String bookingCode = generateBookingCode(8);
-        bookingRepository.insertBooking(totalPrice, LocalDateTime.now(), bookingStatus, userRepository.findUserById(userId), promotionRepository.findPromotionById(promotionId), bookingCode);
+        bookingRepository.insertBooking(totalPrice, LocalDateTime.now(), bookingStatus, userRepository.findUserById(userId), promotionRepository.findPromotionByCode(promotionCode), bookingCode);
     }
     public Booking findBookingWithMaxId() {
             return bookingRepository.findBookingWithMaxId();

@@ -149,7 +149,7 @@
   <div class="row">
     <!-- Main Form Column -->
     <div class="col-lg-8">
-      <form th:action="@{/addons}" method="get">
+      <form id="form1" th:action="@{/addons}" method="get">
       <!-- Flight Info -->
       <div class="card mb-4">
         <div class="card-body">
@@ -336,6 +336,7 @@
                 Vui lòng chọn một phương thức thanh toán:
               </div>
               <div class="modal-footer">
+                <input type="hidden" name="promotion" th:value="${promotion}" />
                 <button type="submit" class="btn btn-primary" onclick="submitPayment(event, 'paynow')">Pay Now</button>
                 <button type="submit" class="btn btn-secondary" onclick="submitPayment(event, 'paylater')">Pay Later</button>
               </div>
@@ -379,10 +380,27 @@
                 <i class="bi bi-chevron-down ms-1 text-secondary small"></i>
               </div>
             </div>
-            <div class="input-group mt-3">
-              <input type="text" class="form-control" name="promotionCode" id="promotionCode" placeholder="Enter promotion code" />
-              <button type="Submit" class="btn btn-primary" >Apply</button>
-            </div>
+            <form id="form2" th:action="@{/addons}" method="GET">
+<!--              <input type="hidden" name="title" th:value="${title}" />-->
+<!--              <input type="hidden" name="LastName" th:value="${lastName}" />-->
+<!--              <input type="hidden" name="FirstName" th:value="${firstName}" />-->
+<!--              <input type="hidden" name="nationality" th:value="${nationality}" />-->
+<!--              <input type="hidden" name="email" th:value="${email}" />-->
+<!--              <input type="hidden" name="phoneNumber" th:value="${phoneNumber}" />-->
+<!--              <input type="hidden" name="flightId" th:value="${flight.id}" />-->
+<!--              <input type="hidden" name="passengerCount" th:value="${passengerCount}" />-->
+<!--              <input type="hidden" name="flightClass" th:value="${flightClass}" />-->
+<!--              <input type="hidden" name="baggageQuantity" th:value="${selectedQuantity}" />-->
+<!--              <input type="hidden" name="baggage" th:each="baggage : ${selectedBaggage}" th:value="${baggage}" />-->
+              <div class="input-group mt-3">
+                <input type="text" class="form-control" name="promotion" id="promotion" placeholder="Enter promotion code" th:value="${promotion}" required />
+                <button type="submit" onclick="submitBothForms(event)" class="btn btn-primary">Apply</button>
+              </div>
+            </form>
+
+            <!-- Hiển thị thông báo từ server -->
+            <p th:if="${message}" th:text="${message}" class="text-success"></p>
+
             <div th:if="${totalBaggagePrice != '0.0'}"
                  class="d-flex justify-content-between align-items-center mt-2">
               <div class="small" th:text="'Baggage ('+${selectedQuantity} + ' Pax)'"></div>

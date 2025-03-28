@@ -3,6 +3,7 @@ package com.example.skyfast_2_0.controller;
 
 
 import com.example.skyfast_2_0.entity.*;
+import com.example.skyfast_2_0.repository.PromotionRepository;
 import com.example.skyfast_2_0.repository.T_UserRepository;
 import com.example.skyfast_2_0.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,10 @@ public class AddOnsController {
     private UserProfileService userProfileService;
     @Autowired
     private T_UserRepository userRepository;
+    @Autowired
+    private PromotionRepository promotionRepository;
+    @Autowired
+    private TicketBaggageService TicketBaggageService;
     @GetMapping
     public String getAddOns(@RequestParam("flightId") Integer flightId,
                             @RequestParam("passengerCount") String passengerCount,
@@ -56,6 +61,7 @@ public class AddOnsController {
                             @RequestParam(value = "email", required = false, defaultValue = "") String email,
                             @RequestParam(value = "phoneNumber", required = false, defaultValue = "") String phoneNumber,
                             @RequestParam(value = "method", required = false, defaultValue = "") String method,
+                            @RequestParam(value = "promotion", required = false, defaultValue = "") String promotion,
                             Authentication authentication,
                             Model model){
 
@@ -111,20 +117,43 @@ public class AddOnsController {
         model.addAttribute("totalBaggagePrice",totalBaggagePrice);
 
         System.out.println("totalBaggagePrice"+ totalBaggagePrice);
-        String totalPrice = String.valueOf(Float.parseFloat(totalPassengerPrice) + Float.parseFloat(totalBaggagePrice));
+        float promotionPrice = 0f;
+        Promotion promotionGet = promotionRepository.findPromotionByCode(promotion);
+        if (promotionGet != null && promotionGet.getStatus().equals("Active")){
+            System.out.println(promotionGet.getDiscountPercentage());
+            promotionPrice = (float)promotionGet.getDiscountPercentage()/100;
+        }
+        System.out.println("promotion" + promotionGet);
+        System.out.println("promotionPrice"+ promotionPrice);
+        String totalPrice = String.valueOf((Float.parseFloat(totalPassengerPrice) + Float.parseFloat(totalBaggagePrice))*(1-promotionPrice));
+        System.out.println("totalPrice" + totalPrice);
         model.addAttribute("totalPrice",totalPrice);
 
         String emailAuth = userProfileService.getUserEmail(authentication);
         User user = userRepository.findByEmail(emailAuth);
 
+        String bookingCode = bookingService.findBookingWithMaxId().getBookingCode();
+        System.out.println("totalPrice" + totalPrice);
         if(method.equals("paylater")){
             passengerService.insertPassenger(title, FirstName, LastName, nationality, phoneNumber, email);
-            bookingService.insertBooking(Float.parseFloat(totalPrice), "PROCESSING", user.getId(), 1);
+            bookingService.insertBooking(Float.parseFloat(totalPrice), "PROCESSING", user.getId(), promotion);
             ticketService.insertTicket(flight.getId(), flightClass);
-            String bookingCode = bookingService.findBookingWithMaxId().getBookingCode();
+            for (Integer integer : selectedBaggage) {
+                if (integer != 0) {
+                    TicketBaggageService.insertTicketBaggage(integer);
+                }
+            }
             return "redirect:/homepage";
         }else if(method.equals("paynow")){
-            return "redirect:/flight";
+            passengerService.insertPassenger(title, FirstName, LastName, nationality, phoneNumber, email);
+            bookingService.insertBooking(Float.parseFloat(totalPrice), "PROCESSING", user.getId(), promotion);
+            ticketService.insertTicket(flight.getId(), flightClass);
+            for (Integer integer : selectedBaggage) {
+                if (integer != 0) {
+                    TicketBaggageService.insertTicketBaggage(integer);
+                }
+            }
+            return "redirect:/select-payment-method?bookingCode=" + bookingCode;
         }
 
         model.addAttribute("selectedBaggage", selectedBaggage);
@@ -137,6 +166,7 @@ public class AddOnsController {
         model.addAttribute("nationality", nationality);
         model.addAttribute("email", email);
         model.addAttribute("phoneNumber", phoneNumber);
+        model.addAttribute("promotion", promotion);
 
         System.out.println(baggageQuantity);
         System.out.println("Baggage: " + baggage);
@@ -147,4 +177,6 @@ public class AddOnsController {
     public String postAddOns(Model model) {
         return "AddOns";
     }
+
+
 }
