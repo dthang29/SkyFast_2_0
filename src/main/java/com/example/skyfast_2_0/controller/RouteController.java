@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/manager/routes")
+@RequestMapping("/admin/routes")
 public class RouteController {
     private final K_RouteService KRouteService;
     private final AirportService airportService;
@@ -64,7 +64,7 @@ public class RouteController {
         newRoute.setRouteStatus("DEACTIVE");
         KRouteService.saveRoute(newRoute);
 
-        return "redirect:/manager/routes";
+        return "redirect:/admin/routes";
     }
 
     @GetMapping("/update/{id}")
@@ -80,7 +80,7 @@ public class RouteController {
         try {
             KRouteService.updateRoute(id, routeStatus);
             model.addAttribute("message", "Updated route successfully");
-            return "redirect:/manager/routes";
+            return "redirect:/admin/routes";
         } catch (Exception e) {
             model.addAttribute("error", "Error: " + e.getMessage());
             return "routeDetail";
