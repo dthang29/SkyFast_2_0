@@ -45,31 +45,36 @@
 
 <div class="container mt-4 main-content">
     <div class="content-container">
-<form th:action="@{/homepage/refund-history}" method="post">
-
-    <h2 class="text-dark fw-bold">Refund Request History</h2>
-
-    <table class="table table-bordered mt-3">
-        <thead class="table-light">
-        <tr>
-            <th>Booking Code</th>
-            <th>Refund Price</th>
-            <th>Request Date</th>
-            <th>Status</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="refund : ${refunds}">
-            <td th:text="${refund.bookingCode}"></td>
-            <td th:text="${refund.totalPrice}"></td>
-            <td th:text="${refund.bookingDate}"></td>
-            <td th:text="${refund.bookingStatus}"></td>
-        </tr>
-        </tbody>
-    </table>
-</form>
-  </div>
+        <h2 class="text-dark fw-bold">Refund Request History</h2>
+        <table class="table table-bordered mt-3">
+            <thead class="table-light">
+            <tr>
+                <th>Booking Code</th>
+                <th>Bank</th>
+                <th>Bank Number</th>
+                <th>Request Date</th>
+                <th>Refund Date</th>
+                <th>Refund Price</th>
+                <th>Reason</th>
+                <th>Response</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="refund : ${refunds}">
+                <td th:text="${refund.bookingCode}"></td>
+                <td th:text="${refund.bank}"></td>
+                <td th:text="${refund.bankNumber}"></td>
+                <td th:text="${#temporals.format(refund.requestDate, 'dd/MM/yyyy')}"></td>
+                <td th:text="${#temporals.format(refund.refundDate, 'dd/MM/yyyy')}"></td>
+                <td th:text="${refund.refundPrice}"></td>
+                <td th:text="${refund.reason}"></td>
+                <td th:text="${refund.response}"></td>
+                <td th:text="${refund.status}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

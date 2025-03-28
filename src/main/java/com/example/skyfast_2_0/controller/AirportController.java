@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/manager/airports")
+@RequestMapping("/admin/airports")
 public class AirportController {
     private final AirportService airportService;
 
@@ -39,7 +39,7 @@ public class AirportController {
             AirportDTO createdAirport = airportService.createAirport(airportDTO);
             model.addAttribute("message", "Created airport successfully");
             model.addAttribute("promotion", new K_PromotionDTO());
-            return "redirect:/manager/airports";
+            return "redirect:/admin/airports";
         } catch (Exception e) {
             model.addAttribute("error", "Error: " + e.getMessage());
             model.addAttribute("airport", airportDTO);
