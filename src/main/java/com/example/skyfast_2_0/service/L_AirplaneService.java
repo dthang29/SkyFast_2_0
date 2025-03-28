@@ -31,6 +31,7 @@
                  .collect(Collectors.toList());
      }
 
+
      public L_AirplaneDTO getAirplaneById(Integer id) {
          Airplane airplane = airplaneRepository.findByIdAndAirplaneStatus(id, "Waiting")
                  .orElseThrow(() -> new RuntimeException("Airplane not found"));

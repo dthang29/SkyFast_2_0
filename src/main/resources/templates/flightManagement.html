@@ -157,9 +157,9 @@
                             flight.status == 'CANCELLED' ? 'bg-danger' : 'bg-secondary')}" th:text="${flight.status}">
                                 </span>
                     </td>
-                    <td th:text="${flight.airlineId}"></td>
-                    <td th:text="${flight.airplaneId}"></td>
-                    <td th:text="${flight.routeId}"></td>
+                    <td th:text="${airline.get(-1+flight.airlineId).getAirlineName()}"></td>
+                    <td th:text="${airplane.get(-1+flight.airplaneId).getAirplaneName()}"></td>
+                    <td th:text="${airport.get(-1+routeAll.get(-1+flight.routeId).departureAirportId).getLocation()} +'->'+ ${airport.get(-1+routeAll.get(-1+flight.routeId).arrivalAirportId).getLocation()}"></td>
                     <td>
                         <a th:href="@{/manager/flight/{id}(id=${flight.id})}" class="btn btn-sm btn-primary me-1">
                             <i class="fas fa-edit"></i>
@@ -244,7 +244,7 @@
                     <div class="mb-3">
                         <label class="form-label">Airplane</label>
                         <select class="form-select" th:field="*{airplaneId}" required>
-                            <option th:each="airplane : ${airplanes}" th:value="${airplane.id}"
+                            <option th:each="airplane : ${airplane}" th:value="${airplane.id}"
                                     th:text="${airplane.airplaneName}">
                             </option>
                         </select>
@@ -253,8 +253,8 @@
                     <div class="mb-3">
                         <label class="form-label">Route</label>
                         <select class="form-select" th:field="*{routeId}" required>
-                            <option th:each="route : ${routes}" th:value="${route.id}"
-                                    th:text="${route.departureAirportId + ' -> ' + route.arrivalAirportId}">
+                            <option th:each="route : ${routeAll}" th:value="${route.id}"
+                                    th:text="${airport.get(-1+route.departureAirportId).getLocation() + ' -> ' + airport.get(-1+route.arrivalAirportId).getLocation()}">
                             </option>
                         </select>
                         <div class="text-danger" th:errors="*{routeId}"></div>
