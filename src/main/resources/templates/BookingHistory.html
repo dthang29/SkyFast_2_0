@@ -32,8 +32,8 @@
         <div class="secondary-nav-links" id="secondaryNavbarNav">
             <a href="#" th:href="@{/homepage/profile}" class="secondary-nav-link">Profile</a>
             <a href="#" th:href="@{/homepage/user-change-password}" class="secondary-nav-link">Change Password</a>
-            <a href="#" th:href="@{/homepage/booking-history}" class="secondary-nav-link active">Booking History</a>
-            <a href="#" th:href="@{/homepage/refund}" class="secondary-nav-link">Refund</a>
+            <a href="#" th:href="@{/homepage/booking-history}" class="secondary-nav-link">Booking History</a>
+            <a href="#" th:href="@{/homepage/refund-history}" class="secondary-nav-link">Refund</a>
             <a href="#" th:href="@{/logout}" class="secondary-nav-link">Logout</a>
         </div>
         <button class="secondary-navbar-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#secondaryNavbarNav"
@@ -43,5 +43,63 @@
     </div>
 </nav>
 
+<!-- Booking Table-->
+<div class="container mt-4 main-content">
+    <div class="content-container">
+        <h2 class="text-dark fw-bold">Booking List</h2>
+
+        <table class="table table-bordered mt-3">
+            <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>User Name</th>
+                <th>Booking Date</th>
+                <th>Total Price</th>
+                <th>Promotion</th>
+                <th>Booking Code</th>
+                <th>Status</th>
+                <th>Actions</th>
+                <th>Detail Booking</th>
+            </tr>
+            </thead>
+            <tbody id="bookingTableBody">
+            <tr th:each="booking : ${bookings}">
+                <td th:text="${booking.id}"></td>
+                <td th:text="${booking.userName}" class="user-name"> </td>
+                <td th:text="${#temporals.format(booking.bookingDate, 'dd/MM/yyyy')}" class="booking-date"> </td>
+                <td th:text="${booking.totalPrice}"></td>
+                <td th:text="${booking.code}"></td>
+                <td th:text="${booking.bookingCode}"></td>
+                <td th:text="${booking.bookingStatus}" class="booking-status"></td>
+                <td>
+                    <!-- Nếu booking đang ở trạng thái PROCESSING -->
+                    <div th:if="${booking.bookingStatus == 'PROCESSING'}">
+                        <a th:href="@{/select-payment-method(bookingCode=${booking.bookingCode})}" class="btn btn-success">Pay Now</a>
+                        <form th:action="@{/homepage/cancel-booking/{id}(id=${booking.id})}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Cancel</button>
+                        </form>
+                    </div>
+
+                    <!-- Nếu booking đã hoàn thành (DONE) -->
+                    <div th:if="${booking.bookingStatus == 'Done'}">
+                        <a th:href="@{/user/refund}" class="btn btn-warning">Refund</a>
+                    </div>
+                </td>
+                <td>
+                    <a th:href="@{/homepage/{id}/tickets(id=${booking.id})}" class="btn btn-primary">View Ticket</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <!-- Phân trang -->
+        <div class="pagination-container mt-3">
+            <button id="prevPage" class="btn btn-secondary">Previous</button>
+            <span id="pageInfo">Page 1</span>
+            <button id="nextPage" class="btn btn-secondary">Next</button>
+        </div>
+    </div>
+</div>
+<!-- End Booking Table -->
+<script src="/js/BookingHistoryJs.js"> </script>
 </body>
 </html>

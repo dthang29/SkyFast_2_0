@@ -4,17 +4,18 @@ import com.example.skyfast_2_0.dto.K_BookingDTO;
 import com.example.skyfast_2_0.dto.K_TicketInfoDTO;
 import com.example.skyfast_2_0.entity.Ticket;
 
-import com.example.skyfast_2_0.repository.K_PromotionRepository;
-import com.example.skyfast_2_0.repository.K_TicketRepository;
-import com.example.skyfast_2_0.repository.K_UserRepository;
+import com.example.skyfast_2_0.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import com.example.skyfast_2_0.repository.K_BookingRepository;
 import com.example.skyfast_2_0.entity.Booking;
 import jakarta.persistence.EntityNotFoundException;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 @Service
 public class K_BookingService {
@@ -26,6 +27,9 @@ public class K_BookingService {
 
     @Autowired
     private K_PromotionRepository KPromotionRepository;
+
+    @Autowired
+    private T_UserRepository userRepository;
 
     private final K_BookingRepository KBookingRepository;
 
@@ -76,5 +80,57 @@ public class K_BookingService {
         return tickets.stream().map(K_TicketInfoDTO::new).collect(Collectors.toList());
     }
 
+    public List<K_BookingDTO> getBookingHistoryByUserId(Integer userId) {
+        return KBookingRepository.findAll().stream()
+                .filter(booking -> booking.getUser() != null
+                        && booking.getUser().getId().equals(userId)
+                        && !"Cancelled".equals(booking.getBookingStatus()))
+                .map(booking -> new K_BookingDTO(
+                        booking.getId(),
+                        booking.getTotalPrice(),
+                        booking.getBookingDate(),
+                        booking.getBookingStatus(),
+                        booking.getUser().getId(),
+                        booking.getUser().getUserName(),
+                        booking.getPromotion() != null ? booking.getPromotion().getId() : null,
+                        booking.getPromotion() != null ? booking.getPromotion().getCode() : null,
+                        booking.getBookingCode()))
+                .collect(Collectors.toList());
+    }
+
+    public K_BookingDTO cancelBookingById(Integer id) {
+        Booking booking = KBookingRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Booking not found"));
+
+        booking.setBookingStatus("Cancelled"); // Đặt trạng thái thành CANCELLED
+        KBookingRepository.save(booking); // Lưu lại thay đổi
+
+        Integer userId = (booking.getUser() != null) ? booking.getUser().getId() : null;
+        Integer promotionId = (booking.getPromotion() != null) ? booking.getPromotion().getId() : null;
+        String promotionCode = (booking.getPromotion() != null) ? booking.getPromotion().getCode() : null;
+
+        return new K_BookingDTO(
+                booking.getId(),
+                booking.getTotalPrice(),
+                booking.getBookingDate(),
+                booking.getBookingStatus(),
+                userId,
+                booking.getUser().getUserName(),
+                promotionId,
+                promotionCode,
+                booking.getBookingCode()
+        );
+    }
+
+
+   public String getUserEmail(Authentication authentication) {
+        if (authentication.getPrincipal() instanceof UserDetails) {
+            return ((UserDetails) authentication.getPrincipal()).getUsername();
+        } else if (authentication.getPrincipal() instanceof OAuth2User) {
+            Map<String, Object> attributes = ((OAuth2User) authentication.getPrincipal()).getAttributes();
+            return (String) attributes.get("email");
+        }
+        return null;
+    }
 
 }

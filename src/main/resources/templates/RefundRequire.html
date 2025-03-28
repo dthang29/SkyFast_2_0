@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refund Require</title>
+  <link rel="stylesheet" href="/css/RefundForm.css">
+</head>
+<body>
+
+<div class="container">
+  <h2>Require refund</h2>
+
+  <!-- Hiển thị thông báo từ Controller -->
+  <p th:if="${message}" th:text="${message}" class="message"></p>
+  <p th:if="${error}" th:text="${error}" class="error"></p>
+
+  <!-- Form gửi yêu cầu hoàn tiền -->
+  <form action="/user/refund" method="post">
+    <label for="bookingId">Booking Code:</label>
+    <input type="text" id="bookingId" name="bookingId" required>
+
+    <label for="bank">Bank:</label>
+    <input type="text" id="bank" name="bank" required>
+
+    <label for="bankNumber">Bank Number:</label>
+    <input type="text" id="bankNumber" name="bankNumber" required>
+
+    <label for="reason">Reason:</label>
+    <textarea id="reason" name="reason" rows="3" required></textarea>
+
+    <button type="submit">Send Require</button>
+  </form>
+
+  <a href="/homepage">Back to HomePage</a>
+</div>
+</body>
+</html>
