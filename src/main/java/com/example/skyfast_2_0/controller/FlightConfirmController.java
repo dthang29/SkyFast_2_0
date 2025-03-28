@@ -65,7 +65,7 @@ public class FlightConfirmController {
         Integer getTotal= flightService.getTotalPassengers(passengerCount);
         model.addAttribute("getTotal",getTotal);
 
-        List<Classcategory> classcategoryList = classCategoryService.getAllClasCategories();
+        List<Classcategory> classcategoryList = classCategoryService.findByAirplaneId(flight.getAirplane().getId());
         model.addAttribute("classcategories", classcategoryList);
 
 
