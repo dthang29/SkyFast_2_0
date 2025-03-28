@@ -40,11 +40,6 @@
         <h4 class="text-center dashboard-title" style="color: #575962">SkyFast</h4>
         <ul class="nav flex-column" id="sidebar-links">
             <li class="nav-item">
-                <a href="/dashboard" class="nav-link active" data-page="/dashboard">
-                    <i class="fas fa-home"></i>Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
                 <a href="/manager/flights" class="nav-link" data-page="/manager/flights">
                     <i class="fas fa-plane"></i>Flight Management
                 </a>
@@ -72,6 +67,11 @@
             <li class="nav-item">
                 <a href="/admin/bookings">
                     <i class="fa fa-cart-plus"></i> <span>Booking Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/homepage/profile" class="nav-link active" data-page="/homepage/profile">
+                    <i class="fas fa-home"></i>Profile
                 </a>
             </li>
         </ul>
@@ -168,7 +168,7 @@
                               th:action="@{/manager/delete/flight/{id}(id=${flight.id})}" method="post"
                               style="display: inline;">
                             <button type="submit" class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Are you sure you want to delete this flight?')">
+                                    onclick="return confirm('Are you sure you want to deactive this flight?')">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </form>

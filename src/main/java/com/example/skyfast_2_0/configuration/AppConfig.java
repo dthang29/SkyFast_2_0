@@ -1,7 +1,6 @@
-package com.example.skyfast_2_0.config;
+package com.example.skyfast_2_0.configuration;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.spi.MappingContext;
 import org.modelmapper.Converter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

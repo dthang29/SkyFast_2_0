@@ -25,14 +25,14 @@
      private L_AirplaneMapper airplaneMapper;
 
      public List<L_AirplaneDTO> getAllAirplanes() {
-         return airplaneRepository.findByAirplaneStatus("ACTIVE")
+         return airplaneRepository.findByAirplaneStatus("Waiting")
                  .stream()
                  .map(airplaneMapper::toDTO)
                  .collect(Collectors.toList());
      }
 
      public L_AirplaneDTO getAirplaneById(Integer id) {
-         Airplane airplane = airplaneRepository.findByIdAndAirplaneStatus(id, "ACTIVE")
+         Airplane airplane = airplaneRepository.findByIdAndAirplaneStatus(id, "Waiting")
                  .orElseThrow(() -> new RuntimeException("Airplane not found"));
          return airplaneMapper.toDTO(airplane);
      }
@@ -45,13 +45,13 @@
                  .orElseThrow(() -> new RuntimeException("Airline not found"));
          airplane.setAirline(airline);
 
-         airplane.setAirplaneStatus("ACTIVE");
+         airplane.setAirplaneStatus("Waiting");
          Airplane savedAirplane = airplaneRepository.save(airplane);
          return airplaneMapper.toDTO(savedAirplane);
      }
 
      public L_AirplaneDTO updateAirplane(Integer id, L_AirplaneDTO airplaneDTO) {
-         Airplane existingAirplane = airplaneRepository.findByIdAndAirplaneStatus(id, "ACTIVE")
+         Airplane existingAirplane = airplaneRepository.findByIdAndAirplaneStatus(id, "Waiting")
                  .orElseThrow(() -> new RuntimeException("Airplane not found"));
 
          Airplane updatedAirplane = airplaneMapper.toEntity(airplaneDTO);
@@ -67,7 +67,7 @@
      }
 
      public void deleteAirplane(Integer id) {
-         Airplane airplane = airplaneRepository.findByIdAndAirplaneStatus(id, "ACTIVE")
+         Airplane airplane = airplaneRepository.findByIdAndAirplaneStatus(id, "Waiting")
                  .orElseThrow(() -> new RuntimeException("Airplane not found"));
          airplane.setAirplaneStatus("INACTIVE");
          airplaneRepository.save(airplane);

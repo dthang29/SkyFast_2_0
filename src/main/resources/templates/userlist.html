@@ -42,11 +42,6 @@
         <h4 class="text-center dashboard-title" style="color: #575962">SkyFast</h4>
         <ul class="nav flex-column" id="sidebar-links">
             <li class="nav-item">
-                <a href="/dashboard" class="nav-link active" data-page="/dashboard">
-                    <i class="fas fa-home"></i>Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
                 <a href="/manager/flights" class="nav-link" data-page="/manager/flights">
                     <i class="fas fa-plane"></i>Flight Management
                 </a>
@@ -74,6 +69,11 @@
             <li class="nav-item">
                 <a href="/admin/bookings">
                     <i class="fa fa-cart-plus"></i> <span>Booking Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/homepage/profile" class="nav-link active" data-page="/homepage/profile">
+                    <i class="fas fa-home"></i>Profile
                 </a>
             </li>
         </ul>
@@ -144,6 +144,7 @@
                         <form th:action="@{/manager/delete/user/{id}(id=${user.id})}" method="post"
                               style="display: inline;">
                             <button type="submit" class="btn btn-danger"
+                                    th:if="${user.getRole() != 'ADMIN' and user.getRole() != 'MANAGER'}"
                                     th:disabled="${user.status == 'INACTIVE'}"
                                     onclick="return confirm('Are you sure you want to disable this user?')">
                                 Disable

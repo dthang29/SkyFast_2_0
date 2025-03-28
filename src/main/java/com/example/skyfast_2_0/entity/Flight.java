@@ -61,9 +61,10 @@ public class Flight {
     @Column(name = "price", nullable = false)
     private Integer price;
 
+    @Size(max = 255)
     @NotNull
     @Column(name = "status_flight", nullable = false)
-    private String statusFlight = "ACTIVE";
+    private String statusFlight;
 
 
     // Getter và Setter cho id
