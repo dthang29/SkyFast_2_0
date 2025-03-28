@@ -1,15 +1,20 @@
 package com.example.skyfast_2_0.service;
 
-import com.example.skyfast_2_0.dto.K_BookingDTO;
+
+import com.example.skyfast_2_0.dto.RefundDTO;
 import com.example.skyfast_2_0.entity.Booking;
 import com.example.skyfast_2_0.entity.Refund;
 import com.example.skyfast_2_0.repository.K_BookingRepository;
 import com.example.skyfast_2_0.repository.RefundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -59,20 +64,18 @@ public class RefundService {
         refundRepository.save(refund);
         return "Refund request has been sent";
     }
-    public List<K_BookingDTO> getRefundsByUserId(Integer userId) {
-        List<Refund> refunds = refundRepository.findAllByBooking_User_Id(userId);
 
-        return refunds.stream().map(refund -> new K_BookingDTO(
-                refund.getBooking().getId(),
-                refund.getRefundPrice(), // Tổng tiền refund
-                refund.getRequestDate(), // Ngày yêu cầu refund
-                refund.getStatus(), // Trạng thái refund
-                userId,
-                refund.getBooking().getUser().getUserName(),
-                null,
-                null,
-                refund.getBooking().getBookingCode()
-        )).collect(Collectors.toList());
+    public List<RefundDTO> getRefundsByUserId(Integer userId) {
+        return refundRepository.findRefundsByUserId(userId);
     }
 
+    public String getUserEmail(Authentication authentication) {
+        if (authentication.getPrincipal() instanceof UserDetails) {
+            return ((UserDetails) authentication.getPrincipal()).getUsername();
+        } else if (authentication.getPrincipal() instanceof OAuth2User) {
+            Map<String, Object> attributes = ((OAuth2User) authentication.getPrincipal()).getAttributes();
+            return (String) attributes.get("email");
+        }
+        return null;
+    }
 }

@@ -20,13 +20,18 @@ public class RefundHistoryController {
     private T_UserRepository userRepository;
 
     @GetMapping("/refund-history")
-    public String getRefundHistory(Model model, Authentication authentication) {
-        String email = authentication.getName(); // Lấy email user đăng nhập
+    public String showRefundHistory(Model model, Authentication authentication) {
+        // Lấy thông tin người dùng hiện tại
+        String email = refundService.getUserEmail(authentication);
         User user = userRepository.findByEmail(email);
 
-        if (user != null) {
-            model.addAttribute("refunds", refundService.getRefundsByUserId(user.getId()));
+        if (user == null) {
+            return "redirect:/login"; // Nếu không tìm thấy user, chuyển về trang đăng nhập
         }
-        return "UserRefund";
+
+        // Lấy danh sách hoàn tiền theo userId
+        model.addAttribute("refunds", refundService.getRefundsByUserId(user.getId()));
+
+        return "UserRefund"; // Điều hướng đến trang refundHistory.html
     }
 }

@@ -20,53 +20,18 @@
     <h4 class="text-center dashboard-title" style="color: #575962">SkyFast</h4>
     <ul class="nav flex-column" id="sidebar-links">
       <li class="nav-item">
-        <a href="/homepage/profile" class="nav-link">
-          <i class="fas fa-users"></i>Profile
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="/flights" class="nav-link" data-page="flightManagement.html">
-          <i class="fas fa-plane"></i>Flight Management
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="/airlines/list" class="nav-link" data-page="airlineManagement.html">
-          <i class="fas fa-plane"></i>Airline Management
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="/users/list" class="nav-link" data-page="userlist.html">
-          <i class="fas fa-users"></i>User Management
-        </a>
-      </li>
-      <li class=" nav-item">
-        <a href="/admin/planeCategory">
-          <i class="fa fa-gavel"></i> <span>Airplane Management</span>
-        </a>
-      </li>
-      <li class="nav-item">
         <a href="/staff/refund/list">
           <i class="fa fa-globe"></i> <span>Refund Management</span>
         </a>
       </li>
       <li class="nav-item">
-        <a href="/admin/bookings">
+        <a href="/staff/bookings">
           <i class="fa fa-cart-plus"></i> <span>Booking Management</span>
         </a>
       </li>
       <li class="nav-item">
-        <a href="/admin/promotions">
-          <i class="icon-present"></i> <span>Promotion Management</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="/manager/airports">
-          <i class="icon-plane"></i> <span>Airport Management</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="/manager/routes">
-          <i class="fas fa-route"></i> <span>Route Management</span>
+        <a href="/homepage/profile" class="nav-link">
+          <i class="fas fa-users"></i>Profile
         </a>
       </li>
     </ul>
@@ -76,7 +41,7 @@
   <!--Form Update-->
       <div class="card shadow-lg p-4">
         <h2 class="text-dark fw-bold">Ticket Detail</h2>
-        <form th:action="@{/admin/tickets/update/{id}(id=${ticket.id})}" method="post">
+        <form th:action="@{/staff/tickets/update/{id}(id=${ticket.id})}" method="post">
           <div class="mb-3">
             <label for="ticketId" class="form-label">Ticket ID</label>
             <input type="text" class="form-control" id="ticketId" th:value="${ticket.id}" readonly>
@@ -100,14 +65,14 @@
           <div class="mb-3">
             <label for="ticketStatus" class="form-label">Status</label>
             <select class="form-select" id="ticketStatus" th:field="${ticket.status}">
-              <option value="Available">Available</option>
+              <option value="AVAILABLE">AVAILABLE</option>
               <option value="Time-Expired">Time-Expired</option>
-              <option value="Cancelled">Cancelled</option>
+              <option value="CANCELLED">CANCELLED</option>
             </select>
 
           </div>
           <div class="mb-3">
-            <a href="/admin/tickets" class="btn btn-secondary">Back</a>
+            <a href="/staff/tickets" class="btn btn-secondary">Back</a>
             <button type="submit" class="btn btn-primary">Save Changes</button>
           </div>
         </form>

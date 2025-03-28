@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/tickets")
+@RequestMapping("/staff/tickets")
 public class K_TicketController {
 
     private final K_TicketService KTicketService;
@@ -43,7 +43,7 @@ public class K_TicketController {
         if (updatedTicket == null) {
             return "error/404";
         }
-        return "redirect:/admin/tickets"; // Chuyển hướng về danh sách sau khi cập nhật
+        return "redirect:/staff/tickets"; // Chuyển hướng về danh sách sau khi cập nhật
     }
 
 

@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin/bookings")
+@RequestMapping("/staff/bookings")
 public class K_BookingController {
     private final K_BookingService KBookingService;
 
@@ -41,7 +41,7 @@ public class K_BookingController {
         if(updatedBooking == null) {
             return "notFound";
         }
-        return "redirect:/admin/bookings";
+        return "redirect:/staff/bookings";
     }
 
 
