@@ -96,7 +96,7 @@ public class AddOnsController {
         List<Classcategory> classcategoryList = classCategoryService.getAllClasCategories();
         model.addAttribute("classcategories", classcategoryList);
 
-        List<Baggage> baggageList = baggageService.findByAirlineId(flight.getId());
+        List<Baggage> baggageList = baggageService.findByAirlineId(flight.getAirline().getId());
         model.addAttribute("baggageList", baggageList);
 
         // Chuyển chuỗi baggage thành danh sách số nguyên

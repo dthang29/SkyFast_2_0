@@ -55,7 +55,7 @@ public class FlightService {
 
         Integer totalPassengers = getTotalPassengers(passengerCount);
         String classCategoryName = getClassName(classCategoryId);
-        List<Flight> searchFlights = checkPassengerCount(flightRepository.searchFlights(departureAirportId, arrivalAirportId, startDate, endDate, classCategoryName), totalPassengers, classCategoryId);
+        List<Flight> searchFlights = checkPassengerCount(flightRepository.searchFlights(departureAirportId, arrivalAirportId, startDate, endDate, classCategoryName), totalPassengers, classCategoryName);
         System.out.println(departureAirportId + " " + arrivalAirportId + " " + totalPassengers + " "+ startDate.toString() + " " + endDate.toString() + " " + classCategoryName);
 //        return flightRepository.searchFlights(departureAirportId, arrivalAirportId, startDate, endDate, classCategoryName);
         return searchFlights;
@@ -71,29 +71,29 @@ public class FlightService {
         return total;
     }
 
-    public int getTotalSeat(Integer airplaneId, Integer classChoice){
+    public int getTotalSeat(Integer airplaneId, String classChoice){
         List<Classcategory> classcategoryList = classCategoryRepository.findByAirplaneId(airplaneId);
         int count = 0;
         for (Classcategory classcategory : classcategoryList) {
-            if (classcategory.getId().equals(classChoice)) {
+            if (classcategory.getName().contains(classChoice)) {
                 count = classcategory.getTotalSeats();
             }
         }
         return count;
     }
 
-    public int getTotalSeatChoice(Integer flightId,Integer classChoice){
+    public int getTotalSeatChoice(Integer flightId,String classChoice){
         List<Ticket> ticketList = ticketRepository.findByFlightId(flightId);
         int count = 0;
         for (Ticket ticket : ticketList) {
-            if (ticket.getClassCategory().getId().equals(classChoice)) {
+            if (ticket.getClassCategory().getName().contains(classChoice)) {
                 count++;
             }
         }
         return count;
     }
 
-    public List<Flight> checkPassengerCount(List<Flight> searchFlights, int passengerCount, Integer classChoice) {
+    public List<Flight> checkPassengerCount(List<Flight> searchFlights, int passengerCount, String classChoice) {
         return searchFlights.stream()
                 .filter(flight -> passengerCount <= (getTotalSeat(flight.getAirplane().getId(), classChoice) - getTotalSeatChoice(flight.getId(), classChoice)))
                 .collect(Collectors.toList());

@@ -15,4 +15,7 @@ public class ClassCategoryService {
     public List<Classcategory> getAllClasCategories() {
         return classCategoryRepository.findAllClassCategories();
     }
+    public List<Classcategory> findByAirplaneId(Integer airplaneId) {
+        return classCategoryRepository.findByAirplaneId(airplaneId);
+    }
 }
