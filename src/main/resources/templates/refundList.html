@@ -45,38 +45,18 @@
         <h4 class="text-center dashboard-title" style="color: #575962">SkyFast</h4>
         <ul class="nav flex-column" id="sidebar-links">
             <li class="nav-item">
-                <a href="/dashboard" class="nav-link active" data-page="Dashboard.html">
-                    <i class="fas fa-home"></i>Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/flights" class="nav-link" data-page="flightManagement.html">
-                    <i class="fas fa-plane"></i>Flight Management
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/airlines/list" class="nav-link" data-page="airlineManagement.html">
-                    <i class="fas fa-plane"></i>Airline Management
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/users/list" class="nav-link" data-page="userlist.html">
-                    <i class="fas fa-users"></i>User Management
-                </a>
-            </li>
-            <li class=" nav-item ">
-                <a href="/admin/planeCategory">
-                    <i class="fa fa-gavel"></i> <span>Airplane Management</span>
-                </a>
-            </li>
-            <li class="nav-item active">
-                <a href="/staff/refund/list">
+                <a th:href="@{/staff/refund/list}">
                     <i class="fa fa-globe"></i> <span>Refund Management</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/staff/feedback/list" class="nav-link">
-                    <i class="fa fa-comment"></i>Feedback Management
+                <a th:href="@{/staff/bookings}">
+                    <i class="fa fa-cart-plus"></i> <span>Booking Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{/homepage/profile}">
+                    <i class="fas fa-users"></i>Profile
                 </a>
             </li>
         </ul>
