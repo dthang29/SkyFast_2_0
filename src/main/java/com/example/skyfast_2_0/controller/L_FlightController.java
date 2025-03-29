@@ -95,7 +95,7 @@ public class L_FlightController {
             System.out.println("Error creating flight: " + e.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage", "Failed to create flight: " + e.getMessage());
         }
-        return "redirect:/manager/flights";
+        return "redirect:/admin/flights";
     }
 
     @PostMapping("/update/flight/{id}")
@@ -122,12 +122,12 @@ public class L_FlightController {
             System.out.println("Error updating flight: " + e.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage", "Failed to update flight: " + e.getMessage());
         }
-        return "redirect:/manager/flights";
+        return "redirect:/admin/flights";
     }
 
     @PostMapping("/delete/flight/{id}")
     public String deleteFlight(@PathVariable Integer id) {
         flightService.deleteFlight(id);
-        return "redirect:/manager/flights";
+        return "redirect:/admin/flights";
     }
 }
