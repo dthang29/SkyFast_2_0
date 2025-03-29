@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error - SKYFAST</title>
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #4169e1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 20px;
+    }
+
+    /* Error Card Styles */
+    .container {
+      width: 100%;
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .card-header {
+      padding: 24px 24px 16px 24px;
+    }
+
+    .card-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .title-underline {
+      height: 4px;
+      width: 60px;
+      background-color: #4169e1;
+      margin: 8px auto 0;
+    }
+
+    .card-content {
+      padding: 0 24px 24px 24px;
+    }
+
+    .error-code {
+      font-size: 72px;
+      font-weight: 700;
+      color: #4169e1;
+      margin: 20px 0;
+    }
+
+    .error-message {
+      font-size: 18px;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    /* Button Styles */
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+
+    .btn-primary {
+      background-color: #4169e1;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #3a5ecc;
+    }
+    @media (max-width: 480px) {
+      .error-code {
+        font-size: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="card-title">Access Forbidden</h2>
+      <div class="title-underline"></div>
+    </div>
+    <div class="card-content">
+      <div class="error-code">403</div>
+      <p class="error-message">You don't have permission to access this resource.</p>
+
+      <div class="button-group">
+        <a th:href="@{/homepage}" class="btn btn-primary">Back to Home</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

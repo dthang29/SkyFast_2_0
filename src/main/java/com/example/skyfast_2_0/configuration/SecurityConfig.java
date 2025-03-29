@@ -7,11 +7,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -26,16 +26,26 @@ public class SecurityConfig {
     }
 
     @Bean
+    public RequestCache requestCache() {
+        HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
+        requestCache.setRequestMatcher(new NegatedRequestMatcher(new AntPathRequestMatcher("/error/**")));
+        return requestCache;
+    }
+
+
+    @Bean
     SecurityFilterChain filterChain(HttpSecurity http, CustomSuccessHandler successHandler) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers(STATIC_RESOURCE).permitAll()
-                                .requestMatchers("/homepage").permitAll()
-                                .requestMatchers("/api/airplanes/**",
-                                        "/manager/**",
-                                        "/api/routes/**").hasRole("MANAGER")
-                                .requestMatchers("/admin/**").hasAnyRole("ADMIN", "MANAGER")
-                                .requestMatchers("/staff/**").hasAnyRole("STAFF", "MANAGER")
+                                .requestMatchers("/homepage",
+                                                 "/airplane/**",
+                                                 "/flight/**",
+                                                 "/flightconfirm/**").permitAll()
+                                .requestMatchers("/error/**").permitAll()
+                                .requestMatchers("/manager/**","/api/airplanes/**","/api/routes/**").hasRole("MANAGER")
+                                .requestMatchers("/admin/**").hasAnyRole("ADMIN")
+                                .requestMatchers("/staff/**").hasAnyRole("STAFF")
                                 .requestMatchers("/homepage/booking-history",
                                         "/homepage/refund").hasRole("CUSTOMER")
                                 .requestMatchers("/login").permitAll()
@@ -44,8 +54,7 @@ public class SecurityConfig {
                                         "/reset-password",
                                         "/forgot-password",
                                         "/verify-email",
-                                        "/resend").permitAll()
-                                .requestMatchers("/resend-code").permitAll()
+                                        "/resend","/resend-code").permitAll()
                                 .anyRequest().authenticated()
                 ).oauth2Login(
                         oauth2 -> oauth2
@@ -69,21 +78,12 @@ public class SecurityConfig {
                         .userDetailsService(customUserDetailsService))
                 .logout(
                         logout -> logout
-                                .logoutUrl("/logout")
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .logoutSuccessUrl("/homepage")
                                 .invalidateHttpSession(true)
                                 .deleteCookies("JSESSIONID", "rememberMe")
                                 .permitAll()
                 );
         return http.build();
-    }
-
-    @Bean
-    public OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService() {
-        return userRequest -> {
-            OAuth2User oAuth2User = new DefaultOAuth2UserService().loadUser(userRequest);
-            customUserDetailsService.processOAuthPostLogin(oAuth2User);
-            return oAuth2User;
-        };
     }
 }
