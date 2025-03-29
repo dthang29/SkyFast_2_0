@@ -128,7 +128,7 @@
             <div class="col-md-6" th:each="ticket : ${tickets}">
                 <div class="trip-item p-3 border rounded shadow-sm">
                     <p th:text="'Route: ' + ${routeMap[ticket.route.id][0]} + ' - ' + ${routeMap[ticket.route.id][1]}">Ticket ID</p>
-                    <p th:text="${ticket.getDepartureTime()}">Time</p>
+                    <p th:text="${#temporals.format(ticket.getDepartureTime(),'dd-MM-yyyy | HH:mm')}">Time</p>
                     <p><strong th:text="'Price: $' + ${ticket.price}">Price</strong></p>
 
                     <form th:action="@{/flight}" method="GET">
@@ -262,8 +262,8 @@
                 <tbody>
                 <tr th:each="flight : ${flights}">
                     <td th:text="${flight.getFlightNumber()}"></td>
-                    <td th:text="${flight.getDepartureTime()}"></td>
-                    <td th:text="${flight.getArrivalTime()}"></td>
+                    <td th:text="${#temporals.format(flight.getDepartureTime(),'dd-MM-yyyy | HH:mm')}"></td>
+                    <td th:text="${#temporals.format(flight.getArrivalTime(),'dd-MM-yyyy | HH:mm')}"></td>
                     <td th:text="${routeMap[flight.route.id][0]}"></td>
                     <td th:text="${routeMap[flight.route.id][1]}"></td>
                     <td>

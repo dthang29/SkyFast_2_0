@@ -394,10 +394,18 @@
 <!--              <input type="hidden" name="baggage" th:each="baggage : ${selectedBaggage}" th:value="${baggage}" />-->
               <div class="input-group mt-3">
                 <input type="text" class="form-control" name="promotion" id="promotion" placeholder="Enter promotion code" th:value="${promotion}" required />
+
                 <button type="submit" onclick="submitBothForms(event)" class="btn btn-primary">Apply</button>
               </div>
             </form>
+            <div th:if="${promotion != '' && promotionGet != null && (promotionGet.status.equals('Active') || promotionGet.status.equals('ACTIVE'))}" class="alert alert-success">
+              Discount applied: <span th:text="${promotionGet.discountPercentage}"></span>%
+            </div>
 
+            <!-- Add this section where you want to display the invalid promotion message -->
+            <div th:if="${promotion != '' && (promotionGet == null || !(promotionGet.status.equals('Active') || promotionGet.status.equals('ACTIVE')))}" class="alert alert-danger">
+              Invalid promotion code.
+            </div>
             <!-- Hiển thị thông báo từ server -->
             <p th:if="${message}" th:text="${message}" class="text-success"></p>
 

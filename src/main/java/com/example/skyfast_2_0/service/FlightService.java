@@ -104,13 +104,18 @@ public class FlightService {
         return count;
     }
 
+    public Integer seatLeft(Flight flight, Integer classChoice){
+        String classChoiceName = getClassName(classChoice);
+        return getTotalSeat(flight.getAirplane().getId(), classChoiceName) - getTotalSeatChoice(flight.getId(), classChoiceName);
+    }
+
     public List<Flight> checkPassengerCount(List<Flight> searchFlights, int passengerCount, String classChoice) {
         return searchFlights.stream()
                 .filter(flight -> passengerCount <= (getTotalSeat(flight.getAirplane().getId(), classChoice) - getTotalSeatChoice(flight.getId(), classChoice)))
                 .collect(Collectors.toList());
     }
     public String getClassName(Integer classChoice){
-        List<Classcategory> classcategoryList = classCategoryRepository.findAllClassCategories();
+        List<Classcategory> classcategoryList = classCategoryRepository.findAll();
         String className = "";
         for (Classcategory classcategory : classcategoryList) {
             if (classcategory.getId().equals(classChoice)) {
@@ -131,14 +136,18 @@ public class FlightService {
         return peopleCounts;
     }
 
-    public List<String> priceEachPassenger(String text, Integer classChoice, Flight flight){
-        float classMultiplier=0;
-        switch (classChoice) {
-            case 1: classMultiplier = 1.0f; break;  // Economy
-            case 2: classMultiplier = 1.5f; break; // Premium Economy
-            case 3: classMultiplier = 2.0f; break; // Business
-        }
-        List<Integer> getPassengers = getPassengers(text);
+
+
+    public List<String> priceEachPassenger(String passengerCount, Integer classChoice, Flight flight){
+        float classMultiplier=0f;
+        String className = getClassName(classChoice);
+        // Premium Economy
+        classMultiplier = switch (className) {
+            case "Economy" -> 1.0f;  // Economy
+            case "Business" -> 1.5f;
+            default -> classMultiplier;
+        };
+        List<Integer> getPassengers = getPassengers(passengerCount);
         // 3. Tính tổng giá
         float basePrice = flight.getPrice();
 
@@ -152,16 +161,18 @@ public class FlightService {
     }
 
     public String totalPrice(String text, Integer classChoice, Flight flight) {
-        float classMultiplier=0;
-        switch (classChoice) {
-            case 1: classMultiplier = 1.0f; break;  // Economy
-            case 2: classMultiplier = 1.5f; break; // Premium Economy
-            case 3: classMultiplier = 2.0f; break; // Business
-        }
+        float classMultiplier=0f;
+        String className = getClassName(classChoice);
+        // Premium Economy
+        classMultiplier = switch (className) {
+            case "Economy" -> 1.0f;  // Economy
+            case "Business" -> 1.5f;
+            default -> classMultiplier;
+        };
         List<Integer> getPassengers = getPassengers(text);
         // 3. Tính tổng giá
         float basePrice = flight.getPrice();
-        float totalPrice = (getPassengers.get(0) * 1.0f + getPassengers.get(1) * 0.9f + getPassengers.get(2) * 0.8f) * basePrice * classMultiplier;
+        float totalPrice = ((getPassengers.get(0) * 1.0f + getPassengers.get(1) * 0.9f + getPassengers.get(2) * 0.8f) * basePrice) * classMultiplier;
 
         return totalPrice + "";
 
