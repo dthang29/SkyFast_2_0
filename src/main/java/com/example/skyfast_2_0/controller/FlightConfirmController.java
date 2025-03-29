@@ -5,8 +5,11 @@ import com.example.skyfast_2_0.entity.Airport;
 import com.example.skyfast_2_0.entity.Classcategory;
 import com.example.skyfast_2_0.entity.Flight;
 
+import com.example.skyfast_2_0.entity.User;
+import com.example.skyfast_2_0.repository.T_UserRepository;
 import com.example.skyfast_2_0.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,14 +32,22 @@ public class FlightConfirmController {
     private V_AirportService VAirportService;
     @Autowired
     private ClassCategoryService classCategoryService;
+    @Autowired
+    private UserProfileService userProfileService;
+    @Autowired
+    private T_UserRepository t_userRepository;
 
 
     @GetMapping
-    public String getFlightConfirm( @RequestParam("flightId") Integer flightId,
-                                    @RequestParam("passengerCount") String passengerCount,
-                                    @RequestParam("flightClass") Integer flightClass,
-                                    Model model){
-
+    public String getFlightConfirm(@RequestParam("flightId") Integer flightId,
+                                   @RequestParam("passengerCount") String passengerCount,
+                                   @RequestParam("flightClass") Integer flightClass,
+                                   Model model, Authentication authentication) {
+        if(authentication != null){
+            String email = userProfileService.getUserEmail(authentication);
+            User user = t_userRepository.findByEmail(email);
+            model.addAttribute("username", user.getUserName());
+        }
         List<Object[]> routes = routeService.getAllRoutesWithAirportNames();
         Map<Integer, String[]> routeMap = new HashMap<>();
         for (Object[] route : routes) {

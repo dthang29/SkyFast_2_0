@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,180 +9,236 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
         }
 
         body {
-            background-color: #4169e1;
+            background-color: #f3f4f6;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 1rem;
+            padding: 1.5rem;
         }
 
         .card {
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
             width: 100%;
-            max-width: 500px;
+            max-width: 520px;
             overflow: hidden;
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #4169e1, #6a8bff);
         }
 
         .card-header {
-            padding: 1.5rem 1.5rem 1rem;
+            padding: 2.5rem 2.5rem 1.5rem;
+            text-align: center;
+        }
+
+        .success-icon-container {
+            width: 80px;
+            height: 80px;
+            background-color: #f0f9ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
         }
 
         .card-title {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .underline {
-            height: 4px;
-            width: 60px;
-            background-color: #4169e1;
-            margin-top: 0.5rem;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
         }
 
         .card-content {
-            padding: 1rem 1.5rem;
+            padding: 0 2.5rem 1.5rem;
         }
 
         .card-footer {
-            padding: 1rem 1.5rem 1.5rem;
+            padding: 1.5rem 2.5rem 2.5rem;
         }
 
         .message {
-            color: #555;
-            margin-bottom: 1.5rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-align: center;
         }
 
         .btn {
             display: block;
             width: 100%;
-            padding: 0.75rem;
-            border-radius: 6px;
-            font-weight: 500;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 600;
             cursor: pointer;
             text-align: center;
             border: none;
-            font-size: 1rem;
-            margin-bottom: 0.75rem;
-            transition: all 0.2s ease;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
         }
 
         .btn-primary {
             background-color: #4169e1;
             color: white;
+            box-shadow: 0 4px 12px rgba(65, 105, 225, 0.25);
         }
 
         .btn-primary:hover {
             background-color: #3a5ecc;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(65, 105, 225, 0.35);
         }
 
         .btn-outline {
             background-color: transparent;
             color: #4169e1;
-            border: 1px solid #4169e1;
+            border: 2px solid #e2e8f0;
         }
 
         .btn-outline:hover {
-            background-color: #4169e1;
-            color: white;
+            border-color: #4169e1;
+            background-color: #f8fafc;
         }
 
         .payment-options {
             display: none;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
         }
 
         .payment-options.active {
             display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .payment-title {
-            font-weight: 500;
-            margin-bottom: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #1e293b;
+            font-size: 1.1rem;
+            text-align: center;
         }
 
         .payment-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
         .payment-option {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 1rem;
+            border: none;
+            border-radius: 16px;
+            padding: 1.5rem 1rem;
             cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: border-color 0.2s ease;
+            transition: all 0.3s ease;
             text-decoration: none;
             color: inherit;
+            background-color: #f8fafc;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
         }
 
         .payment-option:hover {
-            border-color: #4169e1;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            background-color: #f0f5ff;
         }
 
         .payment-icon {
-            width: 40px;
-            height: 40px;
-            margin-bottom: 0.5rem;
+            width: 56px;
+            height: 56px;
+            margin-bottom: 1rem;
             color: #4169e1;
         }
 
         .payment-logo {
-            height: 40px;
-            margin-bottom: 0.5rem;
+            height: 56px;
+            margin-bottom: 1rem;
             object-fit: contain;
         }
 
         .payment-label {
-            font-size: 0.875rem;
-            font-weight: 500;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
+            background: none;
+            border: none;
+            cursor: pointer;
         }
 
         .check-icon {
             color: #22c55e;
+            width: 36px;
+            height: 36px;
         }
 
         .buttons-container {
             display: block;
+            transition: all 0.3s ease;
         }
 
         .buttons-container.hidden {
             display: none;
+            opacity: 0;
         }
 
         .back-button-container {
             display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
         }
 
         .back-button-container.active {
             display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            .card-header, .card-content, .card-footer {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+
+            .payment-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
 <div class="card">
     <div class="card-header">
-        <div class="card-title">
+        <div class="success-icon-container">
             <svg class="check-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
             </svg>
-            <span>Booking Success</span>
         </div>
-        <div class="underline"></div>
+        <h1 class="card-title">Booking Success</h1>
     </div>
     <div class="card-content">
         <p class="message">Booking approved, please pay at least 10 days before flight time.</p>
@@ -198,9 +254,10 @@
 
                 <form th:action="@{/pay-with-qr}" method="get" class="payment-option">
                     <svg class="payment-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path>
-                        <path d="M4 6v12c0 1.1.9 2 2 2h14v-4"></path>
-                        <path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"></path>
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
                     </svg>
                     <input type="hidden" name="bookingCode" th:value="${bookingCode}"/>
                     <button type="submit" class="payment-label">QR Code</button>
@@ -241,3 +298,4 @@
 </script>
 </body>
 </html>
+

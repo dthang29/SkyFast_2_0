@@ -35,13 +35,13 @@
             <a href="#" th:if="${#authorization.expression('hasRole(''CUSTOMER'')')}"
                th:href="@{/homepage/booking-history}" class="secondary-nav-link">Booking History</a>
             <a href="#" th:if="${#authorization.expression('hasRole(''CUSTOMER'')')}"
-               th:href="@{/homepage/refund}" class="secondary-nav-link">Refund</a>
+               th:href="@{/homepage/refund-history}" class="secondary-nav-link">Refund</a>
             <a th:if="${#authorization.expression('hasRole(''MANAGER'')')}"
-               th:href="@{/airlines/list}" class="secondary-nav-link">Management</a>
+               th:href="@{/manager/airlinelist}" class="secondary-nav-link">Management</a>
             <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
-               th:href="@{/airlines/list}" class="secondary-nav-link">Management</a>
+               th:href="@{/admin/planeCategory}" class="secondary-nav-link">Management</a>
             <a th:if="${#authorization.expression('hasRole(''STAFF'')')}"
-               th:href="@{/airlines/list}" class="secondary-nav-link">Management</a>
+               th:href="@{/staff/refund/list}" class="secondary-nav-link">Management</a>
             <a href="#" th:href="@{/logout}" class="secondary-nav-link">Logout</a>
         </div>
         <button class="secondary-navbar-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#secondaryNavbarNav"

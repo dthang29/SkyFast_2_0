@@ -3,6 +3,8 @@ package com.example.skyfast_2_0.service;
 import com.example.skyfast_2_0.dto.L_UserDTO;
 import com.example.skyfast_2_0.entity.User;
 import com.example.skyfast_2_0.repository.L_UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 public class L_UserService {
     private final L_UserRepository userRepository;
     private final ModelMapper modelMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public L_UserService(L_UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
@@ -45,6 +49,7 @@ public class L_UserService {
     // ... existing code ...
     public L_UserDTO createUser(L_UserDTO userDTO) {
         User user = modelMapper.map(userDTO, User.class);
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setCreatedAt(LocalDate.now()); // Đổi từ LocalDateTime.now() -> LocalDate.now()
         user.setUpdateAt(LocalDate.now());
         user.setStatus(userDTO.getStatus());

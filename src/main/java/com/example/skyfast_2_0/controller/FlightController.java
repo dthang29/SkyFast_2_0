@@ -4,12 +4,12 @@ package com.example.skyfast_2_0.controller;
 import com.example.skyfast_2_0.entity.Airline;
 import com.example.skyfast_2_0.entity.Classcategory;
 import com.example.skyfast_2_0.entity.Flight;
-import com.example.skyfast_2_0.service.AirlineService;
-import com.example.skyfast_2_0.service.ClassCategoryService;
-import com.example.skyfast_2_0.service.FlightService;
-import com.example.skyfast_2_0.service.RouteService;
+import com.example.skyfast_2_0.entity.User;
+import com.example.skyfast_2_0.repository.T_UserRepository;
+import com.example.skyfast_2_0.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +34,10 @@ public class FlightController {
     private RouteService routeService;
     @Autowired
     private ClassCategoryService classCategoryService;
+    @Autowired
+    private UserProfileService userProfileService;
+    @Autowired
+    private T_UserRepository t_userRepository;
 
     @GetMapping
     public String searchFlights(@RequestParam(value = "departure", required = false) String from,
@@ -50,9 +54,14 @@ public class FlightController {
                                 @RequestParam(value = "departureTimeHome", required = false)
                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureTimeHome,
 
-                                Model model) {
+                                Model model, Authentication authentication) {
         // Gọi initModelData để chuẩn bị dữ liệu cho giao diện (VD: danh sách sân bay, hãng bay...)
         initModelData(model);
+        if(authentication != null){
+            String email = userProfileService.getUserEmail(authentication);
+            User user = t_userRepository.findByEmail(email);
+            model.addAttribute("username", user.getUserName());
+        }
         System.out.println("??????");
         System.out.println("check: " + from + to + departureDate + passengerCount + flightClass + passengerCount);
         // Kiểm tra nếu thiếu tham số thì chỉ hiển thị trang, không thực hiện tìm kiếm
