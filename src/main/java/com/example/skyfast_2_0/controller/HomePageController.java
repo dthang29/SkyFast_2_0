@@ -4,16 +4,15 @@ package com.example.skyfast_2_0.controller;
 import com.example.skyfast_2_0.entity.*;
 import com.example.skyfast_2_0.repository.T_UserRepository;
 import com.example.skyfast_2_0.service.*;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -48,12 +47,13 @@ public class HomePageController {
                                 @RequestParam(value = "class", required = false) Integer flightClass,
                                 Model model, Authentication authentication) {
 
-        // Gọi initModelData để chuẩn bị dữ liệu cho giao diện (VD: danh sách sân bay, hãng bay...)
         initModelData(model);
+        // Gọi initModelData để chuẩn bị dữ liệu cho giao diện (VD: danh sách sân bay, hãng bay...)
+//        initModelData(model, LocalDate.now().toString());
         if(authentication != null){
-        String email = userProfileService.getUserEmail(authentication);
-        User user = t_userRepository.findByEmail(email);
-        model.addAttribute("username", user.getUserName());
+            String email = userProfileService.getUserEmail(authentication);
+            User user = t_userRepository.findByEmail(email);
+            model.addAttribute("username", user.getUserName());
         }
         // Kiểm tra nếu thiếu tham số thì chỉ hiển thị trang, không thực hiện tìm kiếm
         if (from == null || to == null || departureDate == null || passengerCount == null || flightClass == null) {
@@ -86,19 +86,23 @@ public class HomePageController {
                 + "&class=" + flightClass;
     }
 
-
     @PostMapping
     public String homePagePost(Model model) {
         initModelData(model);
         return  "HomePage";
     }
     public void initModelData(Model model) {
+
+        LocalDate date = LocalDate.parse(LocalDate.now().toString());
+        List<Flight> flights = flightService.getFlightsbyDepaTime(date);
+        model.addAttribute("flights", flights);
+
         List<Flight> tickets = flightService.findTopCheapestFlightsByRoute();
         model.addAttribute("tickets", tickets);
 
-        LocalDate date = LocalDate.of(2025, 3, 1);
-        List<Flight> flights = flightService.getFlightsbyDepaTime(date);
-        model.addAttribute("flights", flights);
+//        LocalDate date = LocalDate.of(2025, 3, 1);
+//        List<Flight> flights = flightService.getFlightsbyDepaTime(date);
+//        model.addAttribute("flights", flights);
 
         List<Object[]> routes = routeService.getAllRoutesWithAirportNames();
         Map<Integer, String[]> routeMap = new HashMap<>();
@@ -132,4 +136,3 @@ public class HomePageController {
     }
 
 }
-

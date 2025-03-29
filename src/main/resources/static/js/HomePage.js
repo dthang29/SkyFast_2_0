@@ -9,7 +9,7 @@ function updateDateButtons() {
 
     dateButtonsContainer.innerHTML = ""; // Xóa nút cũ
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 1; i++) {
         let newDate = new Date();
         newDate.setDate(today.getDate() + i); // Hôm nay, mai, ngày kia
 

@@ -65,6 +65,8 @@ public class AddOnsController {
                             Authentication authentication,
                             Model model){
 
+        String[] promotions = promotion.split(",");
+        promotion = promotions[0];
 
         List<Object[]> routes = routeService.getAllRoutesWithAirportNames();
         Map<Integer, String[]> routeMap = new HashMap<>();
@@ -167,10 +169,12 @@ public class AddOnsController {
         model.addAttribute("email", email);
         model.addAttribute("phoneNumber", phoneNumber);
         model.addAttribute("promotion", promotion);
+        model.addAttribute("promotionGet", promotionGet);
 
         System.out.println(baggageQuantity);
         System.out.println("Baggage: " + baggage);
         System.out.println(selectedBaggage);
+        System.out.println("promotion" + promotion);
         return "AddOns";
     }
     @PostMapping
