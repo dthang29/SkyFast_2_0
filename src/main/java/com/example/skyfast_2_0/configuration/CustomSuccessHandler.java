@@ -27,13 +27,13 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
                 redirectUrl = "/homepage";
                 break;
             } else if (role.equals("ROLE_ADMIN")) {
-                redirectUrl = "/admin/bookings";
+                redirectUrl = "/homepage/profile";
                 break;
             } else if (role.equals("ROLE_STAFF")) {
-                redirectUrl = "/staff/refund";
+                redirectUrl = "/homepage/profile";
                 break;
             } else if(role.equals("ROLE_MANAGER")) {
-                redirectUrl = "/manager/airlinelist";
+                redirectUrl = "/homepage/profile";
                 break;
             }
         }

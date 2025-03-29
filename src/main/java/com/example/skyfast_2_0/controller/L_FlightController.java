@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/manager")
+@RequestMapping("/admin")
 public class L_FlightController {
 
     @Autowired
