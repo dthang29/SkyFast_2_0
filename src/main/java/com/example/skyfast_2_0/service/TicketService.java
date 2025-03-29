@@ -23,9 +23,13 @@ public class TicketService {
     @Transactional
     public void insertTicket(Integer flight, Integer classCategory) {
         List<Ticket> tickets = ticketRepository.findByFlightId(flight);
-        Ticket ticket = tickets.getLast();
+        String currentSeat = null;
+        if (!tickets.isEmpty()) {
+            currentSeat = tickets.getLast().getSeatCode();
+        }
+
         Flight flightById = flightRepository.findById(flight).orElseThrow();
-        String seatCode = getNextSeat(ticket.getSeatCode(), 6, flightById.getAirplane().getSeatCapacity());
+        String seatCode = getNextSeat(currentSeat, 6, flightById.getAirplane().getSeatCapacity());
         ticketRepository.insertTicket(seatCode, "Processing",
                 bookingRepository.findBookingWithMaxId(),
                 flightRepository.findById(flight).orElseThrow(),

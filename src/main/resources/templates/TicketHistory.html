@@ -50,7 +50,7 @@
         <table class="table table-bordered mt-3">
             <thead class="table-light">
             <tr>
-                <th>ID</th>
+<!--                <th>ID</th>-->
                 <th>Booking ID</th>
                 <th>Flight Number</th>
                 <th>Passenger</th>
@@ -60,7 +60,7 @@
             </thead>
             <tbody id="ticketTableBody">
             <tr th:each="ticket : ${tickets}">
-                <td th:text="${ticket.id}"></td>
+<!--                <td th:text="${ticket.id}"></td>-->
                 <td th:text="${ticket.bookingId}"></td>
                 <td th:text="${ticket.flightNumber}" class="flight-number"></td>
                 <td th:text="${ticket.passengerFullName}" class="passenger"></td>

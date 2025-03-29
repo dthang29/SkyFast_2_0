@@ -45,4 +45,6 @@ public interface FlightRepository extends JpaRepository<Flight, Integer> {
             @Param("classCategoryName") String classCategoryName
 //            @Param("passengerCount") Integer passengerCount
     );
+
+
 }

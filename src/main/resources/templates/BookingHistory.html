@@ -51,7 +51,7 @@
         <table class="table table-bordered mt-3">
             <thead class="table-light">
             <tr>
-                <th>ID</th>
+<!--                <th>ID</th>-->
                 <th>User Name</th>
                 <th>Booking Date</th>
                 <th>Total Price</th>
@@ -64,7 +64,7 @@
             </thead>
             <tbody id="bookingTableBody">
             <tr th:each="booking : ${bookings}">
-                <td th:text="${booking.id}"></td>
+<!--                <td th:text="${booking.id}"></td>-->
                 <td th:text="${booking.userName}" class="user-name"> </td>
                 <td th:text="${#temporals.format(booking.bookingDate, 'dd/MM/yyyy')}" class="booking-date"> </td>
                 <td th:text="${booking.totalPrice}"></td>

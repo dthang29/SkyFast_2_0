@@ -53,11 +53,11 @@ public class D_RefundService {
         if (refundOpt.isPresent()) {
             Refund refund = refundOpt.get();
             // Chỉ cho phép cập nhật nếu trạng thái hiện tại là "Processing"
-            if (!"Processing".equals(refund.getStatus())) {
+            if (!refund.getStatus().equalsIgnoreCase("Processing")) {
                 return false;
             }
             // Chỉ chấp nhận trạng thái mới là Approve hoặc Reject
-            if (!("Approve".equals(newStatus) || "Reject".equals(newStatus))) {
+            if (!(newStatus.equalsIgnoreCase("Approve") || newStatus.equalsIgnoreCase("Reject"))) {
                 return false;
             }
             refund.setStatus(newStatus);

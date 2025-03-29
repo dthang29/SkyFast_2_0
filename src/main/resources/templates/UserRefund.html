@@ -53,10 +53,11 @@
                 <th>Bank</th>
                 <th>Bank Number</th>
                 <th>Request Date</th>
-                <th>Refund Date</th>
+
                 <th>Refund Price</th>
                 <th>Reason</th>
                 <th>Response</th>
+                <th>Refund Date</th>
                 <th>Status</th>
             </tr>
             </thead>
@@ -66,10 +67,11 @@
                 <td th:text="${refund.bank}"></td>
                 <td th:text="${refund.bankNumber}"></td>
                 <td th:text="${#temporals.format(refund.requestDate, 'dd/MM/yyyy')}"></td>
-                <td th:text="${#temporals.format(refund.refundDate, 'dd/MM/yyyy')}"></td>
+
                 <td th:text="${refund.refundPrice}"></td>
                 <td th:text="${refund.reason}"></td>
                 <td th:text="${refund.response}"></td>
+                <td th:text="${#temporals.format(refund.refundDate, 'dd/MM/yyyy')}"></td>
                 <td th:text="${refund.status}"></td>
             </tr>
             </tbody>

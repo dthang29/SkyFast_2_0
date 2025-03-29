@@ -145,7 +145,7 @@
 
                     <!-- Action -->
                     <td>
-                        <button th:if="${refund.status == 'Processing'}"
+                        <button th:if="${refund.status == 'Processing' || refund.status == 'PROCESSING'}"
                                 class="btn btn-warning btn-change-status"
                                 th:data-id="${refund.id}"
                                 th:data-status="${refund.status}">

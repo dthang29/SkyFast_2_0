@@ -37,13 +37,23 @@ public class FlightService {
     }
 
     public List<Flight> findTopCheapestFlightsByRoute() {
-        return flightRepository.findTopCheapestFlightsByRoute();
+        return getFlightsbyStatus(flightRepository.findTopCheapestFlightsByRoute());
     }
 
     public List<Flight> getFlightsbyDepaTime(LocalDate date) {
         LocalDateTime startOfDay = date.atStartOfDay();
         LocalDateTime endOfDay = date.atTime(23, 59, 59);
-        return flightRepository.findFlightsByDepartureTimeRange(startOfDay, endOfDay);
+        return getFlightsbyStatus(flightRepository.findFlightsByDepartureTimeRange(startOfDay, endOfDay));
+    }
+
+    public List<Flight> getFlightsbyStatus(List<Flight> searchFlight) {
+        List<Flight> flights = new ArrayList<>();
+        for (Flight flight : searchFlight) {
+            if (flight.getStatusFlight().equalsIgnoreCase("Active")) {
+                flights.add(flight);
+            }
+        }
+        return flights;
     }
 
     public List<Flight> searchFlights(String departureAirport, String arrivalAirport, LocalDate departureDateStart, Integer classCategoryId, String passengerCount) {
@@ -58,7 +68,8 @@ public class FlightService {
         List<Flight> searchFlights = checkPassengerCount(flightRepository.searchFlights(departureAirportId, arrivalAirportId, startDate, endDate, classCategoryName), totalPassengers, classCategoryName);
         System.out.println(departureAirportId + " " + arrivalAirportId + " " + totalPassengers + " "+ startDate.toString() + " " + endDate.toString() + " " + classCategoryName);
 //        return flightRepository.searchFlights(departureAirportId, arrivalAirportId, startDate, endDate, classCategoryName);
-        return searchFlights;
+
+        return getFlightsbyStatus(searchFlights);
     }
     public int getTotalPassengers(String passengerCount) {
         int total = 0;
