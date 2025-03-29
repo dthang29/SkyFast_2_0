@@ -134,7 +134,7 @@ public class AddOnsController {
         String emailAuth = userProfileService.getUserEmail(authentication);
         User user = userRepository.findByEmail(emailAuth);
 
-        String bookingCode = bookingService.findBookingWithMaxId().getBookingCode();
+
         System.out.println("totalPrice" + totalPrice);
         if(method.equals("paylater")){
             passengerService.insertPassenger(title, FirstName, LastName, nationality, phoneNumber, email);
@@ -155,6 +155,7 @@ public class AddOnsController {
                     TicketBaggageService.insertTicketBaggage(integer);
                 }
             }
+            String bookingCode = bookingService.findBookingWithMaxId().getBookingCode();
             return "redirect:/select-payment-method?bookingCode=" + bookingCode;
         }
 
