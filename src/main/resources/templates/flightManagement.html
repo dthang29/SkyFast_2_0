@@ -156,11 +156,11 @@
                     <td th:text="${airplane.get(-1+flight.airplaneId).getAirplaneName()}"></td>
                     <td th:text="${airport.get(-1+routeAll.get(-1+flight.routeId).departureAirportId).getLocation()} +'->'+ ${airport.get(-1+routeAll.get(-1+flight.routeId).arrivalAirportId).getLocation()}"></td>
                     <td>
-                        <a th:href="@{/manager/flight/{id}(id=${flight.id})}" class="btn btn-sm btn-primary me-1">
+                        <a th:href="@{/admin/flight/{id}(id=${flight.id})}" class="btn btn-sm btn-primary me-1">
                             <i class="fas fa-edit"></i>
                         </a>
                         <form th:if="${flight.statusFlight == 'ACTIVE'}"
-                              th:action="@{/manager/delete/flight/{id}(id=${flight.id})}" method="post"
+                              th:action="@{/admin/delete/flight/{id}(id=${flight.id})}" method="post"
                               style="display: inline;">
                             <button type="submit" class="btn btn-sm btn-danger"
                                     onclick="return confirm('Are you sure you want to deactive this flight?')">
@@ -188,7 +188,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form th:action="@{/manager/create/flight}" th:object="${flight}" method="post">
+                <form th:action="@{/admin/create/flight}" th:object="${flight}" method="post">
                     <input type="hidden" th:field="*{id}">
                     <div class="mb-3">
                         <label class="form-label">Flight Number</label>
