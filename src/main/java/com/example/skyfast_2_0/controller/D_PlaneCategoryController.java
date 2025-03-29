@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -28,15 +31,16 @@ public class D_PlaneCategoryController {
     private D_AirlineService DAirlineService;
 
     @GetMapping("/admin/planeCategory")
-    public String getPlaneCategories(Model model) {
-        // Lấy danh sách các PlaneCategory từ dịch vụ
-        List<Airplane> airplaneList = DPlaneCategoryService.getAllPlaneCategories();
-        airplaneList.forEach(airplane -> System.err.println(airplane.getAirplaneName()));
-        // Thêm dữ liệu vào model để Thymeleaf có thể truy xuất
-        model.addAttribute("airplaneList", airplaneList);
+    public String getPlaneCategories(@RequestParam(value = "page", defaultValue = "0") int page, Model model) {
+        Pageable pageable = PageRequest.of(page, 5);  // Hiển thị 5 bản ghi mỗi trang
+        Page<Airplane> airplanePage = DPlaneCategoryService.getAllPlaneCategories(pageable);
+
+        model.addAttribute("airplanePage", airplanePage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", airplanePage.getTotalPages());
+
         List<Airline> airlineList = DAirlineService.getAllAirlines();
         model.addAttribute("airlineList", airlineList);
-        // Trả về view với tên 'planeCategory'
         return "planeCategory";
     }
     @PostMapping("/airplanes/add")
@@ -48,7 +52,7 @@ public class D_PlaneCategoryController {
             @RequestParam("wingspan") Float wingspan,
             @RequestParam("height") Float height,
             @RequestParam("seatCapacity") Integer seatCapacity,
-            @RequestParam("airplaneStatus") String airplaneStatus,
+    //        @RequestParam("airplaneStatus") String airplaneStatus,
             @RequestParam("airlineId") Integer airlineId,
             @RequestParam("imageFile") MultipartFile imageFile,
             RedirectAttributes redirectAttributes) {
@@ -77,7 +81,7 @@ public class D_PlaneCategoryController {
             airplane.setWingspan(wingspan);
             airplane.setHeight(height);
             airplane.setSeatCapacity(seatCapacity);
-            airplane.setAirplaneStatus(airplaneStatus);
+            airplane.setAirplaneStatus("Deactive");
             airplane.setAirplaneImage("/img/" + fileName);
             airplane.setAirline(airline);
 
@@ -94,28 +98,47 @@ public class D_PlaneCategoryController {
     }
 
 
+//    @GetMapping("/admin/planeCategory/search")
+//    public String searchAirplanes(@RequestParam(value = "name", required = false) String name,
+//                                  @RequestParam(value = "status", required = false) String status,
+//                                  @RequestParam(value = "airlineName", required = false) String airlineName,
+//                                  Model model) {
+//
+//        if (name != null && name.trim().isEmpty()) {
+//            name = null;
+//        }
+//        if (status != null && status.trim().isEmpty()) {
+//            status = null;
+//        }
+//        if (airlineName != null && airlineName.trim().isEmpty()) {
+//            airlineName = null;
+//        }
+//
+//        // Search based on the airplane name, status, and airline name
+//        List<Airplane> airplaneList = DPlaneCategoryService.searchAirplanes(name, status, airlineName);
+//        model.addAttribute("airplaneList", airplaneList);
+//        return "planeCategory";
+//    }
+
     @GetMapping("/admin/planeCategory/search")
-    public String searchAirplanes(@RequestParam(value = "name", required = false) String name,
-                                  @RequestParam(value = "status", required = false) String status,
-                                  @RequestParam(value = "airlineName", required = false) String airlineName,
-                                  Model model) {
+    public String searchAirplanes(
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "airlineName", required = false) String airlineName,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            Model model) {
 
-        if (name != null && name.trim().isEmpty()) {
-            name = null;
-        }
-        if (status != null && status.trim().isEmpty()) {
-            status = null;
-        }
-        if (airlineName != null && airlineName.trim().isEmpty()) {
-            airlineName = null;
-        }
+        int pageSize = 5; // Số bản ghi trên mỗi trang
+        Pageable pageable = PageRequest.of(page, pageSize);
 
-        // Search based on the airplane name, status, and airline name
-        List<Airplane> airplaneList = DPlaneCategoryService.searchAirplanes(name, status, airlineName);
-        model.addAttribute("airplaneList", airplaneList);
+        Page<Airplane> airplanePage = DPlaneCategoryService.searchAirplanes(name, status, airlineName, pageable);
+
+        model.addAttribute("airplanePage", airplanePage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", airplanePage.getTotalPages());
+
         return "planeCategory";
     }
-
 
     @GetMapping("/airplanes/edit")
     public String editAirplane(@RequestParam("id") Integer id, Model model) {

@@ -74,9 +74,58 @@ function searchMaintenance() {
 
 
 
+//function updateMaintenanceTable(maintenanceList) {
+//    let tableBody = document.querySelector("tbody");
+//    tableBody.innerHTML = "";
+//
+//    maintenanceList.forEach(maintenance => {
+//        let actionButton = "";
+//        if (maintenance.maintenanceStatus !== "Processed") {
+//            actionButton = `<button class="btn btn-update" data-id="${maintenance.id}">Update</button>`;
+//        }
+//
+//        let row = `<tr>
+//            <td>${maintenance.id}</td>
+//            <td>${maintenance.airplane.airplaneName}</td>  <!-- Hiển thị tên máy bay -->
+//            <td>${maintenance.maintenanceDate}</td>
+//            <td>${maintenance.duration}</td>
+//            <td>${maintenance.completionDate}</td>
+//            <td>${maintenance.description}</td>
+//            <td>
+//                <span class="status-badge ${getStatusClass(maintenance.maintenanceStatus)}">
+//                    ${maintenance.maintenanceStatus}
+//                </span>
+//            </td>
+//            <td>${actionButton}</td>
+//        </tr>`;
+//        tableBody.innerHTML += row;
+//    });
+//}
 function updateMaintenanceTable(maintenanceList) {
     let tableBody = document.querySelector("tbody");
+    let pagination = document.querySelector(".pagination"); // Lấy phần phân trang
+    let noDataMessage = document.getElementById("noDataMessage");
+
     tableBody.innerHTML = "";
+
+    if (maintenanceList.length === 0) {
+        // Nếu không có dữ liệu, hiển thị thông báo
+        if (!noDataMessage) {
+            noDataMessage = document.createElement("p");
+            noDataMessage.id = "noDataMessage";
+            noDataMessage.className = "text-center text-danger fw-bold";
+            noDataMessage.innerText = "No Data";
+            tableBody.parentElement.appendChild(noDataMessage);
+        }
+        // Ẩn phân trang nếu có
+        if (pagination) pagination.style.display = "none";
+        return;
+    }
+
+    // Nếu có dữ liệu, xóa thông báo "Không có dữ liệu"
+    if (noDataMessage) {
+        noDataMessage.remove();
+    }
 
     maintenanceList.forEach(maintenance => {
         let actionButton = "";
@@ -86,7 +135,7 @@ function updateMaintenanceTable(maintenanceList) {
 
         let row = `<tr>
             <td>${maintenance.id}</td>
-            <td>${maintenance.airplane.airplaneName}</td>  <!-- Hiển thị tên máy bay -->
+            <td>${maintenance.airplane.airplaneName}</td>
             <td>${maintenance.maintenanceDate}</td>
             <td>${maintenance.duration}</td>
             <td>${maintenance.completionDate}</td>
@@ -100,7 +149,11 @@ function updateMaintenanceTable(maintenanceList) {
         </tr>`;
         tableBody.innerHTML += row;
     });
+
+    // Hiển thị phân trang nếu có dữ liệu
+    if (pagination) pagination.style.display = "flex";
 }
+
 
 
 // 🔄 Reset danh sách bảo trì

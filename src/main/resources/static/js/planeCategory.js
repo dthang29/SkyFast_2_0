@@ -22,7 +22,7 @@ function openSeatCategory(id) {
 }
 function openUpdateModal(id) {
     if (typeof $ === "undefined") {
-        console.error("🚨 jQuery chưa được load!");
+        console.error("🚨 jQuery has not been loaded!");
         return;
     }
 
@@ -48,10 +48,16 @@ function openUpdateModal(id) {
             // Disable "Waiting" option if the airplane is already in "Maintaining" state
             if (data.airplaneStatus === 'Maintaining') {
                 $('#updateAirplaneStatus option[value="Waiting"]').prop('disabled', true);
+                $('#updateAirplaneStatus option[value="Flying"]').prop('disabled', true);
+                $('#updateAirplaneStatus option[value="Deactive"]').prop('disabled', true);
             } else {
                 $('#updateAirplaneStatus option[value="Waiting"]').prop('disabled', false);
+                $('#updateAirplaneStatus option[value="Flying"]').prop('disabled', false);
+                $('#updateAirplaneStatus option[value="Deactive"]').prop('disabled', false);
             }
-
+            if (data.airplaneStatus === 'Waiting' || data.airplaneStatus === 'Flying' || data.airplaneStatus === 'Deactive') {
+                $('#updateAirplaneStatus option[value="Maintaining"]').prop('disabled', true);
+            }
             let modal = new bootstrap.Modal(document.getElementById("updateModal"));
             modal.show();
         },
@@ -138,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("✅ Maintenance form submitted!");
         });
     } else {
-        console.error("🚨 maintenanceForm không tồn tại!");
+        console.error("🚨 maintenanceForm does not exist!");
     }
 });
 
@@ -291,7 +297,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let airplaneId = document.getElementById("airplaneId").value;
 
             if (!description || duration <= 0 || !startDateInput.value) {
-                alert("Vui lòng nhập đúng thông tin bảo trì!");
+                alert("Please enter the correct maintenance information!");
                 return;
             }
 
@@ -314,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (data.success) {
                         window.location.href = data.redirectUrl;
                     } else {
-                        alert("Thêm bảo trì thất bại.");
+                        alert("Add Maintenance Fail");
                     }
                 })
                 .catch(error => {
@@ -323,7 +329,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
         });
     } else {
-        console.error("🚨 maintenanceForm không tìm thấy trong DOM!");
+        console.error("🚨 maintenanceForm can not find in DOM!");
     }
 });
 

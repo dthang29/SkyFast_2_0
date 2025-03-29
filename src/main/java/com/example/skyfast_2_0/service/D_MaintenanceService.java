@@ -68,7 +68,7 @@ public class D_MaintenanceService {
             maintenance.setDuration(duration);
             if ("Processed".equals(status)) {
                 maintenance.getAirplane().setAirplaneStatus("Waiting");
-                DAirplaneRepository.save(maintenance.getAirplane());
+                DAirplaneRepository.save(maintenance.getAirplane());// Cập nhật máy bay
             }
             return DMaintenanceRepository.save(maintenance);
         }
