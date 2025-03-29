@@ -5,6 +5,7 @@ import com.example.skyfast_2_0.repository.D_RefundRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -20,15 +21,18 @@ public class D_RefundService {
 //    }
     public List<Refund> getAllRefunds() {
         List<Refund> refundList = DRefundRepository.findAll();
+        DecimalFormat df = new DecimalFormat("#.#");  // Định dạng chỉ hiển thị 1 chữ số sau dấu phẩy
+
         // Cập nhật refundPrice = booking.totalPrice * 80% (nếu bạn muốn tính lại mỗi lần hiển thị)
         for (Refund r : refundList) {
             float totalPrice = r.getBooking().getTotalPrice(); // Giả sử booking có hàm getTotalPrice()
             float newRefundPrice = totalPrice * 0.8f;
-            r.setRefundPrice(newRefundPrice);
+            // Định dạng refundPrice để chỉ hiển thị 1 chữ số sau dấu phẩy
+            String formattedRefundPrice = df.format(newRefundPrice);
+            r.setRefundPrice(Float.parseFloat(formattedRefundPrice));
         }
         return refundList;
     }
-
     public Optional<Refund> getRefundById(Integer id) {
         return DRefundRepository.findById(id);
     }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title th:text="${pageTitle}">Flight Ticket Dashboard - Plane Category Management</title>
+    <title>Airplane Management</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -48,33 +48,38 @@
         <h4 class="text-center dashboard-title" style="color: #575962">SkyFast</h4>
         <ul class="nav flex-column" id="sidebar-links">
             <li class="nav-item">
-                <a href="/admin/flights" class="nav-link" data-page="flightManagement.html">
+                <a href="/dashboard">
+                    <i class="fas fa-home"></i>Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/flights">
                     <i class="fas fa-plane"></i>Flight Management
                 </a>
             </li>
-            <li class=" nav-item">
+            <li class="nav-item">
+                <a href="/airlines/list">
+                    <i class="fas fa-plane"></i>Airline Management
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/users/list">
+                    <i class="fas fa-users"></i>User Management
+                </a>
+            </li>
+            <li class=" nav-item active">
                 <a href="/admin/planeCategory">
                     <i class="fa fa-gavel"></i> <span>Airplane Management</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/admin/promotions">
-                    <i class="icon-present"></i> <span>Promotion Management</span>
+                <a href="/staff/refund/list">
+                    <i class="fa fa-globe"></i> <span>Refund Management</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/admin/airports">
-                    <i class="icon-plane"></i> <span>Airport Management</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/admin/routes">
-                    <i class="fas fa-route"></i> <span>Route Management</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/homepage/profile" class="nav-link">
-                    <i class="fas fa-users"></i>Profile
+                <a href="/staff/feedback/list">
+                    <i class="fa fa-comment"></i>Feedback Management
                 </a>
             </li>
         </ul>
@@ -93,7 +98,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
 
-            <h2 class="text-dark fw-bold">Plane Category Management</h2>
+            <h2 class="text-dark fw-bold">Airplane Management</h2>
             <div class="row mb-3">
                 <div class="filterController">
                     <form action="/admin/planeCategory/search" method="get"
@@ -116,22 +121,20 @@
                 </div>
             </div>
 
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h2 class="text-dark fw-bold">Plane Category Management</h2>
-                <button class="btn btn-success" data-bs-toggle="modal" onclick="openModal(0)"
+            <div class="d-flex justify-content-start align-items-center mb-3">
+                <button class="btn btn-success me-2" data-bs-toggle="modal" onclick="openModal(0)"
                         data-bs-target="#createUserModal">
                     Add New Plane Category
                 </button>
-
-            </div>
-            <div class="d-flex justify-content-between align-items-center mb-3">
                 <button class="btn btn-primary"
                         th:onclick="window.location.href='/admin/maintenance/list'">
                     View All Maintenance
                 </button>
             </div>
 
-            <table class="table table-borderless align-middle mt-3">
+            <p th:if="${#lists.isEmpty(airplanePage.content)}" class="text-center text-danger fw-bold">Không tìm thấy kết quả</p>
+
+            <table class="table table-borderless align-middle mt-3" th:if="${not #lists.isEmpty(airplanePage.content)}">
                 <thead class="table-light">
                 <tr>
                     <th>Name</th>
@@ -142,11 +145,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="airplane : ${airplaneList}">
+                <tr th:each="airplane : ${airplanePage.content}">
                     <td th:text="${airplane.airplaneName}"></td>
                     <!--                    <td><img th:src="${airplane.airplaneImage}" alt="Image"></td>-->
                     <td><img th:src="${airplane.airplaneImage}" alt="Image"
-                             style="width: 150px; height: 130px; object-fit: cover;"></td>
+                             style="width: 200px; height: 150px; object-fit: cover;"></td>
 
                     <!--            <td><img src="/images/2129998_L.png" alt="Boeing 737" width="200"></td>-->
                     <td>
@@ -175,28 +178,28 @@
                         <button class="btn btn-warning"
                                 th:if="${airplane.airplaneStatus == 'Waiting'}"
                                 th:onclick="openMaintenanceModal([[${airplane.id}]])">
-                            Add Maintenance Airplane
+                            Add Maintenance
                         </button>
                         <button class="btn btn-primary"
                                 th:if="${airplane.airplaneStatus == 'Waiting'}"
                                 th:onclick="|window.location.href='/admin/maintenance/list/' + ${airplane.id}|">
-                            View Maintenance Airplane
+                            View Maintenance
                         </button>
                         <!-- Nếu trạng thái khác Waiting: Nút màu xanh dương -->
                         <button class="btn btn-primary"
                                 th:if="${airplane.airplaneStatus == 'Maintaining'}"
                                 th:onclick="|window.location.href='/admin/maintenance/list/' + ${airplane.id}|">
-                            View Maintenance Airplane
+                            View Maintenance
                         </button>
                         <button class="btn btn-primary"
                                 th:if="${airplane.airplaneStatus == 'Flying'}"
                                 th:onclick="|window.location.href='/admin/maintenance/list/' + ${airplane.id}|">
-                            View Maintenance Airplane
+                            View Maintenance
                         </button>
                         <button class="btn btn-primary"
                                 th:if="${airplane.airplaneStatus == 'Deactive'}"
                                 th:onclick="|window.location.href='/admin/maintenance/list/' + ${airplane.id}|">
-                            View Maintenance Airplane
+                            View Maintenance
                         </button>
                         <button class="btn btn-info" th:onclick="|window.location.href='/admin/seatCategory/' + ${airplane.id}|">
                             View Seat Category
@@ -206,6 +209,27 @@
                 </tr>
                 </tbody>
             </table>
+            <div class="d-flex justify-content-center mt-4" th:if="${not #lists.isEmpty(airplanePage.content)}">
+                <ul class="pagination">
+                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                        <a class="page-link" th:href="@{/admin/planeCategory?page=0}">First</a>
+                    </li>
+                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                        <a class="page-link" th:href="@{|/admin/planeCategory?page=${currentPage - 1}|}">Previous</a>
+                    </li>
+
+                    <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${i == currentPage} ? 'active'">
+                        <a class="page-link" th:href="@{|/admin/planeCategory?page=${i}|}" th:text="${i + 1}"></a>
+                    </li>
+                    <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{|/admin/planeCategory?page=${currentPage + 1}|}">Next</a>
+                    </li>
+                    <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{|/admin/planeCategory?page=${totalPages - 1}|}">Last</a>
+                    </li>
+
+                </ul>
+            </div>
         </div>
 
         <div class="modal fade" id="addMaintenanceModal" tabindex="-1" aria-labelledby="addMaintenanceModalLabel"
@@ -219,7 +243,7 @@
                     <div class="modal-body">
                         <form id="maintenanceForm">
                             <div class="mb-3">
-                                <label for="startDate" class="form-label">Ngày Bắt Đầu Bảo Trì</label>
+                                <label for="startDate" class="form-label">Start Date of Maintenance</label>
                                 <input type="date" class="form-control" id="startDate" name="maintenanceDate" required>
                             </div>
                             <div class="mb-3">
@@ -228,7 +252,7 @@
                                 <div class="invalid-feedback">Duration must be greater than 0.</div>
                             </div>
                             <div class="mb-3">
-                                <label for="completionDate" class="form-label">Ngày Kết Thúc Bảo Trì</label>
+                                <label for="completionDate" class="form-label">End Date of Maintenance</label>
                                 <input type="date" class="form-control" id="completionDate" name="completionDate" readonly>
                             </div>
                             <div class="mb-3">
@@ -246,7 +270,6 @@
         </div>
 
 
-        <!-- Modal thêm máy bay -->
         <!-- Modal thêm máy bay -->
         <div class="modal fade" id="myModal0" role="dialog">
             <div class="modal-dialog">
@@ -293,17 +316,6 @@
                                 <tr>
                                     <td><label>Seat Capacity:</label></td>
                                     <td><input type="number" class="form-control" min="0" name="seatCapacity" required>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><label>Airplane Status:</label></td>
-                                    <td>
-                                        <select class="form-control" name="airplaneStatus">
-                                            <option value="Waiting">Waiting</option>
-                                            <option value="Flying">flying</option>
-                                            <option value="Maintaining">Maintaining</option>
-                                            <option value="Deactive">Deactive</option>
-                                        </select>
                                     </td>
                                 </tr>
                                 <tr>

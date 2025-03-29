@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     let statusMessage = document.getElementById("statusMessage");
     if (!statusMessage) {
-        console.warn("⚠️ statusMessage không tồn tại khi DOM load, kiểm tra lại HTML!");
+        console.warn("⚠️ statusMessage does not exist when the DOM loads, please check the HTML!");
     }
     attachEventListeners();
 
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => updateRefundTable(data))
             .catch(error => {
                 console.error("Error searching refunds:", error);
-                showToast("Lỗi tìm kiếm refund!", "error");
+                showToast("Error searching for refund!", "error");
             });
     }
 
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch(error => {
                 console.error("Error resetting refund list:", error);
-                showToast("Lỗi khi reset danh sách refund!", "error");
+                showToast("Error resetting the refund list!", "error");
             });
     }
     function updateRefundTable(refundList) {
@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let refundId = document.getElementById("selectedRefundId").value;
         let selectedRadio = document.querySelector("input[name='refundStatus']:checked");
         if (!selectedRadio) {
-            showToast("Vui lòng chọn trạng thái Approve hoặc Reject", "error");
+            showToast("Please select either Approve or Reject status", "error");
             return;
         }
         let newStatus = selectedRadio.value;
@@ -159,15 +159,15 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    closeModalAndShowToast("Trạng thái đã cập nhật thành công!", "success");
+                    closeModalAndShowToast("Status updated successfully!", "success");
                     setTimeout(() => location.reload(), 2000);
                 } else {
-                    showToast("Cập nhật thất bại!", "error");
+                    showToast("Update failed!", "error");
                 }
             })
             .catch(error => {
-                console.error("Lỗi cập nhật trạng thái:", error);
-                showToast("Lỗi hệ thống, thử lại sau!", "error");
+                console.error("Error updating status:", error);
+                showToast("System error, please try again later!", "error");
             });
     }
 
@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let messageContainer = document.getElementById("notification-message");
 
         if (!toast || !messageContainer) {
-            console.error("Không tìm thấy phần tử thông báo!");
+            console.error("Notification element not found!");
             return;
         }
 

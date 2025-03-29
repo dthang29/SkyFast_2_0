@@ -2,10 +2,12 @@ package com.example.skyfast_2_0.controller;
 
 import com.example.skyfast_2_0.dto.MaintenanceRequestDTO;
 import com.example.skyfast_2_0.entity.Airplane;
+import com.example.skyfast_2_0.dto.D_MaintenanceDTO;
 import com.example.skyfast_2_0.entity.Maintenance;
 import com.example.skyfast_2_0.repository.D_PlaneCategoryRepository;
 import com.example.skyfast_2_0.service.D_MaintenanceService;
 import com.example.skyfast_2_0.service.D_PlaneCategoryService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 @Controller
 @RequestMapping("/admin/maintenance")
 public class D_MaintenanceController {
@@ -26,7 +29,6 @@ public class D_MaintenanceController {
 
     @Autowired
     private D_PlaneCategoryService DPlaneCategoryService;
-
 
     @Autowired
     private D_PlaneCategoryRepository DAirplaneRepository;
@@ -72,7 +74,6 @@ public class D_MaintenanceController {
         }
         return response;
     }
-
 
     @GetMapping("/list/{airplaneId}")
     public String getMaintenanceList(@PathVariable Integer airplaneId, Model model) {

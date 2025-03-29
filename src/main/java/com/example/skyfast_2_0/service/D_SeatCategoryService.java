@@ -5,7 +5,6 @@ import com.example.skyfast_2_0.entity.Classcategory;
 import com.example.skyfast_2_0.repository.D_ClasscategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -30,3 +29,5 @@ public class D_SeatCategoryService {
         DClasscategoryRepository.save(classcategory);
     }
 }
+
+

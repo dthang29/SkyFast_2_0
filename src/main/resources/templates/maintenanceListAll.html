@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title th:text="${pageTitle}">Flight Ticket Dashboard - User List</title>
+    <title>All Maintenance List</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <script th:src="@{/assets/js/plugin/webfont/webfont.min.js}"></script>
     <script>
@@ -45,33 +45,38 @@
         <h4 class="text-center dashboard-title" style="color: #575962">SkyFast</h4>
         <ul class="nav flex-column" id="sidebar-links">
             <li class="nav-item">
-                <a href="/admin/flights" class="nav-link" data-page="flightManagement.html">
+                <a href="/dashboard" class="nav-link active" data-page="Dashboard.html">
+                    <i class="fas fa-home"></i>Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/flights" class="nav-link" data-page="flightManagement.html">
                     <i class="fas fa-plane"></i>Flight Management
                 </a>
             </li>
-            <li class=" nav-item">
+            <li class="nav-item">
+                <a href="/airlines/list" class="nav-link" data-page="airlineManagement.html">
+                    <i class="fas fa-plane"></i>Airline Management
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/users/list" class="nav-link" data-page="userlist.html">
+                    <i class="fas fa-users"></i>User Management
+                </a>
+            </li>
+            <li class=" nav-item active">
                 <a href="/admin/planeCategory">
                     <i class="fa fa-gavel"></i> <span>Airplane Management</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/admin/promotions">
-                    <i class="icon-present"></i> <span>Promotion Management</span>
+                <a href="/staff/refund/list">
+                    <i class="fa fa-globe"></i> <span>Refund Management</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="/admin/airports">
-                    <i class="icon-plane"></i> <span>Airport Management</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/admin/routes">
-                    <i class="fas fa-route"></i> <span>Route Management</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/homepage/profile" class="nav-link">
-                    <i class="fas fa-users"></i>Profile
+                <a href="/staff/feedback/list" class="nav-link">
+                    <i class="fa fa-comment"></i>Feedback Management
                 </a>
             </li>
         </ul>
@@ -90,8 +95,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
 
-            <h2 style="color: green;"  >
-                Maintenance List</span>
+            <h2 style="color: black;"  >
+                All Maintenance List</span>
             </h2>
 
             <div class="row mb-3">
@@ -121,12 +126,12 @@
 
             </div>
 
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h2 class="text-dark fw-bold">Maintenance List</h2>
-                <!--                <button class="btn btn-success" data-bs-toggle="modal" onclick="openModal(0)" data-bs-target="#createUserModal">-->
-                <!--                    Add New Plane Category-->
-                <!--                </button>-->
-            </div>
+<!--            <div class="d-flex justify-content-between align-items-center mb-3">-->
+<!--                <h2 class="text-dark fw-bold">Maintenance List</h2>-->
+<!--                &lt;!&ndash;                <button class="btn btn-success" data-bs-toggle="modal" onclick="openModal(0)" data-bs-target="#createUserModal">&ndash;&gt;-->
+<!--                &lt;!&ndash;                    Add New Plane Category&ndash;&gt;-->
+<!--                &lt;!&ndash;                </button>&ndash;&gt;-->
+<!--            </div>-->
 
             <table class="table table-borderless align-middle mt-3">
                 <thead class="table-light">

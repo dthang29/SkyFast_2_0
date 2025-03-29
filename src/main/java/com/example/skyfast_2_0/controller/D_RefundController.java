@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -49,19 +50,6 @@ public class D_RefundController {
         return response;
     }
 
-    //    @PostMapping("/updateStatus/{id}")
-//    @ResponseBody
-//    public ResponseEntity<Map<String, Object>> updateRefundStatus(
-//            @PathVariable Integer id,
-//            @RequestBody Map<String, String> requestData) {
-//
-//        String newStatus = requestData.get("status");
-//        boolean isUpdated = refundService.updateRefundStatus(id, newStatus);
-//
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("success", isUpdated);
-//        return ResponseEntity.ok(response);
-//    }
     @PostMapping("/updateStatus/{id}")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> updateRefundStatus(
@@ -94,9 +82,15 @@ public class D_RefundController {
                 fromRefundDate != null ? fromRefundDate.atStartOfDay() : null,
                 toRefundDate != null ? toRefundDate.atTime(23, 59, 59) : null
         );
+
+        DecimalFormat df = new DecimalFormat("#.#");
+
         for (Refund r : refunds) {
             float totalPrice = r.getBooking().getTotalPrice();
-            r.setRefundPrice(totalPrice * 0.8f);
+            float newRefundPrice = totalPrice * 0.8f;
+            // Định dạng refundPrice để chỉ hiển thị 1 chữ số sau dấu phẩy
+            String formattedRefundPrice = df.format(newRefundPrice);
+            r.setRefundPrice(Float.parseFloat(formattedRefundPrice));
         }
 
         return ResponseEntity.ok(refunds);

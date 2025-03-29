@@ -159,3 +159,40 @@ h2 {
 .status-waiting .btn-primary {
     width: 5% !important; /* Hoặc giá trị nào đó tùy chỉnh để đảm bảo tổng chiều rộng hợp lý */
 }
+/* Chỉnh sửa màu nền của nav */
+nav {
+    background-color: white !important; /* Đặt màu nền trắng */
+    padding: 10px; /* Thêm khoảng cách xung quanh nav */
+    border-radius: 5px; /* Bo góc cho nav */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Thêm bóng cho nav */
+}
+
+/* Chỉnh sửa màu nền của phân trang khi hover */
+.pagination .page-item:hover {
+    background-color: #f1f1f1 !important; /* Màu nền khi hover */
+}
+
+/* Thêm hiệu ứng cho các nút phân trang */
+.pagination .page-link {
+    color: #007bff !important; /* Màu chữ của các nút */
+    font-size: 14px !important;
+}
+
+/* Thay đổi màu khi nút phân trang đang được hover */
+.pagination .page-item:hover .page-link {
+    background-color: #007bff !important; /* Màu nền khi hover */
+    color: white !important; /* Màu chữ khi hover */
+}
+
+/* Chỉnh sửa màu cho nút phân trang hiện tại */
+.pagination .page-item.active .page-link {
+    background-color: #007bff !important; /* Màu nền của trang hiện tại */
+    color: white !important; /* Màu chữ của trang hiện tại */
+}
+
+/* Nút phân trang bị vô hiệu */
+.pagination .page-item.disabled .page-link {
+    background-color: #f2f2f2 !important; /* Màu nền khi vô hiệu */
+    color: #6c757d !important; /* Màu chữ khi vô hiệu */
+}
+
